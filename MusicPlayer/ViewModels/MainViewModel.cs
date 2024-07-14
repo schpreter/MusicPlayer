@@ -2,5 +2,6 @@
 
 public partial class MainViewModel : ViewModelBase
 {
-    public string Greeting => "Welcome to Avalonia!";
+    public string User => "John Doe";
+    public string Greeting => $"Welcome, {User}";
 }

@@ -11,10 +11,21 @@
          to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
 		<vm:MainViewModel />
 	</Design.DataContext>
-	<DockPanel>
-		<Grid ColumnDefinitions="*, 4, *">
+
+	<Grid RowDefinitions="10*,80*,10*">
+		<DockPanel Height="10" Grid.Row="0">
+			<Menu>
+				<MenuItem DockPanel.Dock="Top" Header="_Settings">
+					<MenuItem  Header="Setting 1"></MenuItem>
+					<MenuItem  Header="Setting 2"></MenuItem>
+					<MenuItem  Header="Setting 3"></MenuItem>
+				</MenuItem>
+			</Menu>
+		</DockPanel>
+
+		<Grid ColumnDefinitions="20*, *, 50*" Grid.Row="1">
 			<StackPanel Spacing="10" Grid.Column="0">
-				<TextBlock Height="50" TextAlignment="Center" VerticalAlignment="Center" Padding="20">Welcome, {Sample User}!</TextBlock>
+				<TextBlock Height="50" TextAlignment="Center" VerticalAlignment="Center" Padding="20" Text="{Binding Greeting}"></TextBlock>
 				<TabStrip Theme="{StaticResource SidePanelNav}">
 					<TabItem Header="Songs"></TabItem>
 					<TabItem Header="Playlists"></TabItem>
@@ -24,10 +35,12 @@
 				</TabStrip>
 			</StackPanel>
 
-			<GridSplitter Theme="{StaticResource CustomSplitter}" Grid.Column="1" ResizeDirection="Columns" Background="PaleGreen" Width="10"/>
+			<GridSplitter Theme="{StaticResource CustomSplitter}" Grid.Column="1" ResizeDirection="Columns" Width="10" Background="#386641"/>
 			<Rectangle Grid.Column="2"/>
 		</Grid>
-	</DockPanel>
+		<Rectangle Fill="AliceBlue" Grid.Row="2"></Rectangle>
+	</Grid>
+
 
 
 
