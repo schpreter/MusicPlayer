@@ -1,0 +1,50 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+	<SolidColorBrush x:Key='Warning'>Yellow</SolidColorBrush>
+	<ControlTheme x:Key="CustomSplitter" TargetType="GridSplitter">
+		<Setter Property="Focusable" Value="True" />
+		<Setter Property="MinWidth" Value="4" />
+		<Setter Property="MinHeight" Value="4" />
+		<Setter Property="Background" Value="{DynamicResource SystemAltMediumLowColor}" />
+		<Setter Property="PreviewContent">
+			<Template>
+				<Rectangle Fill="{DynamicResource SystemAccentColor}" />
+			</Template>
+		</Setter>
+		<Setter Property="Template">
+			<ControlTemplate>
+				<Border BorderBrush="{TemplateBinding BorderBrush}"
+						BorderThickness="{TemplateBinding BorderThickness}"
+						CornerRadius="{TemplateBinding CornerRadius}"
+						Background="{TemplateBinding Background}" >
+					<StackPanel Spacing="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+						<Rectangle Fill="White" Height="50" Width="1"/>
+						<Rectangle Fill="White" Height="50" Width="1"/>
+						<Rectangle Fill="White" Height="50" Width="1"/>
+					</StackPanel>
+				</Border>
+			</ControlTemplate>
+		</Setter>
+	</ControlTheme>
+
+	<ControlTheme x:Key="SidePanelNav" TargetType="TabStrip">
+		<Setter Property="Template">
+			<ControlTemplate>
+				<Border Background="{TemplateBinding Background}"
+						BorderBrush="{TemplateBinding BorderBrush}"
+						BorderThickness="{TemplateBinding BorderThickness}"
+						CornerRadius="{TemplateBinding CornerRadius}"
+						Padding="{TemplateBinding Padding}">
+					<ItemsPresenter Name="PART_ItemsPresenter"
+									ItemsPanel="{TemplateBinding ItemsPanel}" />
+				</Border>
+			</ControlTemplate>
+		</Setter>
+		<Setter Property="ItemsPanel">
+			<ItemsPanelTemplate>
+				<StackPanel Orientation="Vertical"/>
+			</ItemsPanelTemplate>
+		</Setter>
+	</ControlTheme>
+</ResourceDictionary>

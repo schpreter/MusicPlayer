@@ -6,11 +6,29 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="MusicPlayer.Views.MainView"
              x:DataType="vm:MainViewModel">
-  <Design.DataContext>
-    <!-- This only sets the DataContext for the previewer in an IDE,
+	<Design.DataContext>
+		<!-- This only sets the DataContext for the previewer in an IDE,
          to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-    <vm:MainViewModel />
-  </Design.DataContext>
+		<vm:MainViewModel />
+	</Design.DataContext>
+	<DockPanel>
+		<Grid ColumnDefinitions="*, 4, *">
+			<StackPanel Spacing="10" Grid.Column="0">
+				<TextBlock Height="50" TextAlignment="Center" VerticalAlignment="Center" Padding="20">Welcome, {Sample User}!</TextBlock>
+				<TabStrip Theme="{StaticResource SidePanelNav}">
+					<TabItem Header="Songs"></TabItem>
+					<TabItem Header="Playlists"></TabItem>
+					<TabItem Header="Artists"></TabItem>
+					<TabItem Header="Albums"></TabItem>
+					<TabItem Header="Genres"></TabItem>
+				</TabStrip>
+			</StackPanel>
 
-  <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+			<GridSplitter Theme="{StaticResource CustomSplitter}" Grid.Column="1" ResizeDirection="Columns" Background="PaleGreen" Width="10"/>
+			<Rectangle Grid.Column="2"/>
+		</Grid>
+	</DockPanel>
+
+
+
 </UserControl>
