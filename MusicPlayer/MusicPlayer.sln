@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicPlayer", "MusicPlayer.csproj", "{1237B45C-DE17-491A-AAB4-6BC1DC090B39}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicPlayer.Desktop", "..\MusicPlayer.Desktop\MusicPlayer.Desktop.csproj", "{4EAD3E2A-E57E-4C33-91A6-B6AC2B039AF5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1237B45C-DE17-491A-AAB4-6BC1DC090B39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1237B45C-DE17-491A-AAB4-6BC1DC090B39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1237B45C-DE17-491A-AAB4-6BC1DC090B39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1237B45C-DE17-491A-AAB4-6BC1DC090B39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EAD3E2A-E57E-4C33-91A6-B6AC2B039AF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EAD3E2A-E57E-4C33-91A6-B6AC2B039AF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EAD3E2A-E57E-4C33-91A6-B6AC2B039AF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EAD3E2A-E57E-4C33-91A6-B6AC2B039AF5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BD905E6A-A1EE-4ED0-9969-6B177E6F0869}
+	EndGlobalSection
+EndGlobal
