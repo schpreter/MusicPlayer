@@ -1,6 +1,8 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MusicPlayer.App"
+			 xmlns:vm="clr-namespace:MusicPlayer.ViewModels"
+			 xmlns:views="clr-namespace:MusicPlayer.Views"
              RequestedThemeVariant="Default">
 	<!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
@@ -15,4 +17,11 @@
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</Application.Resources>
+	<Application.DataTemplates>
+		<DataTemplate DataType="{x:Type vm:HomeContentViewModel}">
+			<views:HomeContentView />
+		</DataTemplate>
+	</Application.DataTemplates>
+
+
 </Application>

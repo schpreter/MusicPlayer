@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:MusicPlayer.ViewModels"
+			 xmlns:views="clr-namespace:MusicPlayer.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="MusicPlayer.Views.MainView"
              x:DataType="vm:MainViewModel">
@@ -36,7 +37,7 @@
 			</StackPanel>
 
 			<GridSplitter Theme="{StaticResource CustomSplitter}" Grid.Column="1" ResizeDirection="Columns" Width="10" Background="#386641"/>
-			<Rectangle Grid.Column="2"/>
+			<UserControl Content="{Binding SelectedViewModel}" Grid.Column="2"/>
 		</Grid>
 		<Rectangle Fill="AliceBlue" Grid.Row="2"></Rectangle>
 	</Grid>
