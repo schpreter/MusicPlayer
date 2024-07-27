@@ -9,15 +9,32 @@ public partial class MainViewModel : ViewModelBase
 {
     [ObservableProperty]
     private ViewModelBase selectedViewModel;
-    [ObservableProperty]
-    public string user = "John Doe";
-    [ObservableProperty]
-    public string greeting;
 
-    public MainViewModel(HomeContentViewModel homeContent) 
+    private readonly HomeContentViewModel homeContentViewModel;
+    private readonly PlaylistsViewModel playlistsViewModel;
+    private readonly ArtistsViewModel artistsViewModel;
+
+    public MainViewModel() { }
+    public MainViewModel(HomeContentViewModel homeContent, PlaylistsViewModel playlistsView, ArtistsViewModel artistsView)
     {
-        SelectedViewModel = homeContent;
+        this.homeContentViewModel = homeContent;
+        this.playlistsViewModel = playlistsView;
+        this.artistsViewModel = artistsView;
+        SelectedViewModel = homeContentViewModel;
     }
 
-    
+    public void ShowHomeContent()
+    {
+        SelectedViewModel = homeContentViewModel;
+    }
+    public void ShowPlaylistsContent()
+    {
+        SelectedViewModel = playlistsViewModel;
+    }
+    public void ShowArtistsContent()
+    {
+        SelectedViewModel = artistsViewModel;
+    }
+
+
 }

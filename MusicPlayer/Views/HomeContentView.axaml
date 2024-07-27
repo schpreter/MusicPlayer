@@ -6,6 +6,9 @@
 		xmlns:vm="clr-namespace:MusicPlayer.ViewModels"
         x:Class="MusicPlayer.Views.HomeContentView"
         x:DataType="vm:HomeContentViewModel">
+	<Design.DataContext>
+		<vm:HomeContentViewModel />
+	</Design.DataContext>
 	<Grid>
 		<StackPanel Margin="20">
 			<ItemsControl ItemsSource="{Binding MusicFiles}" >
@@ -19,13 +22,13 @@
 								<TextBlock Text="{Binding Artist}"/>
 								<TextBlock Margin="5 0" FontWeight="Bold"
 											Text="{Binding Title}"/>
+								<TextBlock Margin="5 0" FontWeight="Bold"
+											Text="{Binding Duration}"/>
 							</StackPanel>
 						</Border>
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>
 			</ItemsControl>
 		</StackPanel>
-		
 	</Grid>
-
 </UserControl>

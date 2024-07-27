@@ -3,6 +3,7 @@
              x:Class="MusicPlayer.App"
 			 xmlns:vm="clr-namespace:MusicPlayer.ViewModels"
 			 xmlns:views="clr-namespace:MusicPlayer.Views"
+			 xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              RequestedThemeVariant="Default">
 	<!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
@@ -21,7 +22,17 @@
 		<DataTemplate DataType="{x:Type vm:HomeContentViewModel}">
 			<views:HomeContentView />
 		</DataTemplate>
+		
+		<DataTemplate DataType="{x:Type vm:PlaylistsViewModel}">
+			<views:PlaylistsView/>
+		</DataTemplate>
+		
+		<DataTemplate DataType="{x:Type vm:ArtistsViewModel}">
+			<views:ArtistsView/>
+		</DataTemplate>
 	</Application.DataTemplates>
-
+	<Application.Styles>
+		<mi:MaterialIconStyles />
+	</Application.Styles>
 
 </Application>

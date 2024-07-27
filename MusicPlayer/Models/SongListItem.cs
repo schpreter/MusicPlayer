@@ -10,11 +10,13 @@ namespace MusicPlayer.Models
     {
         public string Artist { get; set; }
         public string Title { get; set; }
+        public string Duration { get; set; }
 
-        public SongListItem(string artist, string title) 
-        { 
+        public SongListItem(string artist, string title, string duration)
+        {
             Artist = artist;
             Title = title;
+            Duration = duration;
         }
     }
 }

@@ -25,10 +25,10 @@ namespace MusicPlayer.ViewModels
         {
             MusicFiles = new ObservableCollection<SongListItem> 
             {
-                new SongListItem("Metallica", "Enter Sandman"),
-                new SongListItem("Ghost", "Year Zero"),
-                new SongListItem("Ren", "Animal Flow"),
-                new SongListItem("Slipknot", "Unsainted"),
+                new SongListItem("Metallica", "Enter Sandman", "3:14"),
+                new SongListItem("Ghost", "Year Zero", "3:14"),
+                new SongListItem("Ren", "Animal Flow", "3:14"),
+                new SongListItem("Slipknot", "Unsainted", "2:20"),
             };
 
         }

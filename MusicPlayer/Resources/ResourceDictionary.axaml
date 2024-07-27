@@ -28,23 +28,55 @@
 		</Setter>
 	</ControlTheme>
 
-	<ControlTheme x:Key="SidePanelNav" TargetType="TabStrip">
+	<ControlTheme x:Key="SidePanelNavButtons" TargetType="Button">
+		<Setter Property="Background" Value="Blue"/>
+		<!--<Setter Property="Foreground" Value="Yellow"/>-->
+		<Setter Property="Padding" Value="10"/>
+		<Setter Property="Cursor" Value="Hand"/>
 		<Setter Property="Template">
 			<ControlTemplate>
-				<Border Background="{TemplateBinding Background}"
-						BorderBrush="{TemplateBinding BorderBrush}"
-						BorderThickness="{TemplateBinding BorderThickness}"
-						CornerRadius="{TemplateBinding CornerRadius}"
-						Padding="{TemplateBinding Padding}">
-					<ItemsPresenter Name="PART_ItemsPresenter"
-									ItemsPanel="{TemplateBinding ItemsPanel}" />
-				</Border>
+				<Panel VerticalAlignment="Stretch">
+					<!--<Separator VerticalAlignment="Stretch"/>-->
+					<ContentPresenter x:Name="PART_ContentPresenter"
+									  Content="{TemplateBinding Content}"
+									  Margin="{TemplateBinding Padding}"
+									  VerticalAlignment="Stretch"/>
+					<Separator VerticalAlignment="Bottom"/>
+
+				</Panel>
 			</ControlTemplate>
 		</Setter>
-		<Setter Property="ItemsPanel">
-			<ItemsPanelTemplate>
-				<StackPanel Orientation="Vertical"/>
-			</ItemsPanelTemplate>
-		</Setter>
+		<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+			<Setter Property="Background" Value="{DynamicResource ButtonBackgroundPointerOver}" />
+			<Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPointerOver}" />
+			<Setter Property="Foreground" Value="{DynamicResource ButtonForegroundPointerOver}" />
+		</Style>
 	</ControlTheme>
+
+	<!--TODO: Make this a template-->
+	<!--<ControlTheme x:Key="WrapPanelItemsControl" TargetType="ItemsControl">
+		<Setter Property="Template">
+			<ItemsControl.ItemsPanel>
+				<ItemsPanelTemplate>
+					<WrapPanel Orientation="Horizontal" />
+				</ItemsPanelTemplate>
+			</ItemsControl.ItemsPanel>
+
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<Border Margin="10,10,0,20"
+						CornerRadius="5"
+						BorderBrush="Gray" BorderThickness="1"
+						Padding="20"
+						Height="250" Width="200">
+						<StackPanel Orientation="Vertical" Spacing="10">
+							<Image  Source="{Binding ImageMap}"/>
+							<TextBlock Text="{Binding Name}" HorizontalAlignment="Center" FontSize="26"/>
+						</StackPanel>
+					</Border>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+
+		</Setter>
+	</ControlTheme>-->
 </ResourceDictionary>

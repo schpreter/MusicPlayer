@@ -14,6 +14,8 @@ namespace MusicPlayer.Models
         {
             collection.AddTransient<HomeContentViewModel>();
             collection.AddTransient<MenuPanelViewModel>();
+            collection.AddTransient<PlaylistsViewModel>();
+            collection.AddTransient<ArtistsViewModel>();
             collection.AddTransient<MainViewModel>();
 
         }
