@@ -13,9 +13,10 @@ namespace MusicPlayer.Models
         public static void AddCommonServices(this IServiceCollection collection)
         {
             collection.AddTransient<HomeContentViewModel>();
-            collection.AddTransient<MenuPanelViewModel>();
             collection.AddTransient<PlaylistsViewModel>();
             collection.AddTransient<ArtistsViewModel>();
+            collection.AddTransient<AlbumsViewModel>();
+            collection.AddTransient<GenresViewModel>();
             collection.AddTransient<MainViewModel>();
 
         }

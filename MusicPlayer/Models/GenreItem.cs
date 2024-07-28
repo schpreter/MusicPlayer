@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace MusicPlayer.Models
 {
-    public class ArtistItem : GenericDisplayItem
+    public class GenreItem : GenericDisplayItem
     {
-        public ArtistItem(string name, string imgpath)
+        public GenreItem(string name, string imgpath)
         {
             Name = name;
             ImagePath = imgpath;

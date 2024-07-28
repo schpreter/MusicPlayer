@@ -18,19 +18,28 @@
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</Application.Resources>
+
 	<Application.DataTemplates>
 		<DataTemplate DataType="{x:Type vm:HomeContentViewModel}">
 			<views:HomeContentView />
 		</DataTemplate>
-		
+
 		<DataTemplate DataType="{x:Type vm:PlaylistsViewModel}">
 			<views:PlaylistsView/>
 		</DataTemplate>
-		
+
 		<DataTemplate DataType="{x:Type vm:ArtistsViewModel}">
 			<views:ArtistsView/>
 		</DataTemplate>
+		<DataTemplate DataType="{x:Type vm:AlbumsViewModel}">
+			<views:AlbumsView/>
+		</DataTemplate>
+		<DataTemplate DataType="{x:Type vm:GenresViewModel}">
+			<views:GenresView/>
+		</DataTemplate>
+
 	</Application.DataTemplates>
+	
 	<Application.Styles>
 		<mi:MaterialIconStyles />
 	</Application.Styles>

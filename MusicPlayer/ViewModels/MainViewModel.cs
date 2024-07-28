@@ -13,13 +13,17 @@ public partial class MainViewModel : ViewModelBase
     private readonly HomeContentViewModel homeContentViewModel;
     private readonly PlaylistsViewModel playlistsViewModel;
     private readonly ArtistsViewModel artistsViewModel;
+    private readonly AlbumsViewModel albumsViewModel;
+    private readonly GenresViewModel genresViewModel;
 
     public MainViewModel() { }
-    public MainViewModel(HomeContentViewModel homeContent, PlaylistsViewModel playlistsView, ArtistsViewModel artistsView)
+    public MainViewModel(HomeContentViewModel homeContent, PlaylistsViewModel playlistsView, ArtistsViewModel artistsView, AlbumsViewModel albumsView, GenresViewModel genresView)
     {
         this.homeContentViewModel = homeContent;
         this.playlistsViewModel = playlistsView;
         this.artistsViewModel = artistsView;
+        this.albumsViewModel = albumsView;
+        this.genresViewModel = genresView;
         SelectedViewModel = homeContentViewModel;
     }
 
@@ -34,6 +38,14 @@ public partial class MainViewModel : ViewModelBase
     public void ShowArtistsContent()
     {
         SelectedViewModel = artistsViewModel;
+    }
+    public void ShowAlbumsContent()
+    {
+        SelectedViewModel = albumsViewModel;
+    }
+    public void ShowGenresContent()
+    {
+        SelectedViewModel = genresViewModel;
     }
 
 

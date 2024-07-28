@@ -26,13 +26,6 @@
 		<Grid ColumnDefinitions="20*, *, 50*" Grid.Row="1">
 			<StackPanel Grid.Column="0">
 				<TextBlock Height="50" TextAlignment="Center" VerticalAlignment="Center" Padding="20" Text="Hello There!"></TextBlock>
-				<!--<TabStrip Theme="{StaticResource SidePanelNav}">
-					<TabItem Header="Songs"></TabItem>
-					<TabItem Header="Playlists"></TabItem>
-					<TabItem Header="Artists"></TabItem>
-					<TabItem Header="Albums"></TabItem>
-					<TabItem Header="Genres"></TabItem>
-				</TabStrip>-->
 				<StackPanel Spacing="0" Margin="15,0,0,0">
 					
 					<Button Theme="{StaticResource SidePanelNavButtons}" Command="{Binding ShowHomeContent}">
@@ -53,25 +46,24 @@
 							<TextBlock Text="Artists"/>
 						</StackPanel>
 					</Button>
-					<Button Theme="{StaticResource SidePanelNavButtons}">
+					<Button Theme="{StaticResource SidePanelNavButtons}" Command="{Binding ShowAlbumsContent}">
 						<StackPanel Orientation="Horizontal" Spacing="2" Margin="10">
 							<mi:MaterialIcon Kind="Album"/>
 							<TextBlock Text="Albums"/>
 						</StackPanel>
 					</Button>
-					<Button Theme="{StaticResource SidePanelNavButtons}">
+					<Button Theme="{StaticResource SidePanelNavButtons}"  Command="{Binding ShowGenresContent}">
 						<StackPanel Orientation="Horizontal" Spacing="2" Margin="10">
 							<mi:MaterialIcon Kind="MusicBox"/>
 							<TextBlock Text="Genres"/>
 						</StackPanel>
 					</Button>
 				</StackPanel>
-
 			</StackPanel>
 
 			<GridSplitter Theme="{StaticResource CustomSplitter}" Grid.Column="1" ResizeDirection="Columns" Width="10" Background="#386641"/>
 			<UserControl Content="{Binding SelectedViewModel}" Grid.Column="2"/>
 		</Grid>
-		<Rectangle Fill="AliceBlue" Grid.Row="2"></Rectangle>
+		<views:MusicNavigationView Grid.Row="2" Background="AliceBlue"/>
 	</Grid>
 </UserControl>

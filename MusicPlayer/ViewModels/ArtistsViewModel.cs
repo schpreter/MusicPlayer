@@ -1,21 +1,16 @@
 ﻿using System.Collections.ObjectModel;
+using Avalonia.Controls;
 using MusicPlayer.Models;
+using MusicPlayer.Models.Abstracts;
 
 
 namespace MusicPlayer.ViewModels
 {
-    public partial class ArtistsViewModel : ViewModelBase
+    public partial class ArtistsViewModel : GenericCoverDisplay
     {
-        private ObservableCollection<ArtistItem> artists;
-
-        public ObservableCollection<ArtistItem> Artists
-        {
-            get { return artists; }
-            set { SetProperty(ref artists, value); }
-        }
         public ArtistsViewModel()
         {
-            Artists = new ObservableCollection<ArtistItem>
+            ItemCollection = new ObservableCollection<GenericDisplayItem>
             {
                 new ArtistItem("Ren", "avares://MusicPlayer/Assets/ren.jpg"),
                 new ArtistItem("Metallica", "avares://MusicPlayer/Assets/metallica.jpg"),
