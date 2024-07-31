@@ -2,7 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 					xmlns:vm="clr-namespace:MusicPlayer.ViewModels">
 
-	<SolidColorBrush x:Key='Warning'>Yellow</SolidColorBrush>
 	<ControlTheme x:Key="CustomSplitter" TargetType="GridSplitter">
 		<Setter Property="Focusable" Value="True" />
 		<Setter Property="MinWidth" Value="4" />
@@ -49,6 +48,22 @@
 			<Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPointerOver}" />
 			<Setter Property="Foreground" Value="{DynamicResource ButtonForegroundPointerOver}" />
 		</Style>
+	</ControlTheme>
+
+	<ControlTheme x:Key="MusicNavigationButton" TargetType="Button">
+		<Setter Property="Padding" Value="10"/>
+		<Setter Property="Cursor" Value="Hand"/>
+		<Setter Property="Template">
+			<ControlTemplate>
+				<Panel>
+					<Ellipse Fill="Aqua"/>
+					<ContentPresenter x:Name="PART_ContentPresenter"
+									  Content="{TemplateBinding Content}"
+									  Margin="{TemplateBinding Padding}"
+									  />
+				</Panel>
+			</ControlTemplate>
+		</Setter>
 	</ControlTheme>
 
 	<!--<DataTemplate x:Key="TileDisplayTemplate">
