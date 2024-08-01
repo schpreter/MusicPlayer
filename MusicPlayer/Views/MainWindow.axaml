@@ -8,6 +8,6 @@
         x:Class="MusicPlayer.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="MusicPlayer"
-		RequestedThemeVariant="Light">
+		RequestedThemeVariant="Dark">
         <views:MainView />
 </Window>

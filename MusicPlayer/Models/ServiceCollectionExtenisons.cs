@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using LibVLCSharp.Shared;
+using Microsoft.Extensions.DependencyInjection;
 using MusicPlayer.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace MusicPlayer.Models
             collection.AddTransient<ArtistsViewModel>();
             collection.AddTransient<AlbumsViewModel>();
             collection.AddTransient<GenresViewModel>();
+            collection.AddTransient<MusicNavigationViewModel>();
             collection.AddTransient<MainViewModel>();
 
         }

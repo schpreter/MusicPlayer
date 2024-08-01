@@ -16,9 +16,9 @@
 		<Button Theme="{StaticResource MusicNavigationButton}" Grid.Column="1" HorizontalAlignment="Stretch" Command="{Binding SkipBackClicked}">
 			<mi:MaterialIcon Kind="SkipPrevious"/>
 		</Button>
-		<Button Theme="{StaticResource MusicNavigationButton}" Grid.Column="2" HorizontalAlignment="Stretch" Command="{Binding PausePlayClicked}">
+		<ToggleButton Theme="{StaticResource MusicNavigationButton}" Grid.Column="2" HorizontalAlignment="Stretch" Command="{Binding PausePlayClicked}">
 			<mi:MaterialIcon Kind="Play"/>
-		</Button>
+		</ToggleButton>
 		<Button Theme="{StaticResource MusicNavigationButton}" Grid.Column="3" HorizontalAlignment="Stretch" Command="{Binding SkipForwardClicked}">
 			<mi:MaterialIcon Kind="SkipNext"/>
 		</Button>

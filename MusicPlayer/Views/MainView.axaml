@@ -5,6 +5,7 @@
              xmlns:vm="clr-namespace:MusicPlayer.ViewModels"
 			 xmlns:views="clr-namespace:MusicPlayer.Views"
 			 xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+			 xmlns:vv="clr-namespace:LibVLCSharp.Avalonia;assembly=LibVLCSharp.Avalonia"
 			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 			 x:Class="MusicPlayer.Views.MainView"
              x:DataType="vm:MainViewModel">
@@ -64,6 +65,6 @@
 			<GridSplitter Theme="{StaticResource CustomSplitter}" Grid.Column="1" ResizeDirection="Columns" Width="10" Background="#386641"/>
 			<UserControl Content="{Binding SelectedViewModel}" Grid.Column="2"/>
 		</Grid>
-		<views:MusicNavigationView Grid.Row="2" Background="AliceBlue"/>
+		<UserControl Content="{Binding MusicNavigation}" Grid.Row="2"/>
 	</Grid>
 </UserControl>

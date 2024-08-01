@@ -56,7 +56,7 @@
 		<Setter Property="Template">
 			<ControlTemplate>
 				<Panel>
-					<Ellipse Fill="Aqua"/>
+					<Ellipse Fill="SteelBlue"/>
 					<ContentPresenter x:Name="PART_ContentPresenter"
 									  Content="{TemplateBinding Content}"
 									  Margin="{TemplateBinding Padding}"

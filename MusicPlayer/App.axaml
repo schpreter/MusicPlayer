@@ -4,7 +4,7 @@
 			 xmlns:vm="clr-namespace:MusicPlayer.ViewModels"
 			 xmlns:views="clr-namespace:MusicPlayer.Views"
 			 xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
-             RequestedThemeVariant="Default">
+             RequestedThemeVariant="Dark">
 	<!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
 	<Application.Styles>
@@ -36,6 +36,9 @@
 		</DataTemplate>
 		<DataTemplate DataType="{x:Type vm:GenresViewModel}">
 			<views:GenresView/>
+		</DataTemplate>
+		<DataTemplate DataType="{x:Type vm:MusicNavigationViewModel}">
+			<views:MusicNavigationView />
 		</DataTemplate>
 
 	</Application.DataTemplates>
