@@ -1,6 +1,7 @@
 ﻿using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using LibVLCSharp.Shared;
+using MusicPlayer.Data;
 using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
@@ -18,6 +19,9 @@ public partial class MainViewModel : ViewModelBase
     private readonly ArtistsViewModel artistsViewModel;
     private readonly AlbumsViewModel albumsViewModel;
     private readonly GenresViewModel genresViewModel;
+
+    private const string oggFolderPathTest = "C:\\Users\\HV387FL\\School\\Szakdoga\\Musics\\steins-gate-anime-complete-soundtrack\\Disc 1";
+    private const string mp3AndFlacFolderPathTest = "C:\\Users\\HV387FL\\School\\Szakdoga\\Musics";
 
     [ObservableProperty]
     public MusicNavigationViewModel musicNavigation;
@@ -60,6 +64,11 @@ public partial class MainViewModel : ViewModelBase
     public void ShowGenresContent()
     {
         SelectedViewModel = genresViewModel;
+    }
+
+    public void SetInputFolder()
+    {
+        MusicFileCollector.CollectFilesFromFolder(mp3AndFlacFolderPathTest);
     }
 
 }

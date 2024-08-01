@@ -17,7 +17,7 @@
 		<DockPanel Height="10" Grid.Row="0">
 			<Menu>
 				<MenuItem DockPanel.Dock="Top" Header="_Settings">
-					<MenuItem  Header="Setting 1"></MenuItem>
+					<MenuItem  Header="Set Input Folder" Command="{Binding SetInputFolder}"></MenuItem>
 					<MenuItem  Header="Setting 2"></MenuItem>
 					<MenuItem  Header="Setting 3"></MenuItem>
 				</MenuItem>
