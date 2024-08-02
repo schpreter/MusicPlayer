@@ -1,5 +1,4 @@
 using Avalonia.Controls;
-using MusicPlayer.ViewModels;
 
 namespace MusicPlayer.Views
 {

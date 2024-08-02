@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using MusicPlayer.Data;
 using MusicPlayer.Models;
+using MusicPlayer.Shared;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,8 +14,10 @@ namespace MusicPlayer.ViewModels
 {
     public partial class HomeContentViewModel : ViewModelBase
     {
-
+        private const string testFolderPath = "C:\\Users\\HV387FL\\School\\Szakdoga\\Musics\\steins-gate-anime-complete-soundtrack\\Disc 1";
         private ObservableCollection<SongListItem> musicFiles;
+        [ObservableProperty]
+        private SharedProperties properties;
 
         public ObservableCollection<SongListItem> MusicFiles
         {
@@ -21,16 +25,12 @@ namespace MusicPlayer.ViewModels
             set { SetProperty(ref musicFiles, value); }
         }
 
-        public HomeContentViewModel()
+        public HomeContentViewModel(SharedProperties props)
         {
-            MusicFiles = new ObservableCollection<SongListItem> 
-            {
-                new SongListItem("Metallica", "Enter Sandman", "3:14"),
-                new SongListItem("Ghost", "Year Zero", "3:14"),
-                new SongListItem("Ren", "Animal Flow", "3:14"),
-                new SongListItem("Slipknot", "Unsainted", "2:20"),
-            };
-
+            MusicFiles = MusicFileCollector.CollectFilesFromFolder(testFolderPath);
+            Properties = props;
         }
+
+
     }
 }

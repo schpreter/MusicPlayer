@@ -1,5 +1,6 @@
 ﻿using LibVLCSharp.Shared;
 using Microsoft.Extensions.DependencyInjection;
+using MusicPlayer.Shared;
 using MusicPlayer.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace MusicPlayer.Models
     {
         public static void AddCommonServices(this IServiceCollection collection)
         {
+            collection.AddSingleton<SharedProperties>();
             collection.AddTransient<HomeContentViewModel>();
             collection.AddTransient<PlaylistsViewModel>();
             collection.AddTransient<ArtistsViewModel>();

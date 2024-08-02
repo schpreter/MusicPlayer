@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using LibVLCSharp.Shared;
 using MusicPlayer.Data;
+using MusicPlayer.Models;
 using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
@@ -14,19 +15,17 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty]
     private ViewModelBase selectedViewModel;
 
-    private readonly HomeContentViewModel homeContentViewModel;
+    [ObservableProperty]
+    public HomeContentViewModel homeContentViewModel;
     private readonly PlaylistsViewModel playlistsViewModel;
     private readonly ArtistsViewModel artistsViewModel;
     private readonly AlbumsViewModel albumsViewModel;
     private readonly GenresViewModel genresViewModel;
-
-    private const string oggFolderPathTest = "C:\\Users\\HV387FL\\School\\Szakdoga\\Musics\\steins-gate-anime-complete-soundtrack\\Disc 1";
     private const string mp3AndFlacFolderPathTest = "C:\\Users\\HV387FL\\School\\Szakdoga\\Musics";
+
 
     [ObservableProperty]
     public MusicNavigationViewModel musicNavigation;
-
-
 
     public MainViewModel() { }
     public MainViewModel(HomeContentViewModel homeContent,
@@ -36,7 +35,7 @@ public partial class MainViewModel : ViewModelBase
         GenresViewModel genresView,
         MusicNavigationViewModel musicNavigationView)
     {
-        this.homeContentViewModel = homeContent;
+        this.HomeContentViewModel = homeContent;
         this.playlistsViewModel = playlistsView;
         this.artistsViewModel = artistsView;
         this.albumsViewModel = albumsView;
@@ -47,7 +46,7 @@ public partial class MainViewModel : ViewModelBase
 
     public void ShowHomeContent()
     {
-        SelectedViewModel = homeContentViewModel;
+        SelectedViewModel = HomeContentViewModel;
     }
     public void ShowPlaylistsContent()
     {
@@ -68,7 +67,7 @@ public partial class MainViewModel : ViewModelBase
 
     public void SetInputFolder()
     {
-        MusicFileCollector.CollectFilesFromFolder(mp3AndFlacFolderPathTest);
+        HomeContentViewModel.MusicFiles = MusicFileCollector.CollectFilesFromFolder(mp3AndFlacFolderPathTest);
     }
 
 }
