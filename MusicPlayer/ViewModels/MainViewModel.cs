@@ -1,10 +1,13 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using LibVLCSharp.Shared;
 using MusicPlayer.Data;
 using MusicPlayer.Models;
+using MusicPlayer.Views;
 using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -23,6 +26,7 @@ public partial class MainViewModel : ViewModelBase
     private readonly GenresViewModel genresViewModel;
     private const string mp3AndFlacFolderPathTest = "C:\\Users\\HV387FL\\School\\Szakdoga\\Musics";
 
+    private readonly MainWindow mainWindow;
 
     [ObservableProperty]
     public MusicNavigationViewModel musicNavigation;
@@ -33,7 +37,8 @@ public partial class MainViewModel : ViewModelBase
         ArtistsViewModel artistsView,
         AlbumsViewModel albumsView,
         GenresViewModel genresView,
-        MusicNavigationViewModel musicNavigationView)
+        MusicNavigationViewModel musicNavigationView,
+        MainWindow mainWindow)
     {
         this.HomeContentViewModel = homeContent;
         this.playlistsViewModel = playlistsView;
@@ -41,9 +46,10 @@ public partial class MainViewModel : ViewModelBase
         this.albumsViewModel = albumsView;
         this.genresViewModel = genresView;
         this.musicNavigation = musicNavigationView;
-        SelectedViewModel = homeContentViewModel;
+        this.mainWindow = mainWindow;
+        SelectedViewModel = HomeContentViewModel;
     }
-
+    #region ViewModel Switching
     public void ShowHomeContent()
     {
         SelectedViewModel = HomeContentViewModel;
@@ -64,10 +70,14 @@ public partial class MainViewModel : ViewModelBase
     {
         SelectedViewModel = genresViewModel;
     }
-
-    public void SetInputFolder()
+    #endregion
+    public async void SetInputFolder()
     {
-        HomeContentViewModel.MusicFiles = MusicFileCollector.CollectFilesFromFolder(mp3AndFlacFolderPathTest);
+        var selectedFolder = await TopLevel.GetTopLevel(mainWindow).StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions { AllowMultiple = false, Title = "Test" });
+        if (selectedFolder != null)
+        {
+            HomeContentViewModel.MusicFiles = MusicFileCollector.CollectFilesFromFolder(selectedFolder.First().TryGetLocalPath());
+        }
     }
 
 }

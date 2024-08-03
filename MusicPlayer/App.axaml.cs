@@ -38,7 +38,6 @@ public partial class App : Application
             {
                 DataContext = viewModel
             };
-
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {

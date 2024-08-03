@@ -1,7 +1,10 @@
-﻿using LibVLCSharp.Shared;
+﻿using Avalonia.Platform.Storage;
+using LibVLCSharp.Shared;
 using Microsoft.Extensions.DependencyInjection;
+using MusicPlayer.Data;
 using MusicPlayer.Shared;
 using MusicPlayer.ViewModels;
+using MusicPlayer.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,14 +17,17 @@ namespace MusicPlayer.Models
     {
         public static void AddCommonServices(this IServiceCollection collection)
         {
-            collection.AddSingleton<SharedProperties>();
-            collection.AddTransient<HomeContentViewModel>();
-            collection.AddTransient<PlaylistsViewModel>();
-            collection.AddTransient<ArtistsViewModel>();
-            collection.AddTransient<AlbumsViewModel>();
-            collection.AddTransient<GenresViewModel>();
-            collection.AddTransient<MusicNavigationViewModel>();
-            collection.AddTransient<MainViewModel>();
+            collection.AddSingleton<SharedProperties>()
+            .AddSingleton<MainWindow>()
+            #region ViewModels
+            .AddTransient<HomeContentViewModel>()
+            .AddTransient<PlaylistsViewModel>()
+            .AddTransient<ArtistsViewModel>()
+            .AddTransient<AlbumsViewModel>()
+            .AddTransient<GenresViewModel>()
+            .AddTransient<MusicNavigationViewModel>()
+            .AddTransient<MainViewModel>();
+            #endregion
 
         }
     }

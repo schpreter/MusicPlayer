@@ -9,5 +9,8 @@ namespace MusicPlayer.Shared
     {
         [ObservableProperty]
         public SongListItem selectedSongListItem;
+
+        [ObservableProperty]
+        public string sourceFolderPath;
     }
 }
