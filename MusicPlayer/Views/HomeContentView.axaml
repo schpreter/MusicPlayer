@@ -10,7 +10,7 @@
 		<vm:HomeContentViewModel />
 	</Design.DataContext>
 	<Grid>
-		<ListBox ItemsSource="{Binding MusicFiles}" SelectedItem="{Binding Properties.SelectedSongListItem}" Background="Transparent">
+		<ListBox ItemsSource="{Binding Properties.MusicFiles}" SelectedItem="{Binding Properties.SelectedSongListItem}" SelectedIndex="{Binding Properties.SelectedSongIndex}" Background="Transparent">
 			<ListBox.Styles>
 				<Style Selector="ListBoxItem">
 					<Setter Property="Background" Value="Transparent"/>

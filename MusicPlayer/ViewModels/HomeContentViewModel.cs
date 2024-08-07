@@ -15,20 +15,17 @@ namespace MusicPlayer.ViewModels
     public partial class HomeContentViewModel : ViewModelBase
     {
         private const string testFolderPath = "C:\\Users\\HV387FL\\School\\Szakdoga\\Musics\\steins-gate-anime-complete-soundtrack\\Disc 1";
-        private ObservableCollection<SongListItem> musicFiles;
         [ObservableProperty]
         private SharedProperties properties;
-
-        public ObservableCollection<SongListItem> MusicFiles
+        public HomeContentViewModel()
         {
-            get { return musicFiles; }
-            set { SetProperty(ref musicFiles, value); }
+            
         }
-
         public HomeContentViewModel(SharedProperties props)
         {
-            MusicFiles = MusicFileCollector.CollectFilesFromFolder(testFolderPath);
-            Properties = props;
+            properties = props;
+            properties.MusicFiles = MusicFileCollector.CollectFilesFromFolder(testFolderPath);
+
         }
 
 

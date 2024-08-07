@@ -1,15 +1,10 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
-using LibVLCSharp.Shared;
 using MusicPlayer.Data;
-using MusicPlayer.Models;
+using MusicPlayer.Shared;
 using MusicPlayer.Views;
-using System;
-using System.ComponentModel;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace MusicPlayer.ViewModels;
 
@@ -17,9 +12,10 @@ public partial class MainViewModel : ViewModelBase
 {
     [ObservableProperty]
     private ViewModelBase selectedViewModel;
+    private SharedProperties Properties;
 
     [ObservableProperty]
-    public HomeContentViewModel homeContentViewModel;
+    private HomeContentViewModel homeContentViewModel;
     private readonly PlaylistsViewModel playlistsViewModel;
     private readonly ArtistsViewModel artistsViewModel;
     private readonly AlbumsViewModel albumsViewModel;
@@ -38,7 +34,8 @@ public partial class MainViewModel : ViewModelBase
         AlbumsViewModel albumsView,
         GenresViewModel genresView,
         MusicNavigationViewModel musicNavigationView,
-        MainWindow mainWindow)
+        MainWindow mainWindow,
+        SharedProperties sharedProperties)
     {
         this.HomeContentViewModel = homeContent;
         this.playlistsViewModel = playlistsView;
@@ -47,6 +44,7 @@ public partial class MainViewModel : ViewModelBase
         this.genresViewModel = genresView;
         this.musicNavigation = musicNavigationView;
         this.mainWindow = mainWindow;
+        this.Properties = sharedProperties;
         SelectedViewModel = HomeContentViewModel;
     }
     #region ViewModel Switching
@@ -76,7 +74,8 @@ public partial class MainViewModel : ViewModelBase
         var selectedFolder = await TopLevel.GetTopLevel(mainWindow).StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions { AllowMultiple = false, Title = "Test" });
         if (selectedFolder != null)
         {
-            HomeContentViewModel.MusicFiles = MusicFileCollector.CollectFilesFromFolder(selectedFolder.First().TryGetLocalPath());
+            Properties.MusicFiles = MusicFileCollector.CollectFilesFromFolder(selectedFolder.First().TryGetLocalPath());
+            //if (MusicNavigation.MediaPlayer.IsPlaying) MusicNavigation.MediaPlayer.Stop(); 
         }
     }
 
