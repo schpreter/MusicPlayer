@@ -1,13 +1,7 @@
-﻿using Avalonia.Controls;
-using CommunityToolkit.Mvvm.ComponentModel;
-using LibVLCSharp.Shared;
+﻿using LibVLCSharp.Shared;
 using MusicPlayer.Models;
 using MusicPlayer.Shared;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MusicPlayer.ViewModels
 {
@@ -57,16 +51,16 @@ namespace MusicPlayer.ViewModels
         }
         private void PlaySong()
         {
-            var song = Properties.SelectedSongListItem;
+            SongListItem song = Properties.SelectedSongListItem;
             if (song != null)
             {
-                bool newSongSelected = CurrentSongPath != song.SongMetaData.FilePath;
+                bool newSongSelected = Properties.CurrentPlayingSong != Properties.SelectedSongListItem;
                 if (newSongSelected)
                 {
-                    CurrentSongPath = song.SongMetaData.FilePath;
+                    Properties.CurrentPlayingSong = Properties.SelectedSongListItem;
                 }
 
-                using Media? media = new Media(LibVlc, CurrentSongPath);
+                using Media? media = new Media(LibVlc, Properties.CurrentPlayingSong.SongMetaData.FilePath);
                 if (newSongSelected) { MediaPlayer.Play(media); }
                 else
                 {

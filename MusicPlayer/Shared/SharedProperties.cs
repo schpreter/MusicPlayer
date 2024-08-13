@@ -21,12 +21,9 @@ namespace MusicPlayer.Shared
         [ObservableProperty]
         public int selectedSongIndex;
 
-        public SongListItem CurrentPlayingSong { get; set; }
-
         [ObservableProperty]
         public string sourceFolderPath;
-
-
+        public SongListItem CurrentPlayingSong { get; set; }
 
     }
 }

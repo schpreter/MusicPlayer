@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
 using Avalonia;
-using LibVLCSharp.Shared;
 
 namespace MusicPlayer.Desktop;
 
