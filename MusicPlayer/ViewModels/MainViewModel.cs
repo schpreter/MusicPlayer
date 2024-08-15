@@ -13,7 +13,6 @@ public partial class MainViewModel : ViewModelBase
 {
     [ObservableProperty]
     private ViewModelBase selectedViewModel;
-    private SharedProperties Properties;
 
     [ObservableProperty]
     private HomeContentViewModel homeContentViewModel;

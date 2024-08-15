@@ -11,6 +11,6 @@ namespace MusicPlayer.Models.Abstracts
     {
         public string Name { get; set; }
         public string ImagePath { get; set; }
-        public Bitmap? ImageMap { get; set; }
+        public Bitmap ImageMap { get; set; }
     }
 }

@@ -15,8 +15,6 @@ namespace MusicPlayer.ViewModels
         private bool IsPaused = true;
         private LibVLC LibVlc = new LibVLC();
         public MediaPlayer MediaPlayer { get; }
-        private SharedProperties Properties;
-        private string CurrentSongPath = "";
 
         public MusicNavigationViewModel(SharedProperties props)
         {

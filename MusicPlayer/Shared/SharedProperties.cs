@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 
 namespace MusicPlayer.Shared
 {
-    public partial class SharedProperties : ViewModelBase
+    public partial class SharedProperties : ObservableObject
     {
         private ObservableCollection<SongListItem> musicFiles;
         public ObservableCollection<SongListItem> MusicFiles

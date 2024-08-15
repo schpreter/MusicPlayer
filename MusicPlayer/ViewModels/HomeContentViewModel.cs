@@ -14,12 +14,11 @@ namespace MusicPlayer.ViewModels
 {
     public partial class HomeContentViewModel : ViewModelBase
     {
-        [ObservableProperty]
-        private SharedProperties properties;
+
         public HomeContentViewModel() { }
         public HomeContentViewModel(SharedProperties props)
         {
-            properties = props;
+            this.Properties = props;
         }
 
 

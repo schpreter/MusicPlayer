@@ -1,7 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using MusicPlayer.Shared;
 
 namespace MusicPlayer.ViewModels;
 
-public class ViewModelBase : ObservableObject
+public partial class ViewModelBase : ObservableObject
 {
+    [ObservableProperty]
+    protected SharedProperties properties;
+
 }
