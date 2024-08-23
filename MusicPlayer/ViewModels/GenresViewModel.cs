@@ -6,20 +6,24 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MusicPlayer.Shared;
 
 namespace MusicPlayer.ViewModels
 {
     public partial class GenresViewModel : GenericCoverDisplay
     {
-        public GenresViewModel()
+        public GenresViewModel(SharedProperties props)
         {
-            ItemCollection = new ObservableCollection<GenericDisplayItem>
+            ItemCollection = new ObservableCollection<GenericDisplayItem>();
+            Properties = props;
+        }
+        public override void RefreshContent()
+        {
+            var Genres = Properties.MusicFiles.SelectMany(x => x.SongMetaData.Genres).ToHashSet();
+            foreach (var item in Genres)
             {
-                //TODO: seperate artist name + album maybe
-                new GenreItem("Rap", "avares://MusicPlayer/Assets/ren.jpg"),
-                new GenreItem("Metal", "avares://MusicPlayer/Assets/metallica.jpg"),
-                new GenreItem("Rock", "avares://MusicPlayer/Assets/ghost.jpg")
-            };
+                ItemCollection.Add(new GenreItem(item));
+            }
         }
     }
 }

@@ -40,15 +40,17 @@ public partial class MainViewModel : ViewModelBase
         MainWindow mainWindow,
         SharedProperties sharedProperties)
     {
+        this.Properties = sharedProperties;
+
         this.HomeContentViewModel = homeContent;
+        Init();
+
         this.playlistsViewModel = playlistsView;
         this.artistsViewModel = artistsView;
         this.albumsViewModel = albumsView;
         this.genresViewModel = genresView;
         this.musicNavigation = musicNavigationView;
         this.mainWindow = mainWindow;
-        this.Properties = sharedProperties;
-        Init();
     }
     private void Init()
     {
@@ -58,11 +60,31 @@ public partial class MainViewModel : ViewModelBase
 
     }
     #region ViewModel Switching
-    public void ShowHomeContent() { SelectedViewModel = HomeContentViewModel; }
-    public void ShowPlaylistsContent() { SelectedViewModel = playlistsViewModel; }
-    public void ShowArtistsContent() { SelectedViewModel = artistsViewModel; }
-    public void ShowAlbumsContent() { SelectedViewModel = albumsViewModel; }
-    public void ShowGenresContent() { SelectedViewModel = genresViewModel; }
+    public void ShowContent(string view)
+    {
+        switch (view)
+        {
+            case "HOME":
+                SelectedViewModel = HomeContentViewModel;
+                break;
+            case "PLAYLISTS":
+                SelectedViewModel = playlistsViewModel;
+                break;
+            case "ARTISTS":
+                SelectedViewModel = artistsViewModel;
+                break;
+            case "ALBUMS":
+                SelectedViewModel = albumsViewModel;
+                break;
+            case "GENRES":
+                SelectedViewModel = genresViewModel;
+                break;
+            default:
+                break;
+        }
+        this.RefreshContent();
+
+    }
     #endregion
     public async void SetInputFolder()
     {
@@ -73,4 +95,8 @@ public partial class MainViewModel : ViewModelBase
         }
     }
 
+    public override void RefreshContent()
+    {
+        SelectedViewModel.RefreshContent();
+    }
 }

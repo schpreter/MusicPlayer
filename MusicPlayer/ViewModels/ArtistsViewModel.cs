@@ -1,26 +1,28 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using Avalonia.Controls;
 using MusicPlayer.Models;
 using MusicPlayer.Models.Abstracts;
+using MusicPlayer.Shared;
 
 
 namespace MusicPlayer.ViewModels
 {
     public partial class ArtistsViewModel : GenericCoverDisplay
     {
-        public ArtistsViewModel()
+        public ArtistsViewModel(SharedProperties props)
         {
-            ItemCollection = new ObservableCollection<GenericDisplayItem>
+            ItemCollection = new ObservableCollection<GenericDisplayItem>();
+            Properties = props;
+        }
+        public override void RefreshContent()
+        {
+            var Artists = Properties.MusicFiles.SelectMany(x => x.SongMetaData.Artists).ToHashSet();
+            foreach (var item in Artists)
             {
-                new ArtistItem("Ren", "avares://MusicPlayer/Assets/ren.jpg"),
-                new ArtistItem("Metallica", "avares://MusicPlayer/Assets/metallica.jpg"),
-                new ArtistItem("Ghost", "avares://MusicPlayer/Assets/ghost.jpg"),
-                new ArtistItem("Slipknot", "avares://MusicPlayer/Assets/slipknot.jpg"),
-                new ArtistItem("Ren", "avares://MusicPlayer/Assets/ren.jpg"),
-                new ArtistItem("Metallica", "avares://MusicPlayer/Assets/metallica.jpg"),
-                new ArtistItem("Ghost", "avares://MusicPlayer/Assets/ghost.jpg"),
-                new ArtistItem("Slipknot", "avares://MusicPlayer/Assets/slipknot.jpg")
-            };
+                if (ItemCollection.All(x => x.Name != item))
+                    ItemCollection.Add(new ArtistItem(item));
+            }
         }
     }
 }

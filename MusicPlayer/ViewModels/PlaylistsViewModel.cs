@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using MusicPlayer.Models;
+using MusicPlayer.Shared;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,14 +19,19 @@ namespace MusicPlayer.ViewModels
             set { SetProperty(ref playlists, value); }
         }
 
-        public PlaylistsViewModel()
+        public PlaylistsViewModel(SharedProperties props)
         {
-            Playlists = new ObservableCollection<PlaylistItem>
-            {
-                new PlaylistItem("List1"),
-                new PlaylistItem("List2"),
-                new PlaylistItem("List3"),
-            };
+            this.Properties = props;
+            //var idk = this.Properties.MusicFiles.GroupBy(x => x.SongMetaData.Artists);
+
+        }
+
+        /*
+         * Playlist generation needs tobe seperate from the constructor, as during DI the required fields are unknown/null
+         */
+        public override void RefreshContent()
+        {
+            var idk = Properties.MusicFiles.SelectMany(x => x.SongMetaData.Artists).ToHashSet();
         }
     }
 }

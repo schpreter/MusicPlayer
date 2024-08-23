@@ -3,9 +3,11 @@ using MusicPlayer.Shared;
 
 namespace MusicPlayer.ViewModels;
 
-public partial class ViewModelBase : ObservableObject
+public abstract partial class ViewModelBase : ObservableObject
 {
     [ObservableProperty]
     protected SharedProperties properties;
+    public virtual void RefreshContent() { }
+
 
 }

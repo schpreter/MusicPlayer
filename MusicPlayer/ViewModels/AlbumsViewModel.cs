@@ -7,20 +7,26 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MusicPlayer.Shared;
 
 namespace MusicPlayer.ViewModels
 {
     public partial class AlbumsViewModel : GenericCoverDisplay
     {
-        public AlbumsViewModel()
+        public AlbumsViewModel(SharedProperties props)
         {
-            ItemCollection = new ObservableCollection<GenericDisplayItem>
+            ItemCollection = new ObservableCollection<GenericDisplayItem>();
+            Properties = props;
+
+        }
+
+        public override void RefreshContent()
+        {
+            List<string> Albums = Properties.MusicFiles.Select(x => x.SongMetaData.Album).ToList();
+            foreach (string item in Albums)
             {
-                //TODO: seperate artist name + album maybe
-                new AlbumItem("Ren - Violet's Tale", "avares://MusicPlayer/Assets/ren.jpg"),
-                new AlbumItem("Metallica - Some album", "avares://MusicPlayer/Assets/metallica.jpg"),
-                new AlbumItem("Ghost - some album 2", "avares://MusicPlayer/Assets/ghost.jpg")
-            };
+                ItemCollection.Add(new AlbumItem(item));
+            }
         }
     }
 }

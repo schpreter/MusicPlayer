@@ -11,11 +11,16 @@ namespace MusicPlayer.Models
 {
     public class GenreItem : GenericDisplayItem
     {
-        public GenreItem(string name, string imgpath)
+        public GenreItem(string name, string imgpath = null)
         {
             Name = name;
-            ImagePath = imgpath;
-            ImageMap = new Bitmap(AssetLoader.Open(new Uri(imgpath)));
+            if (imgpath != null)
+            {
+                ImagePath = imgpath;
+                ImageMap = new Bitmap(AssetLoader.Open(new Uri(imgpath)));
+
+            }
+
         }
     }
 }
