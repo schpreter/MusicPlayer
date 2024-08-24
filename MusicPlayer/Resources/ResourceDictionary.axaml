@@ -67,7 +67,11 @@
 	</ControlTheme>
 	
 	<DataTemplate x:Key="TileDisplayTemplate">
-		<Button>
+		<!--{Binding DataContext.testCommand, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}-->
+		<Button 
+			Command="{ReflectionBinding DataContext.ShowSongsInCategory, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
+			CommandParameter ="{ReflectionBinding Name}"
+			Cursor="Hand">
 			<Border Margin="10,10,0,20"
 				CornerRadius="10"
 				BorderBrush="Gray" BorderThickness="1"
@@ -79,6 +83,21 @@
 				</StackPanel>
 			</Border>
 		</Button>
+	</DataTemplate>
+
+	<DataTemplate x:Key="SongListDisplayTemplate">
+		<Border Margin="0,10,0,0"
+			CornerRadius="10"
+			BorderBrush="Gray" BorderThickness="1"
+			Padding="5">
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Text="{ReflectionBinding Artists_conc}"/>
+				<TextBlock Margin="5 0" FontWeight="Bold"
+							Text="{ReflectionBinding Title}"/>
+				<TextBlock Margin="5 0" FontWeight="Bold"
+							Text="{ReflectionBinding Duration_display}"/>
+			</StackPanel>
+		</Border>
 	</DataTemplate>
 
 </ResourceDictionary>

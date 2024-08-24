@@ -2,7 +2,6 @@
 using System.Linq;
 using Avalonia.Controls;
 using MusicPlayer.Models;
-using MusicPlayer.Models.Abstracts;
 using MusicPlayer.Shared;
 
 

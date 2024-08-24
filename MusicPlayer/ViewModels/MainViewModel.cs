@@ -41,7 +41,6 @@ public partial class MainViewModel : ViewModelBase
         SharedProperties sharedProperties)
     {
         this.Properties = sharedProperties;
-
         this.HomeContentViewModel = homeContent;
         Init();
 
@@ -82,7 +81,7 @@ public partial class MainViewModel : ViewModelBase
             default:
                 break;
         }
-        this.RefreshContent();
+        SelectedViewModel.RefreshContent();
 
     }
     #endregion
@@ -95,8 +94,4 @@ public partial class MainViewModel : ViewModelBase
         }
     }
 
-    public override void RefreshContent()
-    {
-        SelectedViewModel.RefreshContent();
-    }
 }

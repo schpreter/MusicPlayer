@@ -36,10 +36,6 @@ namespace MusicPlayer.ViewModels
         }
         public void PausePlayClicked()
         {
-            if (Properties.SelectedSongListItem != null)
-            {
-                Properties.CurrentPlayingSong = Properties.SelectedSongListItem;
-            }
             PlaySong();
 
         }
@@ -66,6 +62,7 @@ namespace MusicPlayer.ViewModels
                 }
                 IsPaused = !IsPaused;
             }
+            else if (MediaPlayer.IsPlaying) MediaPlayer.Pause();
         }
         private void SkipSong(SkipDirection direction)
         {

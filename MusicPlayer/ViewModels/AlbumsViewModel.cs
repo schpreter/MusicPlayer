@@ -1,5 +1,4 @@
 ﻿using Avalonia.Controls;
-using MusicPlayer.Models.Abstracts;
 using MusicPlayer.Models;
 using System;
 using System.Collections.Generic;

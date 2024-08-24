@@ -10,14 +10,35 @@
 	<Design.DataContext>
 		<vm:GenresViewModel />
 	</Design.DataContext>
-	
-	<ScrollViewer>
-		<ItemsControl ItemsSource="{Binding ItemCollection}" ItemTemplate="{StaticResource TileDisplayTemplate}">
-			<ItemsControl.ItemsPanel>
-				<ItemsPanelTemplate>
-					<WrapPanel Orientation="Horizontal" />
-				</ItemsPanelTemplate>
-			</ItemsControl.ItemsPanel>
-		</ItemsControl>
-	</ScrollViewer>
+
+	<StackPanel>
+		<ScrollViewer>
+			<ItemsControl ItemsSource="{Binding ItemCollection}" ItemTemplate="{StaticResource TileDisplayTemplate}">
+				<ItemsControl.ItemsPanel>
+					<ItemsPanelTemplate>
+						<WrapPanel Orientation="Horizontal" />
+					</ItemsPanelTemplate>
+				</ItemsControl.ItemsPanel>
+			</ItemsControl>
+		</ScrollViewer>
+		<ScrollViewer>
+
+			<ListBox
+			ItemsSource="{Binding SongsByGenre}"
+			SelectedItem="{Binding Properties.SelectedSongListItem}"
+			SelectedIndex="{Binding Properties.SelectedSongIndex}"
+			Background="Transparent"
+			ItemTemplate="{StaticResource SongListDisplayTemplate}"
+				>
+				<ListBox.Styles>
+					<Style Selector="ListBoxItem">
+						<Setter Property="Background" Value="Transparent"/>
+					</Style>
+				</ListBox.Styles>
+
+			</ListBox>
+		</ScrollViewer>
+
+	</StackPanel>
+
 </UserControl>

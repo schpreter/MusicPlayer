@@ -34,4 +34,8 @@
       <DependentUpon>ArtistsView.axaml</DependentUpon>
     </Compile>
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\Abstracts\" />
+  </ItemGroup>
 </Project>

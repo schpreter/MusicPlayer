@@ -2,7 +2,7 @@
 using Avalonia.Platform;
 using System;
 
-namespace MusicPlayer.Models.Abstracts
+namespace MusicPlayer.Models
 {
     public class UnifiedDisplayItem
     {
