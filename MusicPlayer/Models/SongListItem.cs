@@ -9,10 +9,23 @@ namespace MusicPlayer.Models
     public class SongListItem
     {
 
-        public SongMetaData SongMetaData { get; set; }
-        public SongListItem(SongMetaData metaData)
+        public string Album { get; set; }
+        public string Title { get; set; }
+        public List<string> Artists { get; set; }
+        public string Artists_conc { get; set; }
+
+        public List<string> Genres { get; set; }
+        public int Year { get; set; }
+        public TimeSpan Duration { get; set; }
+        public string FilePath { get; set; }
+        public List<string> PlayLists { get; set; }
+
+        public string Duration_display
         {
-            SongMetaData = metaData;
+            get
+            {
+                return Duration.ToString(@"mm\:ss");
+            }
         }
     }
 }

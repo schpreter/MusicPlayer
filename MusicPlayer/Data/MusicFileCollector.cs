@@ -24,7 +24,7 @@ namespace MusicPlayer.Data
             foreach (string item in listOfFilesInFolder)
             {
                 TagLib.File tagLibFile = TagLib.File.Create(item);
-                SongMetaData metaData = new SongMetaData
+                SongListItem songItem = new SongListItem
                 {
                     Album = tagLibFile.Tag.Album,
                     Title = tagLibFile.Tag.Title == null ? Path.GetFileName(item).Split('.').First() : tagLibFile.Tag.Title,
@@ -36,7 +36,7 @@ namespace MusicPlayer.Data
                     FilePath = tagLibFile.Name
 
                 };
-                returnList.Add(new SongListItem(metaData));
+                returnList.Add(songItem);
 
             }
             return returnList;

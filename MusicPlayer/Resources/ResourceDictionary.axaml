@@ -65,32 +65,20 @@
 			</ControlTemplate>
 		</Setter>
 	</ControlTheme>
-
-	<DataTemplate DataType="{x:Type vm:GenericCoverDisplay}">
-		<ItemsControl ItemsSource="{Binding ItemCollection}">
-
-			<ItemsControl.ItemsPanel>
-				<ItemsPanelTemplate>
-					<WrapPanel Orientation="Horizontal" />
-				</ItemsPanelTemplate>
-			</ItemsControl.ItemsPanel>
-
-			<ItemsControl.ItemTemplate>
-				<DataTemplate>
-					<Button>
-						<Border Margin="10,10,0,20"
-							CornerRadius="10"
-							BorderBrush="Gray" BorderThickness="1"
-							Padding="20"
-							Height="250" Width="200">
-							<StackPanel Orientation="Vertical" Spacing="10">
-								<Image  Source="{Binding ImageMap}"/>
-								<TextBlock Text="{Binding Name}" HorizontalAlignment="Center" FontSize="26"/>
-							</StackPanel>
-						</Border>
-					</Button>
-				</DataTemplate>
-			</ItemsControl.ItemTemplate>
-		</ItemsControl>
+	
+	<DataTemplate x:Key="TileDisplayTemplate">
+		<Button>
+			<Border Margin="10,10,0,20"
+				CornerRadius="10"
+				BorderBrush="Gray" BorderThickness="1"
+				Padding="20"
+				Height="250" Width="200">
+				<StackPanel Orientation="Vertical" Spacing="10">
+					<Image  Source="{ReflectionBinding ImageMap}"/>
+					<TextBlock Text="{ReflectionBinding Name}" HorizontalAlignment="Center" FontSize="26"/>
+				</StackPanel>
+			</Border>
+		</Button>
 	</DataTemplate>
+
 </ResourceDictionary>

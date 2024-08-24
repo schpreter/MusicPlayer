@@ -10,32 +10,14 @@
 	<Design.DataContext>
 		<vm:AlbumsViewModel />
 	</Design.DataContext>
-	
-	<ScrollViewer>
-		<ItemsControl ItemsSource="{Binding ItemCollection}">
 
+	<ScrollViewer>
+		<ItemsControl ItemsSource="{Binding ItemCollection}" ItemTemplate="{StaticResource TileDisplayTemplate}">
 			<ItemsControl.ItemsPanel>
 				<ItemsPanelTemplate>
 					<WrapPanel Orientation="Horizontal" />
 				</ItemsPanelTemplate>
 			</ItemsControl.ItemsPanel>
-
-			<ItemsControl.ItemTemplate>
-				<DataTemplate>
-					<Button>
-					<Border Margin="10,10,0,20"
-						CornerRadius="5"
-						BorderBrush="Gray" BorderThickness="1"
-						Padding="20"
-						Height="250" Width="200">
-						<StackPanel Orientation="Vertical" Spacing="10">
-							<Image  Source="{Binding ImageMap}"/>
-							<TextBlock Text="{Binding Name}" HorizontalAlignment="Center" FontSize="26"/>
-						</StackPanel>
-					</Border>
-					</Button>
-				</DataTemplate>
-			</ItemsControl.ItemTemplate>
 		</ItemsControl>
 	</ScrollViewer>
 </UserControl>

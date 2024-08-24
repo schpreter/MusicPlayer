@@ -1,24 +1,21 @@
 ﻿using Avalonia.Media.Imaging;
 using Avalonia.Platform;
-using MusicPlayer.Models.Abstracts;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MusicPlayer.Models
+namespace MusicPlayer.Models.Abstracts
 {
-    public class GenreItem : GenericDisplayItem
+    public class UnifiedDisplayItem
     {
-        public GenreItem(string name, string imgpath = null)
+        public string Name { get; set; }
+        public string ImagePath { get; set; }
+        public Bitmap ImageMap { get; set; }
+        public UnifiedDisplayItem(string name, string imgpath = null)
         {
             Name = name;
             if (imgpath != null)
             {
                 ImagePath = imgpath;
                 ImageMap = new Bitmap(AssetLoader.Open(new Uri(imgpath)));
-
             }
 
         }

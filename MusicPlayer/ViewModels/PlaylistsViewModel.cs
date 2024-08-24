@@ -31,7 +31,7 @@ namespace MusicPlayer.ViewModels
          */
         public override void RefreshContent()
         {
-            var idk = Properties.MusicFiles.SelectMany(x => x.SongMetaData.Artists).ToHashSet();
+            var idk = Properties.MusicFiles.SelectMany(x => x.Artists).ToHashSet();
         }
     }
 }

@@ -15,17 +15,17 @@ namespace MusicPlayer.ViewModels
     {
         public AlbumsViewModel(SharedProperties props)
         {
-            ItemCollection = new ObservableCollection<GenericDisplayItem>();
+            ItemCollection = new ObservableCollection<UnifiedDisplayItem>();
             Properties = props;
 
         }
 
         public override void RefreshContent()
         {
-            List<string> Albums = Properties.MusicFiles.Select(x => x.SongMetaData.Album).ToList();
+            List<string> Albums = Properties.MusicFiles.Select(x => x.Album).ToList();
             foreach (string item in Albums)
             {
-                ItemCollection.Add(new AlbumItem(item));
+                ItemCollection.Add(new UnifiedDisplayItem(item));
             }
         }
     }

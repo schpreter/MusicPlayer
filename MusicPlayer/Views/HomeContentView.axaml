@@ -23,11 +23,11 @@
 						BorderBrush="Gray" BorderThickness="1"
 						Padding="5">
 						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="{Binding SongMetaData.Artists_conc}"/>
+							<TextBlock Text="{Binding Artists_conc}"/>
 							<TextBlock Margin="5 0" FontWeight="Bold"
-										Text="{Binding SongMetaData.Title}"/>
+										Text="{Binding Title}"/>
 							<TextBlock Margin="5 0" FontWeight="Bold"
-										Text="{Binding SongMetaData.Duration_display}"/>
+										Text="{Binding Duration_display}"/>
 						</StackPanel>
 					</Border>
 				</DataTemplate>

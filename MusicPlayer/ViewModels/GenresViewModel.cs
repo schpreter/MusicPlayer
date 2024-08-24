@@ -14,15 +14,15 @@ namespace MusicPlayer.ViewModels
     {
         public GenresViewModel(SharedProperties props)
         {
-            ItemCollection = new ObservableCollection<GenericDisplayItem>();
+            ItemCollection = new ObservableCollection<UnifiedDisplayItem>();
             Properties = props;
         }
         public override void RefreshContent()
         {
-            var Genres = Properties.MusicFiles.SelectMany(x => x.SongMetaData.Genres).ToHashSet();
+            var Genres = Properties.MusicFiles.SelectMany(x => x.Genres).ToHashSet();
             foreach (var item in Genres)
             {
-                ItemCollection.Add(new GenreItem(item));
+                ItemCollection.Add(new UnifiedDisplayItem(item));
             }
         }
     }
