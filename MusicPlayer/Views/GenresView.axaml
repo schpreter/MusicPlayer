@@ -10,10 +10,9 @@
 	<Design.DataContext>
 		<vm:GenresViewModel />
 	</Design.DataContext>
-
-	<StackPanel>
+	<Panel>
 		<ScrollViewer>
-			<ItemsControl ItemsSource="{Binding ItemCollection}" ItemTemplate="{StaticResource TileDisplayTemplate}">
+			<ItemsControl IsVisible="{Binding ShowGenres}" ItemsSource="{Binding ItemCollection}" ItemTemplate="{StaticResource TileDisplayTemplate}">
 				<ItemsControl.ItemsPanel>
 					<ItemsPanelTemplate>
 						<WrapPanel Orientation="Horizontal" />
@@ -21,24 +20,27 @@
 				</ItemsControl.ItemsPanel>
 			</ItemsControl>
 		</ScrollViewer>
-		<ScrollViewer>
 
+		<Grid  RowDefinitions="10*,90*" IsVisible="{Binding ShowSongs}">
+			<TextBlock Text="{Binding SelectedGenre}" Grid.Row="0" Padding="20" HorizontalAlignment="Center" FontSize="20"/>
 			<ListBox
-			ItemsSource="{Binding SongsByGenre}"
-			SelectedItem="{Binding Properties.SelectedSongListItem}"
-			SelectedIndex="{Binding Properties.SelectedSongIndex}"
-			Background="Transparent"
-			ItemTemplate="{StaticResource SongListDisplayTemplate}"
-				>
+				Grid.Row="1"
+		  ItemsSource="{Binding SongsByGenre}"
+		  SelectedItem="{Binding Properties.SelectedSongListItem}"
+		  SelectedIndex="{Binding Properties.SelectedSongIndex}"
+		  Background="Transparent"
+		  ItemTemplate="{StaticResource SongListDisplayTemplate}"
+		  >
 				<ListBox.Styles>
 					<Style Selector="ListBoxItem">
 						<Setter Property="Background" Value="Transparent"/>
 					</Style>
 				</ListBox.Styles>
-
 			</ListBox>
-		</ScrollViewer>
+		</Grid>
+	</Panel>
 
-	</StackPanel>
+
+
 
 </UserControl>

@@ -13,14 +13,22 @@ namespace MusicPlayer.ViewModels
     public partial class GenresViewModel : GenericCoverDisplay
     {
         public ObservableCollection<SongListItem> SongsByGenre { get; set; }
+
         [ObservableProperty]
         public bool showSongs;
+
+        [ObservableProperty]
+        public bool showGenres;
+
+        [ObservableProperty]
+        public string selectedGenre;
         public GenresViewModel(SharedProperties props)
         {
             ItemCollection = new ObservableCollection<UnifiedDisplayItem>();
             SongsByGenre = new ObservableCollection<SongListItem> { };
             Properties = props;
             ShowSongs = false;
+            ShowGenres = true;
 
         }
         public override void RefreshContent()
@@ -34,13 +42,15 @@ namespace MusicPlayer.ViewModels
         }
         public override void ShowSongsInCategory(object genre)
         {
+            SelectedGenre = (string)genre;
             SongsByGenre.Clear();
-            var filtered = Properties.MusicFiles.Where(x => x.Genres.Contains((string)genre));
+            var filtered = Properties.MusicFiles.Where(x => x.Genres.Contains(SelectedGenre));
             foreach (var item in filtered)
             {
                 SongsByGenre.Add(item);
             }
             ShowSongs = true;
+            ShowGenres = false;
         }
     }
 }
