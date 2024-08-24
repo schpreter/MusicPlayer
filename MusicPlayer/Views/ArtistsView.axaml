@@ -12,7 +12,7 @@
 	</Design.DataContext>
 	
 	<ScrollViewer>
-		<ItemsControl ItemsSource="{Binding ItemCollection}">
+		<!--<ItemsControl ItemsSource="{Binding ItemCollection}">
 
 			<ItemsControl.ItemsPanel>
 				<ItemsPanelTemplate>
@@ -36,6 +36,7 @@
 					</Button>
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
-		</ItemsControl>
+		</ItemsControl>-->
+		<ContentControl Content="{Binding ItemCollection}" ContentTemplate="{StaticResource TileDisplayTemplate}"/>
 	</ScrollViewer>
 </UserControl>

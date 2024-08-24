@@ -58,7 +58,7 @@ namespace MusicPlayer.ViewModels
                     Properties.CurrentPlayingSong = Properties.SelectedSongListItem;
                 }
 
-                using Media? media = new Media(LibVlc, Properties.CurrentPlayingSong.SongMetaData.FilePath);
+                using Media media = new Media(LibVlc, Properties.CurrentPlayingSong.SongMetaData.FilePath);
                 if (newSongSelected) { MediaPlayer.Play(media); }
                 else
                 {

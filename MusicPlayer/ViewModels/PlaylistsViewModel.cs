@@ -19,10 +19,10 @@ namespace MusicPlayer.ViewModels
             set { SetProperty(ref playlists, value); }
         }
 
+        public PlaylistsViewModel() { }
         public PlaylistsViewModel(SharedProperties props)
         {
             this.Properties = props;
-            //var idk = this.Properties.MusicFiles.GroupBy(x => x.SongMetaData.Artists);
 
         }
 

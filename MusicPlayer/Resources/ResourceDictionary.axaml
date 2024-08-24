@@ -66,7 +66,7 @@
 		</Setter>
 	</ControlTheme>
 
-	<!--<DataTemplate x:Key="TileDisplayTemplate" DataType="vm:GenericCoverDisplay">
+	<DataTemplate DataType="{x:Type vm:GenericCoverDisplay}">
 		<ItemsControl ItemsSource="{Binding ItemCollection}">
 
 			<ItemsControl.ItemsPanel>
@@ -92,5 +92,5 @@
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>
-	</DataTemplate>-->
+	</DataTemplate>
 </ResourceDictionary>

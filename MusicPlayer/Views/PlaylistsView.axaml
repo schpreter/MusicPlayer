@@ -12,6 +12,7 @@
 		<vm:PlaylistsViewModel />
 	</Design.DataContext>
 	<Grid>
+		<TextBlock IsVisible="{Binding Playlists.Count}" VerticalAlignment="Center" HorizontalAlignment="Center">No Playlists Found :(</TextBlock>
 		<StackPanel Margin="20">
 			<ItemsControl ItemsSource="{Binding Playlists}" >
 				<ItemsControl.ItemTemplate>
