@@ -1,4 +1,5 @@
-﻿using LibVLCSharp.Shared;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using LibVLCSharp.Shared;
 using MusicPlayer.Models;
 using MusicPlayer.Shared;
 using System;
@@ -12,7 +13,8 @@ namespace MusicPlayer.ViewModels
             Forward,
             Backward
         }
-        private bool IsPaused = true;
+        [ObservableProperty]
+        public bool isPaused = true;
         private LibVLC LibVlc = new LibVLC();
         public MediaPlayer MediaPlayer { get; }
 
@@ -55,14 +57,19 @@ namespace MusicPlayer.ViewModels
                 }
 
                 using Media media = new Media(LibVlc, Properties.CurrentPlayingSong.FilePath);
-                if (newSongSelected) { MediaPlayer.Play(media); }
+                if (newSongSelected)
+                {
+                    MediaPlayer.Play(media);
+                }
                 else
                 {
                     MediaPlayer.Pause();
                 }
-                IsPaused = !IsPaused;
+                IsPaused = MediaPlayer.IsPlaying;
+
             }
             else if (MediaPlayer.IsPlaying) MediaPlayer.Pause();
+            
         }
         private void SkipSong(SkipDirection direction)
         {

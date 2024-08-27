@@ -52,5 +52,11 @@ namespace MusicPlayer.ViewModels
             ShowSongs = true;
             ShowGenres = false;
         }
+
+        public void BackToGenres()
+        {
+            ShowSongs = false;
+            ShowGenres = true;
+        }
     }
 }

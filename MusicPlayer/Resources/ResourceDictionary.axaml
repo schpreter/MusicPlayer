@@ -56,7 +56,7 @@
 		<Setter Property="Template">
 			<ControlTemplate>
 				<Panel>
-					<Ellipse Fill="SteelBlue"/>
+					<Rectangle Fill="SteelBlue" RadiusX="10" RadiusY="10" Margin="10"/>
 					<ContentPresenter x:Name="PART_ContentPresenter"
 									  Content="{TemplateBinding Content}"
 									  Margin="{TemplateBinding Padding}"
@@ -67,7 +67,6 @@
 	</ControlTheme>
 	
 	<DataTemplate x:Key="TileDisplayTemplate">
-		<!--{Binding DataContext.testCommand, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}-->
 		<Button 
 			Command="{ReflectionBinding DataContext.ShowSongsInCategory, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
 			CommandParameter ="{ReflectionBinding Name}"

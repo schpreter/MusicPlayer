@@ -6,6 +6,7 @@
              xmlns:vm="clr-namespace:MusicPlayer.ViewModels"
 			 xmlns:views="clr-namespace:MusicPlayer.Views"
 			 x:Class="MusicPlayer.Views.GenresView"
+			 xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
 			 x:DataType="vm:GenresViewModel">
 	<Design.DataContext>
 		<vm:GenresViewModel />
@@ -23,6 +24,13 @@
 
 		<Grid  RowDefinitions="10*,90*" IsVisible="{Binding ShowSongs}">
 			<TextBlock Text="{Binding SelectedGenre}" Grid.Row="0" Padding="20" HorizontalAlignment="Center" FontSize="20"/>
+			<Button Grid.Row="0" Padding="20" HorizontalAlignment="Left" Command="{Binding BackToGenres}">
+				<StackPanel Orientation="Horizontal">
+					<mi:MaterialIcon Kind="Backburger"/>
+					<TextBlock>Back to genres</TextBlock>
+				</StackPanel>
+
+			</Button>
 			<ListBox
 				Grid.Row="1"
 		  ItemsSource="{Binding SongsByGenre}"
