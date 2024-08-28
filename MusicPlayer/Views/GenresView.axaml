@@ -24,13 +24,8 @@
 
 		<Grid  RowDefinitions="10*,90*" IsVisible="{Binding ShowSongs}">
 			<TextBlock Text="{Binding SelectedGenre}" Grid.Row="0" Padding="20" HorizontalAlignment="Center" FontSize="20"/>
-			<Button Grid.Row="0" Padding="20" HorizontalAlignment="Left" Command="{Binding BackToGenres}">
-				<StackPanel Orientation="Horizontal">
-					<mi:MaterialIcon Kind="Backburger"/>
-					<TextBlock>Back to genres</TextBlock>
-				</StackPanel>
 
-			</Button>
+			<Button Theme="{StaticResource BackToCategoryHomeButton}" Grid.Row="0" Padding="20" Margin="10" HorizontalAlignment="Left" Command="{Binding BackToGenres}"/>
 			<ListBox
 				Grid.Row="1"
 		  ItemsSource="{Binding SongsByGenre}"
@@ -46,6 +41,7 @@
 				</ListBox.Styles>
 			</ListBox>
 		</Grid>
+		<Panel ></Panel>
 	</Panel>
 
 

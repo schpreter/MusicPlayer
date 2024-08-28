@@ -1,5 +1,7 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+
 					xmlns:vm="clr-namespace:MusicPlayer.ViewModels">
 
 	<ControlTheme x:Key="CustomSplitter" TargetType="GridSplitter">
@@ -33,7 +35,8 @@
 		<Setter Property="Cursor" Value="Hand"/>
 		<Setter Property="Template">
 			<ControlTemplate>
-				<Panel>
+				<Panel x:Name="PART_Panel">
+					<Rectangle Fill="AliceBlue" Opacity="0"/>
 					<ContentPresenter x:Name="PART_ContentPresenter"
 									  Content="{TemplateBinding Content}"
 									  Margin="{TemplateBinding Padding}"
@@ -45,8 +48,6 @@
 		</Setter>
 		<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
 			<Setter Property="Background" Value="{DynamicResource ButtonBackgroundPointerOver}" />
-			<Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPointerOver}" />
-			<Setter Property="Foreground" Value="{DynamicResource ButtonForegroundPointerOver}" />
 		</Style>
 	</ControlTheme>
 
@@ -65,9 +66,34 @@
 			</ControlTemplate>
 		</Setter>
 	</ControlTheme>
+
+	<ControlTheme x:Key="BackToCategoryHomeButton" TargetType="Button">
+		<Setter Property="Padding" Value="20"/>
+		<Setter Property="Height" Value="40"/>
+		<Setter Property="Cursor" Value="Hand"/>
+		<Setter Property="BorderThickness" Value="20"/>
+		<Setter Property="BorderBrush" Value="Aqua"/>
 	
+		<Setter Property="Template">
+			<ControlTemplate>
+				<StackPanel Orientation="Horizontal" Spacing="10" Background="{DynamicResource ThemeControlMidBrush}" x:Name="PART_StackPanel">
+						<mi:MaterialIcon Kind="Backburger" FontSize="10"/>
+						<TextBlock Text="Back to previous page" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+					<ContentPresenter x:Name="PART_ContentPresenter"
+									  Content="{TemplateBinding Content}"
+									  Margin="{TemplateBinding Padding}"
+									  />
+				</StackPanel>
+			</ControlTemplate>
+		</Setter>
+		<Style Selector="^:pointerover /template/ StackPanel#PART_StackPanel">
+			<Setter Property="Background" Value="{DynamicResource ButtonBackgroundPointerOver}" />
+
+		</Style>
+	</ControlTheme>
+
 	<DataTemplate x:Key="TileDisplayTemplate">
-		<Button 
+		<Button
 			Command="{ReflectionBinding DataContext.ShowSongsInCategory, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
 			CommandParameter ="{ReflectionBinding Name}"
 			Cursor="Hand">
