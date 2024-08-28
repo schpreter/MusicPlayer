@@ -1,11 +1,54 @@
-﻿using MusicPlayer.Models;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using MusicPlayer.Models;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using TagLib;
 
 namespace MusicPlayer.ViewModels
 {
-    public abstract class GenericCoverDisplay : ViewModelBase
+    public abstract partial class GenericCoverDisplay : ViewModelBase
     {
+
+        public ObservableCollection<SongListItem> SongsByCategory{ get; set; }
         public ObservableCollection<UnifiedDisplayItem> ItemCollection { get; set; }
+
+        [ObservableProperty]
+        public string selectedCategory;
+
+        [ObservableProperty]
+        public bool showSongs = false;
+
+        [ObservableProperty]
+        public bool showCategoryHome = true;
         public virtual void ShowSongsInCategory(object category) { }
+        public void BackToCategoryHome()
+        {
+            ShowSongs = false;
+            ShowCategoryHome = true;
+        }
+
+        protected void UpdateSongCategory(IEnumerable filtered)
+        {
+            SongsByCategory.Clear();
+            foreach (var item in filtered)
+            {
+                SongsByCategory.Add((SongListItem)item);
+            }
+            ShowSongs = true;
+            ShowCategoryHome = false;
+        }
+
+        protected void RefreshCategory(HashSet<string> set)
+        {
+            foreach (var item in set)
+            {
+                if (ItemCollection.All(x => x.Name != item))
+                    ItemCollection.Add(new UnifiedDisplayItem(item));
+            }
+        }
+
     }
 }

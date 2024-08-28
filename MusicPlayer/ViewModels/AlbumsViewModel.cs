@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MusicPlayer.Shared;
+using CommunityToolkit.Mvvm.ComponentModel;
+using TagLib;
 
 namespace MusicPlayer.ViewModels
 {
@@ -15,17 +17,21 @@ namespace MusicPlayer.ViewModels
         public AlbumsViewModel(SharedProperties props)
         {
             ItemCollection = new ObservableCollection<UnifiedDisplayItem>();
+            SongsByCategory = new ObservableCollection<SongListItem>();
             Properties = props;
-
         }
 
         public override void RefreshContent()
         {
-            List<string> Albums = Properties.MusicFiles.Select(x => x.Album).ToList();
-            foreach (string item in Albums)
-            {
-                ItemCollection.Add(new UnifiedDisplayItem(item));
-            }
+            HashSet<string> Albums = Properties.MusicFiles.Select(x => x.Album).ToHashSet();
+            RefreshCategory(Albums);
+
+        }
+        public override void ShowSongsInCategory(object album)
+        {
+            SelectedCategory = (string)album;
+            var filtered = Properties.MusicFiles.Where(x => x.Album == SelectedCategory);
+            UpdateSongCategory(filtered);
         }
     }
 }

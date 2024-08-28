@@ -16,16 +16,20 @@ namespace MusicPlayer.ViewModels
         public ArtistsViewModel(SharedProperties props)
         {
             ItemCollection = new ObservableCollection<UnifiedDisplayItem>();
+            SongsByCategory = new ObservableCollection<SongListItem>();
             Properties = props;
         }
         public override void RefreshContent()
         {
             var Artists = Properties.MusicFiles.SelectMany(x => x.Artists).ToHashSet();
-            foreach (var item in Artists)
-            {
-                if (ItemCollection.All(x => x.Name != item))
-                    ItemCollection.Add(new UnifiedDisplayItem(item));
-            }
+            RefreshCategory(Artists);
+
+        }
+        public override void ShowSongsInCategory(object genre)
+        {
+            SelectedCategory = (string)genre;
+            var filtered = Properties.MusicFiles.Where(x => x.Artists.Contains(SelectedCategory));
+            UpdateSongCategory(filtered);
         }
     }
 }

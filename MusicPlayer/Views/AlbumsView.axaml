@@ -10,14 +10,38 @@
 	<Design.DataContext>
 		<vm:AlbumsViewModel />
 	</Design.DataContext>
+	<Panel>
+		<ScrollViewer>
+			<ItemsControl IsVisible="{Binding ShowCategoryHome}" ItemsSource="{Binding ItemCollection}" ItemTemplate="{StaticResource TileDisplayTemplate}">
+				<ItemsControl.ItemsPanel>
+					<ItemsPanelTemplate>
+						<WrapPanel Orientation="Horizontal" />
+					</ItemsPanelTemplate>
+				</ItemsControl.ItemsPanel>
+			</ItemsControl>
+		</ScrollViewer>
 
-	<ScrollViewer>
-		<ItemsControl ItemsSource="{Binding ItemCollection}" ItemTemplate="{StaticResource TileDisplayTemplate}">
-			<ItemsControl.ItemsPanel>
-				<ItemsPanelTemplate>
-					<WrapPanel Orientation="Horizontal" />
-				</ItemsPanelTemplate>
-			</ItemsControl.ItemsPanel>
-		</ItemsControl>
-	</ScrollViewer>
+		<Grid  RowDefinitions="10*,10*,80*" IsVisible="{Binding ShowSongs}">
+
+			<Button Theme="{StaticResource BackToCategoryHomeButton}" Grid.Row="0" Padding="20" Margin="10" HorizontalAlignment="Left" Command="{Binding BackToCategoryHome}"/>
+			<TextBlock Text="{Binding SelectedCategory}" Grid.Row="1" Padding="20" HorizontalAlignment="Center" FontSize="20"/>
+
+			<ListBox
+				Grid.Row="2"
+		  ItemsSource="{Binding SongsByCategory}"
+		  SelectedItem="{Binding Properties.SelectedSongListItem}"
+		  SelectedIndex="{Binding Properties.SelectedSongIndex}"
+		  Background="Transparent"
+		  ItemTemplate="{StaticResource SongListDisplayTemplate}"
+		  >
+				<ListBox.Styles>
+					<Style Selector="ListBoxItem">
+						<Setter Property="Background" Value="Transparent"/>
+					</Style>
+				</ListBox.Styles>
+			</ListBox>
+		</Grid>
+	</Panel>
+
+
 </UserControl>
