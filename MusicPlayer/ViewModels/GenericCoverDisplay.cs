@@ -12,7 +12,7 @@ namespace MusicPlayer.ViewModels
     public abstract partial class GenericCoverDisplay : ViewModelBase
     {
 
-        public ObservableCollection<SongListItem> SongsByCategory{ get; set; }
+        public ObservableCollection<SongListItem> SongsByCategory { get; set; }
         public ObservableCollection<UnifiedDisplayItem> ItemCollection { get; set; }
 
         [ObservableProperty]
@@ -22,8 +22,12 @@ namespace MusicPlayer.ViewModels
         public bool showSongs = false;
 
         [ObservableProperty]
+        public bool showSongSelectionList = false;
+
+        [ObservableProperty]
         public bool showCategoryHome = true;
         public virtual void ShowSongsInCategory(object category) { }
+        public virtual void ShowSongSelection() { }
         public void BackToCategoryHome()
         {
             ShowSongs = false;
@@ -51,10 +55,14 @@ namespace MusicPlayer.ViewModels
             }
         }
 
-        protected void AddNewSongToCategory()
+        protected void ShowSelection()
         {
+            ShowSongSelectionList = true;
+            ShowSongs = false;
+            ShowCategoryHome = false;
 
         }
+
 
     }
 }

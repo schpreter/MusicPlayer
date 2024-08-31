@@ -4,11 +4,12 @@ using Avalonia.Markup.Xaml;
 
 namespace MusicPlayer.Views
 {
-    public partial class PlaylistsView : UserControl
+    public partial class SongSelectionView : UserControl
     {
-        public PlaylistsView()
+        public SongSelectionView()
         {
             InitializeComponent();
         }
     }
 }
+

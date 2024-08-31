@@ -28,5 +28,10 @@ namespace MusicPlayer.ViewModels
             UpdateSongCategory(filtered);
         }
 
+        public override void ShowSongSelection()
+        {
+            ShowSelection();
+        }
+
     }
 }
