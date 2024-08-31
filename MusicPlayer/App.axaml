@@ -28,15 +28,10 @@
 			<views:PlaylistsView/>
 		</DataTemplate>
 
-		<DataTemplate DataType="{x:Type vm:ArtistsViewModel}">
-			<views:ArtistsView/>
+		<DataTemplate DataType="{x:Type vm:GenericCoverDisplay}">
+			<views:UnifiedCategoryView/>
 		</DataTemplate>
-		<DataTemplate DataType="{x:Type vm:AlbumsViewModel}">
-			<views:AlbumsView/>
-		</DataTemplate>
-		<DataTemplate DataType="{x:Type vm:GenresViewModel}">
-			<views:GenresView/>
-		</DataTemplate>
+		
 		<DataTemplate DataType="{x:Type vm:MusicNavigationViewModel}">
 			<views:MusicNavigationView />
 		</DataTemplate>

@@ -43,11 +43,17 @@ namespace MusicPlayer.ViewModels
 
         protected void RefreshCategory(HashSet<string> set)
         {
+            ItemCollection.Clear();
             foreach (var item in set)
             {
                 if (ItemCollection.All(x => x.Name != item))
                     ItemCollection.Add(new UnifiedDisplayItem(item));
             }
+        }
+
+        protected void AddNewSongToCategory()
+        {
+
         }
 
     }

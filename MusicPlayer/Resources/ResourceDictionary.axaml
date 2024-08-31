@@ -71,18 +71,33 @@
 		<Setter Property="Padding" Value="20"/>
 		<Setter Property="Height" Value="40"/>
 		<Setter Property="Cursor" Value="Hand"/>
-		<Setter Property="BorderThickness" Value="20"/>
-		<Setter Property="BorderBrush" Value="Aqua"/>
 	
 		<Setter Property="Template">
 			<ControlTemplate>
 				<StackPanel Orientation="Horizontal" Spacing="10" Background="{DynamicResource ThemeControlMidBrush}" x:Name="PART_StackPanel">
-						<mi:MaterialIcon Kind="Backburger" FontSize="10"/>
+						<mi:MaterialIcon Kind="Backburger" FontSize="10" HorizontalAlignment="Stretch"/>
 						<TextBlock Text="Back to previous page" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
-					<ContentPresenter x:Name="PART_ContentPresenter"
-									  Content="{TemplateBinding Content}"
-									  Margin="{TemplateBinding Padding}"
-									  />
+				</StackPanel>
+			</ControlTemplate>
+		</Setter>
+		<Style Selector="^:pointerover /template/ StackPanel#PART_StackPanel">
+			<Setter Property="Background" Value="{DynamicResource ButtonBackgroundPointerOver}" />
+
+		</Style>
+	</ControlTheme>
+
+	<ControlTheme x:Key="AddNewButton" TargetType="Button">
+		<Setter Property="Background" Value="{DynamicResource ButtonBackground}" />
+		<Setter Property="Foreground" Value="{DynamicResource ButtonForeground}" />
+		<Setter Property="Padding" Value="20"/>
+		<Setter Property="Height" Value="40"/>
+		<Setter Property="Cursor" Value="Hand"/>
+
+		<Setter Property="Template">
+			<ControlTemplate>
+				<StackPanel Orientation="Horizontal" Spacing="10" x:Name="PART_StackPanel">
+					<mi:MaterialIcon Kind="PlusCircle" FontSize="10" HorizontalAlignment="Stretch"/>
+					<TextBlock Text="Add new song" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
 				</StackPanel>
 			</ControlTemplate>
 		</Setter>

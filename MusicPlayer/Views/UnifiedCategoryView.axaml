@@ -5,15 +5,15 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              xmlns:vm="clr-namespace:MusicPlayer.ViewModels"
 			 xmlns:views="clr-namespace:MusicPlayer.Views"
-			 x:Class="MusicPlayer.Views.ArtistsView"
-			 x:DataType="vm:ArtistsViewModel">
+			 x:Class="MusicPlayer.Views.UnifiedCategoryView"
+			 x:DataType="vm:GenericCoverDisplay">
 	<Design.DataContext>
-		<vm:ArtistsViewModel />
+		<vm:GenericCoverDisplay />
 	</Design.DataContext>
-
 	<Panel>
+		<!--Category Home Page-->
 		<ScrollViewer>
-			<ItemsControl IsVisible="{Binding !ShowSongs}" ItemsSource="{Binding ItemCollection}" ItemTemplate="{StaticResource TileDisplayTemplate}">
+			<ItemsControl IsVisible="{Binding ShowCategoryHome}" ItemsSource="{Binding ItemCollection}" ItemTemplate="{StaticResource TileDisplayTemplate}">
 				<ItemsControl.ItemsPanel>
 					<ItemsPanelTemplate>
 						<WrapPanel Orientation="Horizontal" />
@@ -22,8 +22,11 @@
 			</ItemsControl>
 		</ScrollViewer>
 
-		<Grid  RowDefinitions="10*,10*,80*" IsVisible="{Binding ShowSongs}">
+		<!--Songs in the given category-->
+		<Grid RowDefinitions="10*,10*,80*" IsVisible="{Binding ShowSongs}">
+
 			<Button Theme="{StaticResource BackToCategoryHomeButton}" Grid.Row="0" Padding="20" Margin="10" HorizontalAlignment="Left" Command="{Binding BackToCategoryHome}"/>
+			<Button Theme="{StaticResource AddNewButton}" Grid.Row="0" Padding="20" Margin="10" HorizontalAlignment="Right" Command="{Binding AddNewSongToCategory}"/>
 			<TextBlock Text="{Binding SelectedCategory}" Grid.Row="1" Padding="20" HorizontalAlignment="Center" FontSize="20"/>
 
 			<ListBox
@@ -42,4 +45,6 @@
 			</ListBox>
 		</Grid>
 	</Panel>
+
+
 </UserControl>

@@ -30,12 +30,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\ArtistsView.axaml.cs">
-      <DependentUpon>ArtistsView.axaml</DependentUpon>
-    </Compile>
+    <Folder Include="Models\Abstracts\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Abstracts\" />
+    <Compile Update="Views\UnifiedCategoryView.axaml.cs">
+      <DependentUpon>UnifiedCategoryView.axaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>
