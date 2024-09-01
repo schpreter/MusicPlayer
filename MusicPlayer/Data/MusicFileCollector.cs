@@ -33,7 +33,8 @@ namespace MusicPlayer.Data
                     Genres = tagLibFile.Tag.Genres.ToList(),
                     Year = (int)tagLibFile.Tag.Year,
                     Duration = TimeSpan.FromSeconds(tagLibFile.Properties.Duration.TotalSeconds),
-                    FilePath = tagLibFile.Name
+                    FilePath = tagLibFile.Name,
+                    IsSelected = false
 
                 };
                 returnList.Add(songItem);

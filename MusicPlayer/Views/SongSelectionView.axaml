@@ -6,10 +6,15 @@
 			 xmlns:vm="clr-namespace:MusicPlayer.ViewModels"
 			 xmlns:views="clr-namespace:MusicPlayer.Views"
              x:Class="MusicPlayer.Views.SongSelectionView"
-             x:DataType="vm:HomeContentViewModel"
+             x:DataType="vm:GenericCoverDisplay"
 			 >
-	<Grid>
-		<ScrollViewer>
+	<Grid RowDefinitions="5*,95*">
+		<StackPanel Orientation="Horizontal">
+			<TextBlock>Add songs to category</TextBlock>
+			<TextBlock Text="{Binding SelectedCategory}"/>
+
+		</StackPanel>
+		<ScrollViewer Grid.Row="1">
 			<ItemsControl ItemsSource="{Binding Properties.MusicFiles}"
 						 Background="Transparent"
 						 ItemTemplate="{StaticResource SongListSelectionTemplate}"

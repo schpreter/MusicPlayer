@@ -21,6 +21,10 @@ namespace MusicPlayer.ViewModels
             this.Properties = props;
         }
 
+        public override string ToString()
+        {
+            return "Home";
+        }
 
     }
 }

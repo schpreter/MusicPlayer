@@ -31,5 +31,10 @@ namespace MusicPlayer.ViewModels
             var filtered = Properties.MusicFiles.Where(x => x.Artists.Contains(SelectedCategory));
             UpdateSongCategory(filtered);
         }
+
+        public override string ToString()
+        {
+            return "Artists";
+        }
     }
 }

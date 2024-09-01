@@ -39,6 +39,7 @@ public partial class MainViewModel : ViewModelBase
         AlbumsViewModel albumsView,
         GenresViewModel genresView,
         MusicNavigationViewModel musicNavigationView,
+        MainWindow mainWindow,
         SharedProperties sharedProperties)
     {
         this.Properties = sharedProperties;
@@ -49,6 +50,7 @@ public partial class MainViewModel : ViewModelBase
         this.artistsViewModel = artistsView;
         this.albumsViewModel = albumsView;
         this.genresViewModel = genresView;
+        this.mainWindow = mainWindow;
         this.musicNavigation = musicNavigationView;
     }
     private void Init()

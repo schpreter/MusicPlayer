@@ -33,5 +33,10 @@ namespace MusicPlayer.ViewModels
             var filtered = Properties.MusicFiles.Where(x => x.Album == SelectedCategory);
             UpdateSongCategory(filtered);
         }
+
+        public override string ToString()
+        {
+            return "Albums - " + SelectedCategory;
+        }
     }
 }

@@ -13,7 +13,7 @@
 		<vm:MainViewModel />
 	</Design.DataContext>
 
-	<Grid RowDefinitions="10*,80*,10*">
+	<Grid RowDefinitions="10*,80*,8*">
 		<DockPanel Height="10" Grid.Row="0">
 			<Menu>
 				<MenuItem DockPanel.Dock="Top" Header="_Settings">
@@ -63,7 +63,11 @@
 			</StackPanel>
 
 			<GridSplitter Theme="{StaticResource CustomSplitter}" Grid.Column="1" ResizeDirection="Columns" Width="10" Background="#386641"/>
-			<UserControl Content="{Binding SelectedViewModel}" Grid.Column="2"/>
+			<Grid Grid.Column="2" RowDefinitions="5* , 95*">
+				<TextBlock Text="{Binding SelectedViewModel}" Grid.Row="0" HorizontalAlignment="Center" FontSize="20"/>
+				<UserControl Content="{Binding SelectedViewModel}" Grid.Row="1"/>
+			</Grid>
+
 		</Grid>
 		<UserControl Content="{Binding MusicNavigation}" Grid.Row="2"/>
 	</Grid>

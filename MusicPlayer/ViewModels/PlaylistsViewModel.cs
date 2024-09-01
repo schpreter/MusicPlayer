@@ -33,5 +33,9 @@ namespace MusicPlayer.ViewModels
         {
             var idk = Properties.MusicFiles.SelectMany(x => x.Artists).ToHashSet();
         }
+        public override string ToString()
+        {
+            return "Playlists";
+        }
     }
 }

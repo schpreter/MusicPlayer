@@ -145,7 +145,7 @@
 			BorderBrush="Gray" BorderThickness="1"
 			Padding="5">
 			<StackPanel Orientation="Horizontal" Spacing="10">
-				<CheckBox/>
+				<CheckBox IsChecked="{ReflectionBinding IsSelected}"/>
 				<TextBlock Text="{ReflectionBinding Artists_conc}"/>
 				<TextBlock Margin="5 0" FontWeight="Bold"
 							Text="{ReflectionBinding Title}"/>

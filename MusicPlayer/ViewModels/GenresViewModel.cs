@@ -27,10 +27,9 @@ namespace MusicPlayer.ViewModels
             var filtered = Properties.MusicFiles.Where(x => x.Genres.Contains(SelectedCategory));
             UpdateSongCategory(filtered);
         }
-
-        public override void ShowSongSelection()
+        public override string ToString()
         {
-            ShowSelection();
+            return "Genres";
         }
 
     }

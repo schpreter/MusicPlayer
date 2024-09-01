@@ -26,7 +26,7 @@
 		<Grid RowDefinitions="10*,10*,80*" IsVisible="{Binding ShowSongs}">
 
 			<Button Theme="{StaticResource BackToCategoryHomeButton}" Grid.Row="0" Padding="20" Margin="10" HorizontalAlignment="Left" Command="{Binding BackToCategoryHome}"/>
-			<Button Theme="{StaticResource AddNewButton}" Grid.Row="0" Padding="20" Margin="10" HorizontalAlignment="Right" Command="{Binding ShowSongSelection}"/>
+			<Button Theme="{StaticResource AddNewButton}" Grid.Row="0" Padding="20" Margin="10" HorizontalAlignment="Right" Command="{Binding ShowSelection}"/>
 			<TextBlock Text="{Binding SelectedCategory}" Grid.Row="1" Padding="20" HorizontalAlignment="Center" FontSize="20"/>
 
 			<ListBox

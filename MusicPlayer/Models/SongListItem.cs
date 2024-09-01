@@ -20,6 +20,8 @@ namespace MusicPlayer.Models
         public string FilePath { get; set; }
         public List<string> PlayLists { get; set; }
 
+        public bool IsSelected { get; set; }
+
         public string Duration_display
         {
             get

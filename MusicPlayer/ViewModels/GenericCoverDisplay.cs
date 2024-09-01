@@ -55,7 +55,7 @@ namespace MusicPlayer.ViewModels
             }
         }
 
-        protected void ShowSelection()
+        public void ShowSelection()
         {
             ShowSongSelectionList = true;
             ShowSongs = false;

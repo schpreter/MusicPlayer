@@ -9,5 +9,4 @@ public abstract partial class ViewModelBase : ObservableObject
     protected SharedProperties properties;
     public virtual void RefreshContent() { }
 
-
 }
