@@ -30,6 +30,7 @@ namespace MusicPlayer.ViewModels
         public virtual void ShowSongSelection() { }
         public void BackToCategoryHome()
         {
+            ShowSongSelectionList = false;
             ShowSongs = false;
             ShowCategoryHome = true;
         }
@@ -53,6 +54,9 @@ namespace MusicPlayer.ViewModels
                 if (ItemCollection.All(x => x.Name != item))
                     ItemCollection.Add(new UnifiedDisplayItem(item));
             }
+            ShowSongSelectionList = false;
+            ShowSongs = false;
+            ShowCategoryHome = true;
         }
 
         public void ShowSelection()

@@ -7,14 +7,24 @@
 			 xmlns:views="clr-namespace:MusicPlayer.Views"
              x:Class="MusicPlayer.Views.SongSelectionView"
              x:DataType="vm:GenericCoverDisplay"
+			 xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+
 			 >
-	<Grid RowDefinitions="5*,95*">
-		<StackPanel Orientation="Horizontal">
-			<TextBlock>Add songs to category</TextBlock>
-			<TextBlock Text="{Binding SelectedCategory}"/>
+	<StackPanel>
+		<TextBlock HorizontalAlignment="Center" Text="{Binding SelectedCategory}"/>
+		<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+			<Button  Theme="{StaticResource BackToCategoryHomeButton}" Padding="20" Margin="10" HorizontalAlignment="Left" Command="{Binding BackToCategoryHome}"/>
+			<Button>
+				<StackPanel Orientation="Horizontal" Margin="10">
+					<mi:MaterialIcon Kind="PlusCircle"/>
+					<TextBlock >
+						Add Selected
+					</TextBlock>
+				</StackPanel>
+			</Button>
 
 		</StackPanel>
-		<ScrollViewer Grid.Row="1">
+		<ScrollViewer>
 			<ItemsControl ItemsSource="{Binding Properties.MusicFiles}"
 						 Background="Transparent"
 						 ItemTemplate="{StaticResource SongListSelectionTemplate}"
@@ -23,5 +33,5 @@
 			</ItemsControl>
 		</ScrollViewer>
 
-	</Grid>
+	</StackPanel>
 </UserControl>
