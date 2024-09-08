@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Avalonia.Controls.Notifications;
+using CommunityToolkit.Mvvm.ComponentModel;
 using MusicPlayer.Models;
 using System;
 using System.Collections;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using TagLib;
+using TagLib.Ape;
 
 namespace MusicPlayer.ViewModels
 {
@@ -28,6 +30,7 @@ namespace MusicPlayer.ViewModels
         public bool showCategoryHome = true;
         public virtual void ShowSongsInCategory(object category) { }
         public virtual void ShowSongSelection() { }
+        public virtual void AddSelectedSongs() { }
         public void BackToCategoryHome()
         {
             ShowSongSelectionList = false;
@@ -59,6 +62,38 @@ namespace MusicPlayer.ViewModels
             ShowCategoryHome = true;
         }
 
+        protected void ModifyFiles(IEnumerable songs, string category)
+        {
+            foreach (SongListItem song in songs)
+            {
+                TagLib.File tagLibFile = TagLib.File.Create(song.FilePath);
+                switch (category)
+                {
+                    case "GENRES":
+                        {
+                            tagLibFile.Tag.Genres = song.Genres.ToArray();
+                            song.Genres = tagLibFile.Tag.Genres.ToList();
+                            break;
+                        }
+                    case "ARTISTS":
+                        {
+                            tagLibFile.Tag.Album = song.Album;
+                            break;
+                        }
+                    case "ALBUM":
+                        {
+                            tagLibFile.Tag.Performers = song.Artists.ToArray();
+                            song.Artists_conc = tagLibFile.Tag.JoinedPerformers;
+                            break;
+                        }
+                    default:
+                        break;
+                }
+                tagLibFile.Save();
+                Notification notif = new Notification("File Save","Songs added successfully");
+            }
+        }
+
         public void ShowSelection()
         {
             ShowSongSelectionList = true;
@@ -66,7 +101,5 @@ namespace MusicPlayer.ViewModels
             ShowCategoryHome = false;
 
         }
-
-
     }
 }

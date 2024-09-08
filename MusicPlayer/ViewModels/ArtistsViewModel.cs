@@ -32,6 +32,24 @@ namespace MusicPlayer.ViewModels
             UpdateSongCategory(filtered);
         }
 
+
+        public override void AddSelectedSongs()
+        {
+            var selectedSongs = Properties.MusicFiles.Where(x => x.IsSelected);
+            //First we change the category that is stored inside the application
+            foreach (var song in selectedSongs)
+            {
+
+                if (!song.Artists.Contains(SelectedCategory))
+                {
+                    song.Artists.Add(SelectedCategory);
+                }
+            }
+            //Then based on the changed values we save the modifications to the file
+            ModifyFiles(selectedSongs, "ARTISTS");
+
+        }
+
         public override string ToString()
         {
             return "Artists";

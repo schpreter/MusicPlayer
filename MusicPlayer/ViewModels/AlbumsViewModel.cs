@@ -1,14 +1,8 @@
-﻿using Avalonia.Controls;
-using MusicPlayer.Models;
-using System;
+﻿using MusicPlayer.Models;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MusicPlayer.Shared;
-using CommunityToolkit.Mvvm.ComponentModel;
-using TagLib;
 
 namespace MusicPlayer.ViewModels
 {
@@ -32,6 +26,23 @@ namespace MusicPlayer.ViewModels
             SelectedCategory = (string)album;
             var filtered = Properties.MusicFiles.Where(x => x.Album == SelectedCategory);
             UpdateSongCategory(filtered);
+        }
+
+        public override void AddSelectedSongs()
+        {
+            var selectedSongs = Properties.MusicFiles.Where(x => x.IsSelected);
+            //First we change the category that is stored inside the application
+            foreach (var song in selectedSongs)
+            {
+
+                if (!song.Album.Contains(SelectedCategory))
+                {
+                    song.Album = SelectedCategory;
+                }
+            }
+            //Then based on the changed values we save the modifications to the file
+            ModifyFiles(selectedSongs, "ALBUM");
+
         }
 
         public override string ToString()

@@ -10,11 +10,11 @@
 			 xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
 
 			 >
-	<StackPanel>
-		<TextBlock HorizontalAlignment="Center" Text="{Binding SelectedCategory}"/>
-		<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+	<Grid RowDefinitions="5*,15*,80*">
+		<TextBlock HorizontalAlignment="Center" Text="{Binding SelectedCategory}" Grid.Row="0"/>
+		<StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal">
 			<Button  Theme="{StaticResource BackToCategoryHomeButton}" Padding="20" Margin="10" HorizontalAlignment="Left" Command="{Binding BackToCategoryHome}"/>
-			<Button>
+			<Button Command="{Binding AddSelectedSongs}">
 				<StackPanel Orientation="Horizontal" Margin="10">
 					<mi:MaterialIcon Kind="PlusCircle"/>
 					<TextBlock >
@@ -24,7 +24,7 @@
 			</Button>
 
 		</StackPanel>
-		<ScrollViewer>
+		<ScrollViewer Grid.Row="2">
 			<ItemsControl ItemsSource="{Binding Properties.MusicFiles}"
 						 Background="Transparent"
 						 ItemTemplate="{StaticResource SongListSelectionTemplate}"
@@ -33,5 +33,5 @@
 			</ItemsControl>
 		</ScrollViewer>
 
-	</StackPanel>
+	</Grid>
 </UserControl>
