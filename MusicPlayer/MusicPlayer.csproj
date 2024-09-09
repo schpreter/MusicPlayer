@@ -30,10 +30,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Abstracts\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Update="Views\UnifiedCategoryView.axaml.cs">
       <DependentUpon>UnifiedCategoryView.axaml</DependentUpon>
     </Compile>

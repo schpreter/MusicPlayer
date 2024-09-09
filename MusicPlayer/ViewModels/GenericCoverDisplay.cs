@@ -28,14 +28,20 @@ namespace MusicPlayer.ViewModels
 
         [ObservableProperty]
         public bool showCategoryHome = true;
-        public virtual void ShowSongsInCategory(object category) { }
-        public virtual void ShowSongSelection() { }
-        public virtual void AddSelectedSongs() { }
+        public abstract void ShowSongsInCategory(object category);
+        public abstract void AddSelectedSongs();
         public void BackToCategoryHome()
         {
             ShowSongSelectionList = false;
             ShowSongs = false;
             ShowCategoryHome = true;
+        }
+        public void ShowSelection()
+        {
+            ShowSongSelectionList = true;
+            ShowSongs = false;
+            ShowCategoryHome = false;
+
         }
 
         protected void UpdateSongCategory(IEnumerable filtered)
@@ -94,12 +100,6 @@ namespace MusicPlayer.ViewModels
             }
         }
 
-        public void ShowSelection()
-        {
-            ShowSongSelectionList = true;
-            ShowSongs = false;
-            ShowCategoryHome = false;
 
-        }
     }
 }

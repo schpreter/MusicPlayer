@@ -96,31 +96,4 @@ public partial class MainViewModel : ViewModelBase
         }
     }
 
-    public void ModifyTags()
-    {
-        string[] allowedExtensions = new[] { ".mp3" };
-        var listOfFilesInFolder = Directory.GetFiles(testFolderPath).Where(fil => allowedExtensions.Any(fil.ToLower().EndsWith));
-        var relativePaths = listOfFilesInFolder.Select(path => Path.GetFileName(path)).ToList();
-        foreach (string item in listOfFilesInFolder)
-        {
-            TagLib.File tagLibFile = TagLib.File.Create(item);
-            //SongListItem songItem = new SongListItem
-            //{
-            //    Album = tagLibFile.Tag.Album,
-            //    Title = tagLibFile.Tag.Title == null ? Path.GetFileName(item).Split('.').First() : tagLibFile.Tag.Title,
-            //    Artists = tagLibFile.Tag.Performers.ToList(),
-            //    Artists_conc = tagLibFile.Tag.JoinedPerformers,
-            //    Genres = tagLibFile.Tag.Genres.ToList(),
-            //    Year = (int)tagLibFile.Tag.Year,
-            //    Duration = TimeSpan.FromSeconds(tagLibFile.Properties.Duration.TotalSeconds),
-            //    FilePath = tagLibFile.Name
-
-            //};
-            tagLibFile.Tag.Album = "Test Album - " + Random.Shared.NextInt64();
-            tagLibFile.Save();
-        }
-        Properties.MusicFiles = MusicFileCollector.CollectFilesFromFolder(testFolderPath);
-
-    }
-
 }
