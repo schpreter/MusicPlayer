@@ -1,0 +1,21 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="350" d:DesignHeight="200"
+             x:Class="MusicPlayer.Views.NewCategoryInput">
+
+	<!--TODO: Fix dynamic background turning the view transparent-->
+	<!--In the meantime use a static color.. :/-->
+	<Border Background="DarkOliveGreen"
+			Opacity="1"
+		   CornerRadius="10">
+		<Grid RowDefinitions="0.5*,0.5*,*">
+			<Label Grid.Row="0" Padding="15">New Category:</Label>
+			<TextBox  Margin="10,0,10,0" Grid.Row="1" Watermark="Enter your new category"></TextBox>
+			<Button Cursor="Hand" Background="Green" Grid.Row="2" Padding="10" Margin="0,0,15,0" HorizontalAlignment="Right">Submit</Button>
+			<Button Cursor="Hand" Background="Salmon" Grid.Row="2"  Padding="10" Margin="15,0,0,0">Cancel</Button>
+		</Grid>
+	</Border>
+
+</UserControl>

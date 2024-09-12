@@ -33,6 +33,7 @@ namespace MusicPlayer.ViewModels
         public override void AddSelectedSongs()
         {
             var selectedSongs = Properties.MusicFiles.Where(x => x.IsSelected);
+            ToggleCategoryInputModal();
             //First we change the category that is stored inside the application
             foreach (var song in selectedSongs)
             {

@@ -28,6 +28,10 @@ namespace MusicPlayer.ViewModels
 
         [ObservableProperty]
         public bool showCategoryHome = true;
+
+        [ObservableProperty]
+        public bool newCategoryDialogOpen = false;
+
         public abstract void ShowSongsInCategory(object category);
         public abstract void AddSelectedSongs();
         public void BackToCategoryHome()
@@ -42,6 +46,11 @@ namespace MusicPlayer.ViewModels
             ShowSongs = false;
             ShowCategoryHome = false;
 
+        }
+        public void AddNewCategory()
+        {
+            SelectedCategory = null;
+            ShowSelection();
         }
 
         protected void UpdateSongCategory(IEnumerable filtered)
@@ -66,6 +75,15 @@ namespace MusicPlayer.ViewModels
             ShowSongSelectionList = false;
             ShowSongs = false;
             ShowCategoryHome = true;
+        }
+        protected void ToggleCategoryInputModal()
+        {
+            //First, if the selected category is null, we must propmt the user to select a category
+            if (SelectedCategory == null)
+            {
+                NewCategoryDialogOpen = true;
+            }
+
         }
 
         protected void ModifyFiles(IEnumerable songs, string category)
