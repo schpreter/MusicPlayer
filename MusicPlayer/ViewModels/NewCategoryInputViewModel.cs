@@ -7,8 +7,21 @@ using System.Threading.Tasks;
 
 namespace MusicPlayer.ViewModels
 {
-    public abstract partial class NewCategoryInputViewModel : ViewModelBase
+    public partial class NewCategoryInputViewModel : ViewModelBase
     {
 
+        [ObservableProperty]
+        public string newCategoryInput;
+
+        public NewCategoryInputViewModel()
+        {
+            
+        }
+        public void SubmitNewCategory()
+        {
+        }
+
+
+        public void CancelNewCategory() { }
     }
 }

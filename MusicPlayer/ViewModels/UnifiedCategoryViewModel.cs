@@ -1,17 +1,19 @@
 ﻿using Avalonia.Controls.Notifications;
 using CommunityToolkit.Mvvm.ComponentModel;
+using DialogHostAvalonia;
 using MusicPlayer.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MusicPlayer.ViewModels
 {
     public abstract partial class UnifiedCategoryViewModel : ViewModelBase
     {
-
+        protected NewCategoryInputViewModel NewCategoryInputViewModel { get; set; }
         public ObservableCollection<SongListItem> SongsByCategory { get; set; }
         public ObservableCollection<UnifiedDisplayItem> ItemCollection { get; set; }
 
@@ -74,12 +76,12 @@ namespace MusicPlayer.ViewModels
             ShowSongs = false;
             ShowCategoryHome = true;
         }
-        protected void ToggleCategoryInputModal()
+        protected async Task ToggleCategoryInputModal()
         {
             //First, if the selected category is null, we must prompt the user to select a category
             if (SelectedCategory == null)
             {
-                NewCategoryDialogOpen = true;
+                await DialogHost.Show(NewCategoryInputViewModel);
             }
 
         }

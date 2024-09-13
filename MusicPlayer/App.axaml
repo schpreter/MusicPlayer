@@ -4,11 +4,13 @@
 			 xmlns:vm="clr-namespace:MusicPlayer.ViewModels"
 			 xmlns:views="clr-namespace:MusicPlayer.Views"
 			 xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
-             RequestedThemeVariant="Dark">
+             xmlns:dialogHostAvalonia="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
+			 RequestedThemeVariant="Dark">
 	<!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
 	<Application.Styles>
 		<FluentTheme />
+		<dialogHostAvalonia:DialogHostStyles />
 	</Application.Styles>
 
 	<Application.Resources>
@@ -31,13 +33,16 @@
 		<DataTemplate DataType="{x:Type vm:UnifiedCategoryViewModel}">
 			<views:UnifiedCategoryView/>
 		</DataTemplate>
-		
+
 		<DataTemplate DataType="{x:Type vm:MusicNavigationViewModel}">
 			<views:MusicNavigationView />
 		</DataTemplate>
+		<DataTemplate DataType="{x:Type vm:NewCategoryInputViewModel}">
+			<views:NewCategoryInput />
+		</DataTemplate>
 
 	</Application.DataTemplates>
-	
+
 	<Application.Styles>
 		<mi:MaterialIconStyles />
 	</Application.Styles>

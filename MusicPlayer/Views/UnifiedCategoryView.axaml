@@ -7,72 +7,76 @@
 			 xmlns:views="clr-namespace:MusicPlayer.Views"
 			 x:Class="MusicPlayer.Views.UnifiedCategoryView"
 			 xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
-
+			 xmlns:dialogHost="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
 			 x:DataType="vm:UnifiedCategoryViewModel">
 	<Design.DataContext>
 		<vm:UnifiedCategoryViewModel />
 	</Design.DataContext>
-	<Grid>
-		<!--Category Home Page-->
-		<Grid RowDefinitions="10*,90*" IsVisible="{Binding ShowCategoryHome}">
-			<!--Add new category-->
-			<Button Grid.Row="0" HorizontalAlignment="Right" Cursor="Hand" Command="{Binding AddNewCategory}">
-				<StackPanel Orientation="Horizontal" Spacing="5">
-					<mi:MaterialIcon Kind="PlusCircle"/>
-					<TextBlock> Add New Category</TextBlock>
-				</StackPanel>
-			</Button>
+	
+	<dialogHost:DialogHost CloseOnClickAway="True">
+		<!-- put the content over which the dialog is shown here (e.g. your main window grid)-->
+		<Grid>
+			<!--Category Home Page-->
+			<Grid RowDefinitions="10*,90*" IsVisible="{Binding ShowCategoryHome}">
+				<!--Add new category-->
+				<Button Grid.Row="0" HorizontalAlignment="Right" Cursor="Hand" Command="{Binding AddNewCategory}">
+					<StackPanel Orientation="Horizontal" Spacing="5">
+						<mi:MaterialIcon Kind="PlusCircle"/>
+						<TextBlock> Add New Category</TextBlock>
+					</StackPanel>
+				</Button>
 
-			<ScrollViewer Grid.Row="1">
-				<ItemsControl ItemsSource="{Binding ItemCollection}" ItemTemplate="{StaticResource TileDisplayTemplate}">
-					<ItemsControl.ItemsPanel>
-						<ItemsPanelTemplate>
-							<WrapPanel Orientation="Horizontal" />
-						</ItemsPanelTemplate>
-					</ItemsControl.ItemsPanel>
-				</ItemsControl>
-			</ScrollViewer>
-		</Grid>
+				<ScrollViewer Grid.Row="1">
+					<ItemsControl ItemsSource="{Binding ItemCollection}" ItemTemplate="{StaticResource TileDisplayTemplate}">
+						<ItemsControl.ItemsPanel>
+							<ItemsPanelTemplate>
+								<WrapPanel Orientation="Horizontal" />
+							</ItemsPanelTemplate>
+						</ItemsControl.ItemsPanel>
+					</ItemsControl>
+				</ScrollViewer>
+			</Grid>
 
 
-		<!--Songs in the given category-->
-		<Grid RowDefinitions="10*,10*,80*" IsVisible="{Binding ShowSongs}">
+			<!--Songs in the given category-->
+			<Grid RowDefinitions="10*,10*,80*" IsVisible="{Binding ShowSongs}">
 
-			<Button Theme="{StaticResource BackToCategoryHomeButton}" Grid.Row="0" Padding="20" Margin="10" HorizontalAlignment="Left" Command="{Binding BackToCategoryHome}"/>
-			<Button Theme="{StaticResource AddNewButton}" Grid.Row="0" Padding="20" Margin="10" HorizontalAlignment="Right" Command="{Binding ShowSelection}"/>
-			<TextBlock Text="{Binding SelectedCategory}" Grid.Row="1" Padding="20" HorizontalAlignment="Center" FontSize="20"/>
-			
-			<ListBox
-				Grid.Row="2"
-		  ItemsSource="{Binding SongsByCategory}"
-		  SelectedItem="{Binding Properties.SelectedSongListItem}"
-		  SelectedIndex="{Binding Properties.SelectedSongIndex}"
-		  Background="Transparent"
-		  ItemTemplate="{StaticResource SongListDisplayTemplate}"
+				<Button Theme="{StaticResource BackToCategoryHomeButton}" Grid.Row="0" Padding="20" Margin="10" HorizontalAlignment="Left" Command="{Binding BackToCategoryHome}"/>
+				<Button Theme="{StaticResource AddNewButton}" Grid.Row="0" Padding="20" Margin="10" HorizontalAlignment="Right" Command="{Binding ShowSelection}"/>
+				<TextBlock Text="{Binding SelectedCategory}" Grid.Row="1" Padding="20" HorizontalAlignment="Center" FontSize="20"/>
+
+				<ListBox
+					Grid.Row="2"
+			  ItemsSource="{Binding SongsByCategory}"
+			  SelectedItem="{Binding Properties.SelectedSongListItem}"
+			  SelectedIndex="{Binding Properties.SelectedSongIndex}"
+			  Background="Transparent"
+			  ItemTemplate="{StaticResource SongListDisplayTemplate}"
 		  >
-				<ListBox.Styles>
-					<Style Selector="ListBoxItem">
-						<Setter Property="Background" Value="Transparent"/>
-					</Style>
-				</ListBox.Styles>
-			</ListBox>
-		</Grid>
-		
-		<!--Song selection view-->
-		<views:SongSelectionView IsVisible="{Binding ShowSongSelectionList}"/>
-		
-		<!--New category input popup-->
-		<!--<Popup IsOpen="{Binding NewCategoryDialogOpen}" VerticalAlignment="Center" HorizontalAlignment="Center">
+					<ListBox.Styles>
+						<Style Selector="ListBoxItem">
+							<Setter Property="Background" Value="Transparent"/>
+						</Style>
+					</ListBox.Styles>
+				</ListBox>
+			</Grid>
+
+			<!--Song selection view-->
+			<views:SongSelectionView IsVisible="{Binding ShowSongSelectionList}"/>
+
+			<!--New category input popup-->
+			<!--<Popup IsOpen="{Binding NewCategoryDialogOpen}" VerticalAlignment="Center" HorizontalAlignment="Center">
 			<Grid>
 				<TextBlock>Popup test</TextBlock>
 				<Button>Submit</Button>
 			</Grid>
 		</Popup>-->
-		<Border IsVisible="{Binding NewCategoryDialogOpen}">
-			<views:NewCategoryInput Width="350" Height="200"/>
-		</Border>
+			<Border IsVisible="{Binding NewCategoryDialogOpen}">
+			</Border>
 
-	</Grid>
+		</Grid>
+	</dialogHost:DialogHost>
+
 
 
 </UserControl>

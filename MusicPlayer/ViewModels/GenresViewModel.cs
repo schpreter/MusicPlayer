@@ -4,6 +4,7 @@ using System.Linq;
 using MusicPlayer.Shared;
 using TagLib.Ape;
 using System;
+using DialogHostAvalonia;
 
 namespace MusicPlayer.ViewModels
 {
@@ -11,11 +12,12 @@ namespace MusicPlayer.ViewModels
     {
 
 
-        public GenresViewModel(SharedProperties props)
+        public GenresViewModel(SharedProperties props, NewCategoryInputViewModel newCategoryInput)
         {
             ItemCollection = new ObservableCollection<UnifiedDisplayItem>();
             SongsByCategory = new ObservableCollection<SongListItem> { };
             Properties = props;
+            NewCategoryInputViewModel = newCategoryInput;
         }
         public override void RefreshContent()
         {
@@ -30,10 +32,11 @@ namespace MusicPlayer.ViewModels
             UpdateSongCategory(filtered);
         }
 
-        public override void AddSelectedSongs()
+        public override async void AddSelectedSongs()
         {
             var selectedSongs = Properties.MusicFiles.Where(x => x.IsSelected);
-            ToggleCategoryInputModal();
+            var temp = await DialogHost.Show(this.NewCategoryInputViewModel);
+            
             //First we change the category that is stored inside the application
             foreach (var song in selectedSongs)
             {
