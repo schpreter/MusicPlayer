@@ -34,22 +34,27 @@ namespace MusicPlayer.ViewModels
 
         public override async void AddSelectedSongs()
         {
-            var selectedSongs = Properties.MusicFiles.Where(x => x.IsSelected);
-            var temp = await DialogHost.Show(this.NewCategoryInputViewModel);
-            
-            //First we change the category that is stored inside the application
-            foreach (var song in selectedSongs)
+
+
+            await ToggleCategoryInputModal();
+
+            if (SelectedCategory != null)
             {
-
-                if (!song.Genres.Contains(SelectedCategory))
+                var selectedSongs = Properties.MusicFiles.Where(x => x.IsSelected);
+                //First we change the category that is stored inside the application
+                foreach (var song in selectedSongs)
                 {
-                    song.Genres.Add(SelectedCategory);
-                }
-            }
-            //Then based on the changed values we save the modifications to the file
-            ModifyFiles(selectedSongs, "GENRES");
 
+                    if (!song.Genres.Contains(SelectedCategory))
+                    {
+                        song.Genres.Add(SelectedCategory);
+                    }
+                }
+                //Then based on the changed values we save the modifications to the file
+                ModifyFiles(selectedSongs, "GENRES");
+            }
         }
+
         public override string ToString()
         {
             return "Genres";

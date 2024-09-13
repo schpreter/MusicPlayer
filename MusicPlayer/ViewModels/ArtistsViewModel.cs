@@ -11,7 +11,7 @@ namespace MusicPlayer.ViewModels
     {
         public ArtistsViewModel()
         {
-            
+
         }
         public ArtistsViewModel(SharedProperties props)
         {
@@ -33,20 +33,26 @@ namespace MusicPlayer.ViewModels
         }
 
 
-        public override void AddSelectedSongs()
+        public override async void AddSelectedSongs()
         {
-            var selectedSongs = Properties.MusicFiles.Where(x => x.IsSelected);
+            await ToggleCategoryInputModal();
             //First we change the category that is stored inside the application
-            foreach (var song in selectedSongs)
+            if (SelectedCategory != null)
             {
-
-                if (!song.Artists.Contains(SelectedCategory))
+                var selectedSongs = Properties.MusicFiles.Where(x => x.IsSelected);
+                foreach (var song in selectedSongs)
                 {
-                    song.Artists.Add(SelectedCategory);
+
+                    if (!song.Artists.Contains(SelectedCategory))
+                    {
+                        song.Artists.Add(SelectedCategory);
+                    }
                 }
+                //Then based on the changed values we save the modifications to the file
+                ModifyFiles(selectedSongs, "ARTISTS");
             }
-            //Then based on the changed values we save the modifications to the file
-            ModifyFiles(selectedSongs, "ARTISTS");
+
+
 
         }
 

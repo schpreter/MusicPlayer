@@ -13,7 +13,7 @@
 	<Grid RowDefinitions="5*,15*,80*">
 		<TextBlock HorizontalAlignment="Center" Text="{Binding SelectedCategory}" Grid.Row="0"/>
 		<StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal">
-			<Button  Theme="{StaticResource BackToCategoryHomeButton}" Padding="20" Margin="10" HorizontalAlignment="Left" Command="{Binding BackToCategoryHome}"/>
+			<Button  Theme="{StaticResource BackToCategoryHomeButton}" Padding="20" Margin="10" HorizontalAlignment="Left" Command="{Binding ShowHome}"/>
 			<Button Command="{Binding AddSelectedSongs}">
 				<StackPanel Orientation="Horizontal" Margin="10">
 					<mi:MaterialIcon Kind="PlusCircle"/>

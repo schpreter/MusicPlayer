@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using DialogHostAvalonia;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,9 +20,13 @@ namespace MusicPlayer.ViewModels
         }
         public void SubmitNewCategory()
         {
+            DialogHost.GetDialogSession("CategoryView")?.Close(NewCategoryInput);
         }
 
 
-        public void CancelNewCategory() { }
+        public void CancelNewCategory()
+        {
+            DialogHost.GetDialogSession("CategoryView")?.Close(null);
+        }
     }
 }

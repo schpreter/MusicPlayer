@@ -1,6 +1,8 @@
 ﻿using Avalonia.Controls.Notifications;
 using CommunityToolkit.Mvvm.ComponentModel;
 using DialogHostAvalonia;
+using LibVLCSharp.Shared;
+using Microsoft.VisualBasic;
 using MusicPlayer.Models;
 using System;
 using System.Collections;
@@ -34,7 +36,8 @@ namespace MusicPlayer.ViewModels
 
         public abstract void ShowSongsInCategory(object category);
         public abstract void AddSelectedSongs();
-        public void BackToCategoryHome()
+
+        public void ShowHome()
         {
             ShowSongSelectionList = false;
             ShowSongs = false;
@@ -72,16 +75,15 @@ namespace MusicPlayer.ViewModels
                 if (ItemCollection.All(x => x.Name != item))
                     ItemCollection.Add(new UnifiedDisplayItem(item));
             }
-            ShowSongSelectionList = false;
-            ShowSongs = false;
-            ShowCategoryHome = true;
+            ShowHome();
         }
-        protected async Task ToggleCategoryInputModal()
+        protected async         Task
+ToggleCategoryInputModal()
         {
             //First, if the selected category is null, we must prompt the user to select a category
             if (SelectedCategory == null)
             {
-                await DialogHost.Show(NewCategoryInputViewModel);
+                SelectedCategory = (string)await DialogHost.Show(NewCategoryInputViewModel);
             }
 
         }
@@ -114,8 +116,9 @@ namespace MusicPlayer.ViewModels
                         break;
                 }
                 tagLibFile.Save();
-                Notification notif = new Notification("File Save","Songs added successfully");
             }
+            RefreshContent();
+            ShowHome();
         }
 
 
