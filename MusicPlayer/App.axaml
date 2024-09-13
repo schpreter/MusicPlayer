@@ -28,7 +28,7 @@
 			<views:PlaylistsView/>
 		</DataTemplate>
 
-		<DataTemplate DataType="{x:Type vm:GenericCoverDisplay}">
+		<DataTemplate DataType="{x:Type vm:UnifiedCategoryViewModel}">
 			<views:UnifiedCategoryView/>
 		</DataTemplate>
 		

@@ -6,7 +6,7 @@
 			 xmlns:vm="clr-namespace:MusicPlayer.ViewModels"
 			 xmlns:views="clr-namespace:MusicPlayer.Views"
              x:Class="MusicPlayer.Views.SongSelectionView"
-             x:DataType="vm:GenericCoverDisplay"
+             x:DataType="vm:UnifiedCategoryViewModel"
 			 xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
 
 			 >

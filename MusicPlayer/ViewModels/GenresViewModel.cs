@@ -7,7 +7,7 @@ using System;
 
 namespace MusicPlayer.ViewModels
 {
-    public partial class GenresViewModel : GenericCoverDisplay
+    public partial class GenresViewModel : UnifiedCategoryViewModel
     {
 
 

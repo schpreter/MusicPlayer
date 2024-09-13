@@ -8,9 +8,9 @@
 			 x:Class="MusicPlayer.Views.UnifiedCategoryView"
 			 xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
 
-			 x:DataType="vm:GenericCoverDisplay">
+			 x:DataType="vm:UnifiedCategoryViewModel">
 	<Design.DataContext>
-		<vm:GenericCoverDisplay />
+		<vm:UnifiedCategoryViewModel />
 	</Design.DataContext>
 	<Grid>
 		<!--Category Home Page-->

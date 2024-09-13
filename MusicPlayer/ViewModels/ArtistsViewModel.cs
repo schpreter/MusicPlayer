@@ -7,7 +7,7 @@ using MusicPlayer.Shared;
 
 namespace MusicPlayer.ViewModels
 {
-    public partial class ArtistsViewModel : GenericCoverDisplay
+    public partial class ArtistsViewModel : UnifiedCategoryViewModel
     {
         public ArtistsViewModel()
         {

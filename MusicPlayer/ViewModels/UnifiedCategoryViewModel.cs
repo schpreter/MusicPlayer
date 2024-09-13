@@ -6,12 +6,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using TagLib;
-using TagLib.Ape;
 
 namespace MusicPlayer.ViewModels
 {
-    public abstract partial class GenericCoverDisplay : ViewModelBase
+    public abstract partial class UnifiedCategoryViewModel : ViewModelBase
     {
 
         public ObservableCollection<SongListItem> SongsByCategory { get; set; }
@@ -78,7 +76,7 @@ namespace MusicPlayer.ViewModels
         }
         protected void ToggleCategoryInputModal()
         {
-            //First, if the selected category is null, we must propmt the user to select a category
+            //First, if the selected category is null, we must prompt the user to select a category
             if (SelectedCategory == null)
             {
                 NewCategoryDialogOpen = true;
