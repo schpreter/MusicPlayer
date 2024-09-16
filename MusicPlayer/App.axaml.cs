@@ -32,20 +32,24 @@ public partial class App : Application
         ServiceProvider services = collection.BuildServiceProvider();
 
         MainViewModel viewModel = services.GetRequiredService<MainViewModel>();
+        //Need for tray functionality, as it can not be binded to the window datacontext
+        this.DataContext = viewModel;
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             desktop.MainWindow = new MainWindow
             {
-                DataContext = viewModel
+                DataContext = this.DataContext
             };
+            
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {
             singleViewPlatform.MainView = new MainView
             {
-                DataContext = viewModel
+                DataContext = this.DataContext
             };
         }
+       
 
         base.OnFrameworkInitializationCompleted();
     }

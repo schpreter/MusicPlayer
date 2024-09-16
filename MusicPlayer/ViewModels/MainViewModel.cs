@@ -5,10 +5,7 @@ using MusicPlayer.Data;
 using MusicPlayer.Models;
 using MusicPlayer.Shared;
 using MusicPlayer.Views;
-using System;
-using System.IO;
 using System.Linq;
-using TagLib;
 
 namespace MusicPlayer.ViewModels;
 
@@ -30,7 +27,7 @@ public partial class MainViewModel : ViewModelBase
     private readonly MainWindow mainWindow;
 
     [ObservableProperty]
-    private MusicNavigationViewModel musicNavigation;
+    public MusicNavigationViewModel musicNavigation;
 
     public MainViewModel() { }
     public MainViewModel(HomeContentViewModel homeContent,

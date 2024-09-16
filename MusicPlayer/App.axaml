@@ -5,9 +5,11 @@
 			 xmlns:views="clr-namespace:MusicPlayer.Views"
 			 xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              xmlns:dialogHostAvalonia="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
-			 RequestedThemeVariant="Dark">
-	<!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+			 RequestedThemeVariant="Dark"
+			 x:DataType="vm:MainViewModel">
 
+	<!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+	
 	<Application.Styles>
 		<FluentTheme />
 		<dialogHostAvalonia:DialogHostStyles />
@@ -47,4 +49,19 @@
 		<mi:MaterialIconStyles />
 	</Application.Styles>
 
+	<TrayIcon.Icons>
+		<TrayIcons>
+			<TrayIcon Icon="/Assets/avalonia-logo.ico"
+					  ToolTipText="Avalonia Tray Icon ToolTip">
+				<TrayIcon.Menu>
+					<NativeMenu>
+						<NativeMenuItem Header="Play/Pause" Command="{Binding MusicNavigation.PausePlayClicked}" />
+						<NativeMenuItemSeparator />
+						<NativeMenuItem Header="Next Song" Command="{Binding MusicNavigation.SkipForwardClicked}"/>
+						<NativeMenuItem Header="Prev Song" Command="{Binding MusicNavigation.SkipBackClicked}"/>
+					</NativeMenu>
+				</TrayIcon.Menu>
+			</TrayIcon>
+		</TrayIcons>
+	</TrayIcon.Icons>
 </Application>
