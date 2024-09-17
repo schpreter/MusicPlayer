@@ -19,6 +19,7 @@ namespace MusicPlayer.Models
         {
             collection.AddSingleton<SharedProperties>()
             .AddSingleton<MainWindow>()
+            .AddSingleton<ControlWidget>()
             #region ViewModels
             .AddTransient<NewCategoryInputViewModel>()
             .AddTransient<NewCategoryInputViewModel>()

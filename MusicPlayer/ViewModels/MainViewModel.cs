@@ -1,4 +1,5 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Platform;
 using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using MusicPlayer.Data;
@@ -20,6 +21,7 @@ public partial class MainViewModel : ViewModelBase
     private readonly ArtistsViewModel artistsViewModel;
     private readonly AlbumsViewModel albumsViewModel;
     private readonly GenresViewModel genresViewModel;
+    private readonly ControlWidget control;
     #region TO REMOVE
     private const string testFolderPath = "C:\\Users\\HV387FL\\School\\Szakdoga\\Musics";
     #endregion
@@ -37,6 +39,7 @@ public partial class MainViewModel : ViewModelBase
         GenresViewModel genresView,
         MusicNavigationViewModel musicNavigationView,
         MainWindow mainWindow,
+        ControlWidget controlWidget,
         SharedProperties sharedProperties)
     {
         this.Properties = sharedProperties;
@@ -47,8 +50,11 @@ public partial class MainViewModel : ViewModelBase
         this.artistsViewModel = artistsView;
         this.albumsViewModel = albumsView;
         this.genresViewModel = genresView;
-        this.mainWindow = mainWindow;
         this.musicNavigation = musicNavigationView;
+        this.control = controlWidget;
+        this.mainWindow = mainWindow;
+
+        control.Show();
     }
     private void Init()
     {
