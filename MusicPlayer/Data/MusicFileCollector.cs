@@ -1,24 +1,21 @@
-﻿using M3U8Parser;
-using MusicPlayer.Models;
+﻿using MusicPlayer.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 
 namespace MusicPlayer.Data
 {
     public static class MusicFileCollector
     {
-        private const string M3U_HEADER = "#EXTM3U";
 
 
         public static ObservableCollection<SongListItem> CollectFilesFromFolder(string folderPath)
         {
             ObservableCollection<SongListItem> returnList = new ObservableCollection<SongListItem>();
-            string[] allowedExtensions = new[] { ".flac", ".mp3", ".ogg" };
+            string[] allowedExtensions = new[] { ".flac" };
             var listOfFilesInFolder = Directory.GetFiles(folderPath).Where(fil => allowedExtensions.Any(fil.ToLower().EndsWith));
             var relativePaths = listOfFilesInFolder.Select(path => Path.GetFileName(path)).ToList();
             foreach (string item in listOfFilesInFolder)
@@ -45,26 +42,50 @@ namespace MusicPlayer.Data
 
         public static void ParsePlaylistsAndCategories(List<SongListItem> songs, string folderPath)
         {
-            string configPath = Path.Combine(folderPath, "config.m3u");
+            string configPath = Path.Combine(folderPath, "playlists.json");
 
-            if (songs.Count != 0 && Path.Exists(configPath))
+            if (!File.Exists(configPath)) File.Create(configPath);
+
+            if (songs.Count != 0)
             {
+                foreach (SongListItem songItem in songs)
+                {
+                    TagLib.File tagLibFile = TagLib.File.Create(songItem.FilePath);
+                    ParseData(tagLibFile);
 
-                var masterPlaylist = MasterPlaylist.LoadFromFile(configPath);
-                //Using string builder, assuming large collection -> more efficent than string +=
-                //TODO: Writing to M3U file, move to different method
-                //StringBuilder fileContent = new StringBuilder(M3U_HEADER);
-                //foreach (SongListItem item in songs)
-                //{
-                //    var data = item.SongMetaData;
-                //    fileContent.AppendLine($"#EXTINF:{data.Duration.TotalSeconds},{data.Artists_conc} - {data.Title}");
-                //    fileContent.AppendLine($"#EXTALB:{data.Album}");
-                //    foreach(var genre in data.Genres)
-                //    {
-                //        fileContent.AppendLine($"#EXTGENRE:{genre}");
-                //    }
-                //    fileContent.AppendLine(Path.GetFileName(data.FilePath));
-                //}
+                    //// Read
+                    //string[] myfields = custom.GetField("MY_TAG");
+                    //Console.WriteLine("First MY_TAG entry: {0}", myfields[0]);
+
+                    //// Write
+                    //customTag.SetField("MY_TAG", new string[] { "value1", "value2" });
+                    //custom.RemoveField("OTHER_FIELD");
+                    //rgFile.Save();
+                }
+
+            }
+        }
+
+        private static void ParseData(TagLib.File tagLibfile)
+        {
+
+            switch (tagLibfile.MimeType)
+            {
+                case "taglib/flac":
+                    {
+                        tagLibfile.GetTag(TagLib.TagTypes.FlacMetadata,true);
+                        break;
+                    }
+                case "taglib/ogg":
+                    {
+                        tagLibfile.GetTag(TagLib.TagTypes.Xiph,true);
+                        break;
+                    }
+                default:
+                    {
+                        tagLibfile.GetTag(TagLib.TagTypes.Id3v2, true);
+                        break;
+                    }
             }
         }
     }

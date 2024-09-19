@@ -1,4 +1,5 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Platform;
 using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -54,6 +55,9 @@ public partial class MainViewModel : ViewModelBase
         this.control = controlWidget;
         this.mainWindow = mainWindow;
 
+        PixelRect screen = this.mainWindow.Screens.Primary.WorkingArea;
+
+        control.Position = new PixelPoint((int)(screen.BottomRight.X), (int)(screen.BottomRight.Y));
         control.Show();
     }
     private void Init()

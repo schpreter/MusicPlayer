@@ -8,7 +8,9 @@
         x:Class="MusicPlayer.Views.ControlWidget"
 		x:DataType="vm:MainViewModel"
         Title="ControlWidget"
-		SystemDecorations="None">
+		SystemDecorations="None"
+		ShowInTaskbar="False"
+		Topmost="True">
 	<Window.Background>
 		<SolidColorBrush Opacity="0.5" Color="Black"/>
 	</Window.Background>
