@@ -21,8 +21,9 @@ namespace MusicPlayer.Shared
         [ObservableProperty]
         public int selectedSongIndex;
 
+        //Const for now, later user will beable to choose their own folder path
         [ObservableProperty]
-        public string sourceFolderPath;
+        public string sourceFolderPath = "C:\\Users\\HV387FL\\School\\Szakdoga\\Musics";
         public SongListItem CurrentPlayingSong { get; set; }
 
     }

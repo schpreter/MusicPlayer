@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Text;
+using TagLib.Id3v2;
 
 
 namespace MusicPlayer.Data
@@ -15,7 +17,7 @@ namespace MusicPlayer.Data
         public static ObservableCollection<SongListItem> CollectFilesFromFolder(string folderPath)
         {
             ObservableCollection<SongListItem> returnList = new ObservableCollection<SongListItem>();
-            string[] allowedExtensions = new[] { ".flac" };
+            string[] allowedExtensions = new[] { ".mp3" };
             var listOfFilesInFolder = Directory.GetFiles(folderPath).Where(fil => allowedExtensions.Any(fil.ToLower().EndsWith));
             var relativePaths = listOfFilesInFolder.Select(path => Path.GetFileName(path)).ToList();
             foreach (string item in listOfFilesInFolder)
@@ -40,13 +42,13 @@ namespace MusicPlayer.Data
             return returnList;
         }
 
-        public static void ParsePlaylistsAndCategories(List<SongListItem> songs, string folderPath)
+        public static void ParsePlaylistsAndCategories(IEnumerable<SongListItem> songs, string folderPath)
         {
             string configPath = Path.Combine(folderPath, "playlists.json");
 
             if (!File.Exists(configPath)) File.Create(configPath);
 
-            if (songs.Count != 0)
+            if (songs.Count() != 0)
             {
                 foreach (SongListItem songItem in songs)
                 {
@@ -83,7 +85,14 @@ namespace MusicPlayer.Data
                     }
                 default:
                     {
-                        tagLibfile.GetTag(TagLib.TagTypes.Id3v2, true);
+                        //Writing MP3
+                        TagLib.Id3v2.Tag tag = (TagLib.Id3v2.Tag)tagLibfile.GetTag(TagLib.TagTypes.Id3v2, true);
+                        PrivateFrame pFrame = PrivateFrame.Get(tag, "Playlists", true);
+                        pFrame.PrivateData = System.Text.Encoding.Unicode.GetBytes("Test MP3 PS");
+
+                        //Reading MP3
+                        PrivateFrame p = PrivateFrame.Get(tag, "Playlists", false); 
+                        string data = Encoding.Unicode.GetString(p.PrivateData.Data);
                         break;
                     }
             }

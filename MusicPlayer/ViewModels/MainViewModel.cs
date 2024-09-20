@@ -23,9 +23,6 @@ public partial class MainViewModel : ViewModelBase
     private readonly AlbumsViewModel albumsViewModel;
     private readonly GenresViewModel genresViewModel;
     private readonly ControlWidget control;
-    #region TO REMOVE
-    private const string testFolderPath = "C:\\Users\\HV387FL\\School\\Szakdoga\\Musics";
-    #endregion
 
     private readonly MainWindow mainWindow;
 
@@ -64,7 +61,7 @@ public partial class MainViewModel : ViewModelBase
     {
         SelectedViewModel = HomeContentViewModel;
         //Possibly remove in the end, user can input the source folder themselves
-        Properties.MusicFiles = MusicFileCollector.CollectFilesFromFolder(testFolderPath);
+        Properties.MusicFiles = MusicFileCollector.CollectFilesFromFolder(Properties.SourceFolderPath);
 
     }
     #region ViewModel Switching
@@ -103,4 +100,9 @@ public partial class MainViewModel : ViewModelBase
         }
     }
 
+
+    public void TestTagParser()
+    {
+        MusicFileCollector.ParsePlaylistsAndCategories(Properties.MusicFiles, Properties.SourceFolderPath);
+    }
 }

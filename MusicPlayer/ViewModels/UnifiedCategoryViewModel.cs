@@ -77,8 +77,7 @@ namespace MusicPlayer.ViewModels
             }
             ShowHome();
         }
-        protected async         Task
-ToggleCategoryInputModal()
+        protected async Task ToggleCategoryInputModal()
         {
             //First, if the selected category is null, we must prompt the user to select a category
             if (SelectedCategory == null)
