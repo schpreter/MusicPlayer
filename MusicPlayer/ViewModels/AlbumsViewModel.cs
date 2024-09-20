@@ -8,11 +8,12 @@ namespace MusicPlayer.ViewModels
 {
     public partial class AlbumsViewModel : UnifiedCategoryViewModel
     {
-        public AlbumsViewModel(SharedProperties props)
+        public AlbumsViewModel(SharedProperties props, NewCategoryInputViewModel newCategoryInput)
         {
             ItemCollection = new ObservableCollection<UnifiedDisplayItem>();
             SongsByCategory = new ObservableCollection<SongListItem>();
             Properties = props;
+            NewCategoryInputViewModel = newCategoryInput;
         }
 
         public override void RefreshContent()
@@ -24,13 +25,13 @@ namespace MusicPlayer.ViewModels
         public override void ShowSongsInCategory(object album)
         {
             SelectedCategory = (string)album;
-            var filtered = Properties.MusicFiles.Where(x => x.Album == SelectedCategory);
+            HashSet<SongListItem> filtered = Properties.MusicFiles.Where(x => x.Album == SelectedCategory).ToHashSet();
             UpdateSongCategory(filtered);
         }
 
         public override async void AddSelectedSongs()
         {
-            await ToggleCategoryInputModal();
+            await ToggleCategoryInputModal("album");
 
             //First we change the category that is stored inside the application
             if (SelectedCategory != null)

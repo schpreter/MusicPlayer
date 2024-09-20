@@ -1,8 +1,10 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Avalonia.Controls;
 using MusicPlayer.Models;
 using MusicPlayer.Shared;
+using MusicPlayer.Views;
 
 
 namespace MusicPlayer.ViewModels
@@ -13,29 +15,30 @@ namespace MusicPlayer.ViewModels
         {
 
         }
-        public ArtistsViewModel(SharedProperties props)
+        public ArtistsViewModel(SharedProperties props, NewCategoryInputViewModel newCategoryInput)
         {
             ItemCollection = new ObservableCollection<UnifiedDisplayItem>();
             SongsByCategory = new ObservableCollection<SongListItem>();
             Properties = props;
+            NewCategoryInputViewModel = newCategoryInput;
         }
         public override void RefreshContent()
         {
-            var Artists = Properties.MusicFiles.SelectMany(x => x.Artists).ToHashSet();
+            HashSet<string> Artists = Properties.MusicFiles.SelectMany(x => x.Artists).ToHashSet();
             RefreshCategory(Artists);
 
         }
         public override void ShowSongsInCategory(object genre)
         {
             SelectedCategory = (string)genre;
-            var filtered = Properties.MusicFiles.Where(x => x.Artists.Contains(SelectedCategory));
+            HashSet<SongListItem> filtered = Properties.MusicFiles.Where(x => x.Artists.Contains(SelectedCategory)).ToHashSet();
             UpdateSongCategory(filtered);
         }
 
 
         public override async void AddSelectedSongs()
         {
-            await ToggleCategoryInputModal();
+            await ToggleCategoryInputModal("artist");
             //First we change the category that is stored inside the application
             if (SelectedCategory != null)
             {

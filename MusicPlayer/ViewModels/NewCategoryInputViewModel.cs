@@ -14,6 +14,12 @@ namespace MusicPlayer.ViewModels
         [ObservableProperty]
         public string newCategoryInput;
 
+        [ObservableProperty]
+        public string description;
+
+        [ObservableProperty]
+        public string title;
+
         public NewCategoryInputViewModel()
         {
             

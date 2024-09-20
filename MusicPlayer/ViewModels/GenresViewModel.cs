@@ -5,6 +5,7 @@ using MusicPlayer.Shared;
 using TagLib.Ape;
 using System;
 using DialogHostAvalonia;
+using System.Collections.Generic;
 
 namespace MusicPlayer.ViewModels
 {
@@ -21,22 +22,21 @@ namespace MusicPlayer.ViewModels
         }
         public override void RefreshContent()
         {
-            var Genres = Properties.MusicFiles.SelectMany(x => x.Genres).ToHashSet();
+            HashSet<string> Genres = Properties.MusicFiles.SelectMany(x => x.Genres).ToHashSet();
             RefreshCategory(Genres);
 
         }
         public override void ShowSongsInCategory(object genre)
         {
             SelectedCategory = (string)genre;
-            var filtered = Properties.MusicFiles.Where(x => x.Genres.Contains(SelectedCategory));
+            HashSet<SongListItem> filtered = Properties.MusicFiles.Where(x => x.Genres.Contains(SelectedCategory)).ToHashSet();
             UpdateSongCategory(filtered);
         }
 
         public override async void AddSelectedSongs()
         {
 
-
-            await ToggleCategoryInputModal();
+            await ToggleCategoryInputModal("genre");
 
             if (SelectedCategory != null)
             {

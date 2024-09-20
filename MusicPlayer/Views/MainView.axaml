@@ -18,7 +18,6 @@
 			<Menu>
 				<MenuItem DockPanel.Dock="Top" Header="_Settings">
 					<MenuItem  Header="Set Input Folder" Command="{Binding SetInputFolder}"></MenuItem>
-					<MenuItem  Header="Tag PArser - TEST" Command="{Binding TestTagParser}"></MenuItem>
 				</MenuItem>
 			</Menu>
 		</DockPanel>

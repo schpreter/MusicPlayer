@@ -99,10 +99,4 @@ public partial class MainViewModel : ViewModelBase
             Properties.MusicFiles = MusicFileCollector.CollectFilesFromFolder(selectedFolder.First().TryGetLocalPath());
         }
     }
-
-
-    public void TestTagParser()
-    {
-        MusicFileCollector.ParsePlaylistsAndCategories(Properties.MusicFiles, Properties.SourceFolderPath);
-    }
 }

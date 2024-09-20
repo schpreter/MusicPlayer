@@ -56,7 +56,7 @@ namespace MusicPlayer.ViewModels
             ShowSelection();
         }
 
-        protected void UpdateSongCategory(IEnumerable filtered)
+        protected void UpdateSongCategory(HashSet<SongListItem> filtered)
         {
             SongsByCategory.Clear();
             foreach (var item in filtered)
@@ -72,16 +72,17 @@ namespace MusicPlayer.ViewModels
             ItemCollection.Clear();
             foreach (var item in set)
             {
-                if (ItemCollection.All(x => x.Name != item))
-                    ItemCollection.Add(new UnifiedDisplayItem(item));
+                ItemCollection.Add(new UnifiedDisplayItem(item));
             }
             ShowHome();
         }
-        protected async Task ToggleCategoryInputModal()
+        protected async Task ToggleCategoryInputModal(string categoryType)
         {
             //First, if the selected category is null, we must prompt the user to select a category
             if (SelectedCategory == null)
             {
+                NewCategoryInputViewModel.Title = $"New {categoryType}:";
+                NewCategoryInputViewModel.Description = $"Enter your new {categoryType}.";
                 SelectedCategory = (string)await DialogHost.Show(NewCategoryInputViewModel);
             }
 
@@ -109,6 +110,11 @@ namespace MusicPlayer.ViewModels
                         {
                             tagLibFile.Tag.Performers = song.Artists.ToArray();
                             song.Artists_conc = tagLibFile.Tag.JoinedPerformers;
+                            break;
+                        }
+                        //This is where the file format matters, just like during parsing
+                    case "PLAYLISTS":
+                        {
                             break;
                         }
                     default:

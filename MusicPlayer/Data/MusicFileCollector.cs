@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using System.Text.RegularExpressions;
 using TagLib.Id3v2;
 
 
@@ -13,13 +15,12 @@ namespace MusicPlayer.Data
     public static class MusicFileCollector
     {
 
-
         public static ObservableCollection<SongListItem> CollectFilesFromFolder(string folderPath)
         {
             ObservableCollection<SongListItem> returnList = new ObservableCollection<SongListItem>();
-            string[] allowedExtensions = new[] { ".mp3" };
+            string[] allowedExtensions = [".ogg",".mp3",".flac"];
             var listOfFilesInFolder = Directory.GetFiles(folderPath).Where(fil => allowedExtensions.Any(fil.ToLower().EndsWith));
-            var relativePaths = listOfFilesInFolder.Select(path => Path.GetFileName(path)).ToList();
+
             foreach (string item in listOfFilesInFolder)
             {
                 TagLib.File tagLibFile = TagLib.File.Create(item);
@@ -33,6 +34,7 @@ namespace MusicPlayer.Data
                     Year = (int)tagLibFile.Tag.Year,
                     Duration = TimeSpan.FromSeconds(tagLibFile.Properties.Duration.TotalSeconds),
                     FilePath = tagLibFile.Name,
+                    PlayLists = ParseData(tagLibFile),
                     IsSelected = false
 
                 };
@@ -42,58 +44,45 @@ namespace MusicPlayer.Data
             return returnList;
         }
 
-        public static void ParsePlaylistsAndCategories(IEnumerable<SongListItem> songs, string folderPath)
-        {
-            string configPath = Path.Combine(folderPath, "playlists.json");
-
-            if (!File.Exists(configPath)) File.Create(configPath);
-
-            if (songs.Count() != 0)
-            {
-                foreach (SongListItem songItem in songs)
-                {
-                    TagLib.File tagLibFile = TagLib.File.Create(songItem.FilePath);
-                    ParseData(tagLibFile);
-
-                    //// Read
-                    //string[] myfields = custom.GetField("MY_TAG");
-                    //Console.WriteLine("First MY_TAG entry: {0}", myfields[0]);
-
-                    //// Write
-                    //customTag.SetField("MY_TAG", new string[] { "value1", "value2" });
-                    //custom.RemoveField("OTHER_FIELD");
-                    //rgFile.Save();
-                }
-
-            }
-        }
-
-        private static void ParseData(TagLib.File tagLibfile)
+        private static List<string> ParseData(TagLib.File tagLibfile)
         {
 
             switch (tagLibfile.MimeType)
             {
-                case "taglib/flac":
+                case "taglib/mp3":
                     {
-                        tagLibfile.GetTag(TagLib.TagTypes.FlacMetadata,true);
-                        break;
-                    }
-                case "taglib/ogg":
-                    {
-                        tagLibfile.GetTag(TagLib.TagTypes.Xiph,true);
-                        break;
+                        TagLib.Id3v2.Tag tag = (TagLib.Id3v2.Tag)tagLibfile.GetTag(TagLib.TagTypes.Id3v2, true);
+                        //Writing MP3
+                        //PrivateFrame pFrame = PrivateFrame.Get(tag, "Playlists", true);
+                        //pFrame.PrivateData = System.Text.Encoding.Unicode.GetBytes("Test MP3 PS");
+
+
+                        //Reading MP3
+                        PrivateFrame pFrame = PrivateFrame.Get(tag, "Playlists", true);
+
+
+                        //Delimiter will be ; and if the user decides to put that in the playlist name
+                        //During storage it will be escaped with \\
+                        if(pFrame.PrivateData == null)
+                            return new List<string>();
+                        string data = Encoding.Unicode.GetString(pFrame.PrivateData.Data);
+
+                        List<string> list = Regex.Split(data, @"(?<!\\);").ToList();
+                        //During write EVERY ; in the playlist name needs to be replaced with \;
+                        //So theoretically if the user adds \; it will become \\; which hopefully wont turn into an esc character
+                        list.ForEach(x => x.Replace(@"\;", ";"));
+                        return list;
+
                     }
                 default:
                     {
-                        //Writing MP3
-                        TagLib.Id3v2.Tag tag = (TagLib.Id3v2.Tag)tagLibfile.GetTag(TagLib.TagTypes.Id3v2, true);
-                        PrivateFrame pFrame = PrivateFrame.Get(tag, "Playlists", true);
-                        pFrame.PrivateData = System.Text.Encoding.Unicode.GetBytes("Test MP3 PS");
+                        var tag = (TagLib.Ogg.XiphComment)tagLibfile.GetTag(TagLib.TagTypes.Xiph, true);
 
-                        //Reading MP3
-                        PrivateFrame p = PrivateFrame.Get(tag, "Playlists", false); 
-                        string data = Encoding.Unicode.GetString(p.PrivateData.Data);
-                        break;
+                        //Write Flac and OGG
+                        //tag.SetField("Playlists", new string[] { "PS1", "PS2" });
+
+                        //Read Flac and OGG
+                        return tag.GetField("Playlists").ToList();
                     }
             }
         }
