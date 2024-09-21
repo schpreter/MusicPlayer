@@ -16,15 +16,15 @@
 	</Design.DataContext>
 	<dialogHost:DialogHost CloseOnClickAway="True" Identifier="CategoryView">
 
-		<Grid RowDefinitions="*,*,*">
-			<Button Grid.Row="0" HorizontalAlignment="Right" Cursor="Hand" Command="{Binding AddNewCategory}">
+		<Grid RowDefinitions="10*,80*,10*">
+			<Button  IsVisible="{Binding ShowCategoryHome}" Grid.Row="0" HorizontalAlignment="Right" Cursor="Hand" Command="{Binding AddNewCategory}">
 				<StackPanel Orientation="Horizontal" Spacing="5">
 					<mi:MaterialIcon Kind="PlusCircle"/>
 					<TextBlock> Add New Playlist</TextBlock>
 				</StackPanel>
 			</Button>
-			<TextBlock Grid.Row="1" IsVisible="{Binding !Playlists.Count}" VerticalAlignment="Center" HorizontalAlignment="Center">No Playlists Found :(</TextBlock>
-			<StackPanel Grid.Row="1" IsVisible="{Binding Playlists.Count}" Margin="20">
+			<!--<TextBlock Grid.Row="1" IsVisible="{Binding !ItemCollection.Count}" VerticalAlignment="Center" HorizontalAlignment="Center">No Playlists Found :(</TextBlock>-->
+			<StackPanel Grid.Row="1" IsVisible="{Binding ShowCategoryHome}" Margin="20">
 				<ItemsControl ItemsSource="{Binding ItemCollection}" >
 					<ItemsControl.ItemTemplate>
 						<DataTemplate>
@@ -41,6 +41,7 @@
 					</ItemsControl.ItemTemplate>
 				</ItemsControl>
 			</StackPanel>
+			<views:SongSelectionView Grid.Row="1" IsVisible="{Binding ShowSongSelectionList}"/>
 
 		</Grid>
 	</dialogHost:DialogHost>

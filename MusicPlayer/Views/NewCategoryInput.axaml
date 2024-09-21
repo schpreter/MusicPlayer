@@ -10,7 +10,7 @@
 
 	<Grid RowDefinitions="0.5*,0.5*,*">
 		<Label Grid.Row="0" Padding="15" Content="{Binding Title}"/>
-		<TextBox  Margin="10,0,10,0" Grid.Row="1" Watermark="{Binding Description}"/>
+		<TextBox  Margin="10,0,10,0" Grid.Row="1" Watermark="{Binding Description}" Text="{Binding NewCategoryInput}"/>
 		<Button
 			Cursor="Hand"
 			Background="Green"

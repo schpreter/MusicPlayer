@@ -9,7 +9,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text.RegularExpressions;
+using System.Text;
 using System.Threading.Tasks;
+using TagLib.Id3v2;
 
 namespace MusicPlayer.ViewModels
 {
@@ -61,7 +64,7 @@ namespace MusicPlayer.ViewModels
             SongsByCategory.Clear();
             foreach (var item in filtered)
             {
-                SongsByCategory.Add((SongListItem)item);
+                SongsByCategory.Add(item);
             }
             ShowSongs = true;
             ShowCategoryHome = false;
@@ -115,6 +118,7 @@ namespace MusicPlayer.ViewModels
                         //This is where the file format matters, just like during parsing
                     case "PLAYLISTS":
                         {
+                            ModifyPlaylistTag(song.PlayLists,tagLibFile);
                             break;
                         }
                     default:
@@ -126,6 +130,46 @@ namespace MusicPlayer.ViewModels
             ShowHome();
         }
 
+        private void ModifyPlaylistTag(List<string> playlists, TagLib.File tagLibFile)
+        {
+            switch (tagLibFile.MimeType)
+            {
+                case "taglib/mp3":
+                    {
+                        TagLib.Id3v2.Tag tag = (TagLib.Id3v2.Tag)tagLibFile.GetTag(TagLib.TagTypes.Id3v2, true);
+                        //Writing MP3
+                        //PrivateFrame pFrame = PrivateFrame.Get(tag, "Playlists", true);
+                        //pFrame.PrivateData = System.Text.Encoding.Unicode.GetBytes("Test MP3 PS");
+
+
+                        //Reading MP3
+                        PrivateFrame pFrame = PrivateFrame.Get(tag, "Playlists", true);
+                        string data = Encoding.Unicode.GetString(pFrame.PrivateData.Data);
+                        List<string> list = new List<string>();
+                        //If there is actual data in the private frame, parse it
+                        if (data != null)
+                        {
+                            list = Regex.Split(data, @"(?<!\\);").ToList();
+                        }
+                        //Clean user input
+                        var cleaned = playlists;
+                        cleaned.ForEach(x => x.Replace(";", @"\;"));
+                        
+                        pFrame.PrivateData = Encoding.Unicode.GetBytes(string.Join(';',list.Union(cleaned)));
+                        break;
+                    }
+                default:
+                    {
+                        var tag = (TagLib.Ogg.XiphComment)tagLibFile.GetTag(TagLib.TagTypes.Xiph, true);
+                        //Using union get an IEnumerable to distinct playlist names -> playlist names hsould be unique therefore
+                        var filtered = tag.GetField("Playlists").Union(playlists);
+                        
+                        tag.SetField("Playlists", filtered.ToArray());
+
+                        break;
+                    }
+            }
+        }
 
     }
 }

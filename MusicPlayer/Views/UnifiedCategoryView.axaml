@@ -14,7 +14,6 @@
 	</Design.DataContext>
 	
 	<dialogHost:DialogHost CloseOnClickAway="True" Identifier="CategoryView">
-		<!-- put the content over which the dialog is shown here (e.g. your main window grid)-->
 		<Grid>
 			<!--Category Home Page-->
 			<Grid RowDefinitions="10*,90*" IsVisible="{Binding ShowCategoryHome}">
