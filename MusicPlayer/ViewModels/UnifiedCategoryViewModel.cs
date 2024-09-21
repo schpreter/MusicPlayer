@@ -1,10 +1,6 @@
-﻿using Avalonia.Controls.Notifications;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using DialogHostAvalonia;
-using LibVLCSharp.Shared;
-using Microsoft.VisualBasic;
 using MusicPlayer.Models;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -137,20 +133,20 @@ namespace MusicPlayer.ViewModels
                 case "taglib/mp3":
                     {
                         TagLib.Id3v2.Tag tag = (TagLib.Id3v2.Tag)tagLibFile.GetTag(TagLib.TagTypes.Id3v2, true);
-                        //Writing MP3
-                        //PrivateFrame pFrame = PrivateFrame.Get(tag, "Playlists", true);
-                        //pFrame.PrivateData = System.Text.Encoding.Unicode.GetBytes("Test MP3 PS");
-
-
-                        //Reading MP3
                         PrivateFrame pFrame = PrivateFrame.Get(tag, "Playlists", true);
-                        string data = Encoding.Unicode.GetString(pFrame.PrivateData.Data);
+
                         List<string> list = new List<string>();
+                        
                         //If there is actual data in the private frame, parse it
-                        if (data != null)
+                        if (pFrame.PrivateData != null)
                         {
-                            list = Regex.Split(data, @"(?<!\\);").ToList();
+                            string data = Encoding.Unicode.GetString(pFrame.PrivateData.Data);
+                            if (data != null)
+                            {
+                                list = Regex.Split(data, @"(?<!\\);").ToList();
+                            }
                         }
+
                         //Clean user input
                         var cleaned = playlists;
                         cleaned.ForEach(x => x.Replace(";", @"\;"));
@@ -163,9 +159,8 @@ namespace MusicPlayer.ViewModels
                         var tag = (TagLib.Ogg.XiphComment)tagLibFile.GetTag(TagLib.TagTypes.Xiph, true);
                         //Using union get an IEnumerable to distinct playlist names -> playlist names hsould be unique therefore
                         var filtered = tag.GetField("Playlists").Union(playlists);
-                        
-                        tag.SetField("Playlists", filtered.ToArray());
 
+                        tag.SetField("Playlists", filtered.ToArray());
                         break;
                     }
             }
