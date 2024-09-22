@@ -38,7 +38,7 @@
 
 
 			<!--Songs in the given category-->
-			<Grid RowDefinitions="10*,10*,80*" IsVisible="{Binding ShowSongs}">
+			<!--<Grid RowDefinitions="10*,10*,80*" IsVisible="{Binding ShowSongs}">
 
 				<Button Theme="{StaticResource BackToCategoryHomeButton}" Grid.Row="0" Padding="20" Margin="10" HorizontalAlignment="Left" Command="{Binding ShowHome}"/>
 				<Button Theme="{StaticResource AddNewButton}" Grid.Row="0" Padding="20" Margin="10" HorizontalAlignment="Right" Command="{Binding ShowSelection}"/>
@@ -58,8 +58,8 @@
 						</Style>
 					</ListBox.Styles>
 				</ListBox>
-			</Grid>
-
+			</Grid>-->
+			<views:SongsInCategoryView IsVisible="{Binding ShowSongs}"/>
 			<!--Song selection view-->
 			<views:SongSelectionView IsVisible="{Binding ShowSongSelectionList}"/>
 

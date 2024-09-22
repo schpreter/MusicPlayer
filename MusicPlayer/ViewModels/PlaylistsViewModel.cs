@@ -19,7 +19,8 @@ namespace MusicPlayer.ViewModels
         public PlaylistsViewModel(SharedProperties props, NewCategoryInputViewModel newCategoryInput)
         {
             ItemCollection = new ObservableCollection<UnifiedDisplayItem>();
-            this.Properties = props;
+            SongsByCategory = new ObservableCollection<SongListItem> { };
+            Properties = props;
             NewCategoryInputViewModel = newCategoryInput;
 
         }

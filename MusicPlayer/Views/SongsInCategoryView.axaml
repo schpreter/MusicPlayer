@@ -1,0 +1,33 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:vm="clr-namespace:MusicPlayer.ViewModels"
+			 xmlns:views="clr-namespace:MusicPlayer.Views"
+             x:Class="MusicPlayer.Views.SongsInCategoryView"
+			 x:DataType="vm:UnifiedCategoryViewModel">
+
+	<Grid RowDefinitions="10*,10*,80*">
+
+		<Button Theme="{StaticResource BackToCategoryHomeButton}" Grid.Row="0" Padding="20" Margin="10" HorizontalAlignment="Left" Command="{Binding ShowHome}"/>
+		<Button Theme="{StaticResource AddNewButton}" Grid.Row="0" Padding="20" Margin="10" HorizontalAlignment="Right" Command="{Binding ShowSelection}"/>
+		<TextBlock Text="{Binding SelectedCategory}" Grid.Row="1" Padding="20" HorizontalAlignment="Center" FontSize="20"/>
+
+		<ListBox
+			Grid.Row="2"
+	  ItemsSource="{Binding SongsByCategory}"
+	  SelectedItem="{Binding Properties.SelectedSongListItem}"
+	  SelectedIndex="{Binding Properties.SelectedSongIndex}"
+	  Background="Transparent"
+	  ItemTemplate="{StaticResource SongListDisplayTemplate}"
+		  >
+			<ListBox.Styles>
+				<Style Selector="ListBoxItem">
+					<Setter Property="Background" Value="Transparent"/>
+				</Style>
+			</ListBox.Styles>
+		</ListBox>
+	</Grid>
+
+</UserControl>
