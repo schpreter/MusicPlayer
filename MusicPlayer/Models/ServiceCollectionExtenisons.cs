@@ -21,7 +21,7 @@ namespace MusicPlayer.Models
             .AddSingleton<MainWindow>()
             .AddSingleton<ControlWidget>()
             #region ViewModels
-            .AddTransient<NewCategoryInputViewModel>()
+            .AddTransient<AuthorizationObject>()
             .AddTransient<NewCategoryInputViewModel>()
             .AddTransient<HomeContentViewModel>()
             .AddTransient<PlaylistsViewModel>()

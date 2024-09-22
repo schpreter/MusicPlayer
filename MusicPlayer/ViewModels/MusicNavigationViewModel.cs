@@ -26,7 +26,7 @@ namespace MusicPlayer.ViewModels
 
         public void ShuffleClicked()
         {
-            throw new NotImplementedException();
+            
         }
         public void SkipBackClicked()
         {
@@ -43,7 +43,6 @@ namespace MusicPlayer.ViewModels
         }
         public void RepeatClicked()
         {
-            throw new NotImplementedException();
         }
         private void PlaySong()
         {

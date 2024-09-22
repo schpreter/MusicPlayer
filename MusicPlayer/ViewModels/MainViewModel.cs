@@ -3,11 +3,23 @@ using Avalonia.Controls;
 using Avalonia.Platform;
 using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.AspNetCore.WebUtilities;
+using MusicPlayer.Authorization;
 using MusicPlayer.Data;
 using MusicPlayer.Models;
 using MusicPlayer.Shared;
 using MusicPlayer.Views;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Threading.Tasks;
+using static System.Formats.Asn1.AsnWriter;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MusicPlayer.ViewModels;
 
@@ -16,13 +28,16 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty]
     private ViewModelBase selectedViewModel;
 
+    static readonly HttpClient client = new HttpClient();
+
     [ObservableProperty]
-    private  HomeContentViewModel homeContentViewModel;
+    private HomeContentViewModel homeContentViewModel;
     private readonly PlaylistsViewModel playlistsViewModel;
     private readonly ArtistsViewModel artistsViewModel;
     private readonly AlbumsViewModel albumsViewModel;
     private readonly GenresViewModel genresViewModel;
     private readonly ControlWidget control;
+    private AuthorizationObject authorization;
 
     private readonly MainWindow mainWindow;
 
@@ -31,6 +46,7 @@ public partial class MainViewModel : ViewModelBase
 
     public MainViewModel() { }
     public MainViewModel(HomeContentViewModel homeContent,
+        AuthorizationObject authorizationObject,
         PlaylistsViewModel playlistsView,
         ArtistsViewModel artistsView,
         AlbumsViewModel albumsView,
@@ -40,16 +56,17 @@ public partial class MainViewModel : ViewModelBase
         ControlWidget controlWidget,
         SharedProperties sharedProperties)
     {
-        this.Properties = sharedProperties;
-        this.HomeContentViewModel = homeContent;
+        Properties = sharedProperties;
+        HomeContentViewModel = homeContent;
+        authorization = authorizationObject;
         Init();
 
-        this.playlistsViewModel = playlistsView;
-        this.artistsViewModel = artistsView;
-        this.albumsViewModel = albumsView;
-        this.genresViewModel = genresView;
-        this.musicNavigation = musicNavigationView;
-        this.control = controlWidget;
+        playlistsViewModel = playlistsView;
+        artistsViewModel = artistsView;
+        albumsViewModel = albumsView;
+        genresViewModel = genresView;
+        musicNavigation = musicNavigationView;
+        control = controlWidget;
         this.mainWindow = mainWindow;
 
         PixelRect screen = this.mainWindow.Screens.Primary.WorkingArea;
@@ -91,7 +108,9 @@ public partial class MainViewModel : ViewModelBase
 
     }
     #endregion
-    public async void SetInputFolder()
+
+    #region Menu Methods
+    public async void SetInputFolderAsync()
     {
         var selectedFolder = await TopLevel.GetTopLevel(mainWindow).StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions { AllowMultiple = false, Title = "Select Input Folder" });
         if (selectedFolder.Count > 0)
@@ -99,4 +118,126 @@ public partial class MainViewModel : ViewModelBase
             Properties.MusicFiles = MusicFileCollector.CollectFilesFromFolder(selectedFolder.First().TryGetLocalPath());
         }
     }
+
+    public async void AuthorizeUserAsync()
+    {
+        var authUrl = "https://accounts.spotify.com/authorize";
+        var codeVerifier = PKCEExtension.GenerateRandomString(64);
+        byte[] bytes = Encoding.UTF8.GetBytes(codeVerifier);
+
+        var hashed = PKCEExtension.GenerateSHA256(bytes);
+
+        var codeChallenge = PKCEExtension.GenerateCodeChallenge(hashed);
+        authorization.CodeChallenge = codeChallenge;
+
+        authUrl = QueryHelpers.AddQueryString(authUrl, new Dictionary<string, string>()
+        {
+            {"response_type" , authorization.ResponseType },
+            {"client_id" , authorization.ClientID },
+            {"scope" , authorization.Scope },
+            {"code_challenge_method" , authorization.CodeChallengeMethod },
+            {"code_challenge" , authorization.CodeChallenge },
+            {"redirect_uri" , authorization.RedirectUri },
+        });
+        Process.Start(new ProcessStartInfo
+        {
+            FileName = authUrl,
+            UseShellExecute = true
+        });
+
+        var context = await StartCallbackListener(codeVerifier);
+
+        // This is the code from Spotify API
+        var codeToRetrieve = context.Request.QueryString["code"];
+        if (codeToRetrieve != null)
+        {
+            string accessToken = await GetAccessToken(codeToRetrieve, codeVerifier);
+            string profile = await FetchProfile(accessToken);
+        }
+
+        //try
+        //{
+        //    //using HttpResponseMessage response = await client.GetAsync(authUrl);
+        //    //response.EnsureSuccessStatusCode();
+        //    //string responseBody = await response.Content.ReadAsStringAsync();
+        //    // Above three lines can be replaced with new helper method below
+        //    string responseBody = await client.GetStringAsync(authUrl);
+
+        //    Console.WriteLine(responseBody);
+        //}
+        //catch (HttpRequestException e)
+        //{
+        //    Console.WriteLine("\nException Caught!");
+        //    Console.WriteLine("Message :{0} ", e.Message);
+        //}
+
+
+    }
+
+
+
+    private async Task<HttpListenerContext> StartCallbackListener(string verifier)
+    {
+        HttpListener listener = new HttpListener();
+        listener.Prefixes.Add(authorization.RedirectUri + "/");
+        listener.Start();
+        var context = await listener.GetContextAsync();
+        listener.Stop();
+        return context;
+
+    }
+    private async Task<string> GetAccessToken(string code, string verifier)
+    {
+        string url = "https://accounts.spotify.com/api/token";
+        string query = "";
+        query = QueryHelpers.AddQueryString(query, new Dictionary<string, string>()
+        {
+            {"client_id" , authorization.ClientID },
+            {"grant_type" , "authorization_code" },
+            {"code", code },
+            {"redirect_uri" , authorization.RedirectUri },
+            {"code_verifier" , verifier },
+        });
+        using StringContent content = new StringContent(query);
+
+        //Setting the header's content type   
+        content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
+
+        //Post the content to the API    
+        var response = await client.PostAsync(url, content);
+
+        //try
+        //{
+        //    //using HttpResponseMessage response = await client.GetAsync(authUrl);
+        //    //response.EnsureSuccessStatusCode();
+        //    //string responseBody = await response.Content.ReadAsStringAsync();
+        //    // Above three lines can be replaced with new helper method below
+        //    string responseBody = await client.GetStringAsync(url);
+
+        //    Console.WriteLine(responseBody);
+        //}
+        //catch (HttpRequestException e)
+        //{
+        //    Console.WriteLine("\nException Caught!");
+        //    Console.WriteLine("Message :{0} ", e.Message);
+        //}
+        return null;
+    }
+
+    private async Task<string> FetchProfile(string token)
+    {
+        return null;
+
+    }
+
+    #endregion
+
+    //public void OpenBrowser()
+    //{
+    //    Process.Start(new ProcessStartInfo
+    //    {
+    //        FileName = "http://www.google.com",
+    //        UseShellExecute = true
+    //    });
+    //}
 }

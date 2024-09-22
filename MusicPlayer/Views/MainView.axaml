@@ -17,8 +17,19 @@
 		<DockPanel Height="10" Grid.Row="0">
 			<Menu>
 				<MenuItem DockPanel.Dock="Top" Header="_Settings">
-					<MenuItem  Header="Set Input Folder" Command="{Binding SetInputFolder}"></MenuItem>
+					<MenuItem  Header="Set Input Folder" Command="{Binding SetInputFolderAsync}">
+						<MenuItem.Icon>
+							<mi:MaterialIcon Kind="Folder"/>
+						</MenuItem.Icon>
+					</MenuItem>
+					<MenuItem  Header="Link Spotify Account" Command="{Binding AuthorizeUserAsync}">
+						<MenuItem.Icon>
+							<mi:MaterialIcon Kind="Spotify"/>
+						</MenuItem.Icon>
+					</MenuItem>
 				</MenuItem>
+
+
 			</Menu>
 		</DockPanel>
 

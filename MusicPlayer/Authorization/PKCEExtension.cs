@@ -24,11 +24,16 @@ namespace MusicPlayer.Authorization
             return sb.ToString();
         }
 
-        public static string GenerateCodeChallenge(string rawInput)
+        public static byte[] GenerateSHA256(byte[] data)
         {
             using SHA256 sha256 = SHA256.Create();
-            byte[] bytes = Encoding.UTF8.GetBytes(rawInput);
-            return Convert.ToBase64String(sha256.ComputeHash(bytes));
+            
+            return sha256.ComputeHash(data);
+        }
+
+        public static string GenerateCodeChallenge(byte[] data)
+        {
+            return Convert.ToBase64String(GenerateSHA256(data));
         }
 
     }
