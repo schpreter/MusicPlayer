@@ -9,6 +9,7 @@ using MusicPlayer.Data;
 using MusicPlayer.Models;
 using MusicPlayer.Shared;
 using MusicPlayer.Views;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,8 +19,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using static System.Formats.Asn1.AsnWriter;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+
 
 namespace MusicPlayer.ViewModels;
 
@@ -122,12 +122,10 @@ public partial class MainViewModel : ViewModelBase
     public async void AuthorizeUserAsync()
     {
         var authUrl = "https://accounts.spotify.com/authorize";
-        var codeVerifier = PKCEExtension.GenerateRandomString(64);
+        var codeVerifier = PKCEExtension.GenerateCodeVerifier(64);
         byte[] bytes = Encoding.UTF8.GetBytes(codeVerifier);
 
-        var hashed = PKCEExtension.GenerateSHA256(bytes);
-
-        var codeChallenge = PKCEExtension.GenerateCodeChallenge(hashed);
+        var codeChallenge = PKCEExtension.GenerateCodeChallenge(bytes);
         authorization.CodeChallenge = codeChallenge;
 
         authUrl = QueryHelpers.AddQueryString(authUrl, new Dictionary<string, string>()
@@ -190,15 +188,25 @@ public partial class MainViewModel : ViewModelBase
     {
         string url = "https://accounts.spotify.com/api/token";
         string query = "";
-        query = QueryHelpers.AddQueryString(query, new Dictionary<string, string>()
-        {
-            {"client_id" , authorization.ClientID },
-            {"grant_type" , "authorization_code" },
-            {"code", code },
-            {"redirect_uri" , authorization.RedirectUri },
-            {"code_verifier" , verifier },
-        });
-        using StringContent content = new StringContent(query);
+        //query = QueryHelpers.AddQueryString(query, new Dictionary<string, string>()
+        //{
+        //    {"client_id" , authorization.ClientID },
+        //    {"grant_type" , "authorization_code" },
+        //    {"code", code },
+        //    {"redirect_uri" , authorization.RedirectUri },
+        //    {"code_verifier" , verifier },
+        //});
+
+        using FormUrlEncodedContent content = new FormUrlEncodedContent(
+            new List<KeyValuePair<string, string>>()
+            {
+                new KeyValuePair<string, string> ( "client_id", authorization.ClientID ),
+                new KeyValuePair<string, string> ( "grant_type", "authorization_code" ),
+                new KeyValuePair<string, string> ( "code", code ),
+                new KeyValuePair<string, string> ( "redirect_uri" , authorization.RedirectUri ),
+                new KeyValuePair<string, string> ( "code_verifier" , verifier ),
+            }
+            );
 
         //Setting the header's content type   
         content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
@@ -206,6 +214,7 @@ public partial class MainViewModel : ViewModelBase
         //Post the content to the API    
         var response = await client.PostAsync(url, content);
 
+        AuthorizationResponseObject parsedResponse = JsonConvert.DeserializeObject<AuthorizationResponseObject>(response.Content.ReadAsStringAsync().Result);
         //try
         //{
         //    //using HttpResponseMessage response = await client.GetAsync(authUrl);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.WebUtilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -14,26 +15,24 @@ namespace MusicPlayer.Authorization
         /*
          * Generate a random, cryptographically strong string of a specified length
          */
-        public static string GenerateRandomString(int length)
+        public static string GenerateCodeVerifier(int length)
         {
             StringBuilder sb = new StringBuilder(length);
             for (int i = 0; i < length; i++) 
             {
                 sb.Append(possible[RandomNumberGenerator.GetInt32(possible.Length)]);
             }
-            return sb.ToString();
+            return Base64UrlTextEncoder.Encode(Encoding.UTF8.GetBytes(sb.ToString())); ;
         }
 
-        public static byte[] GenerateSHA256(byte[] data)
+        private static byte[] GenerateSHA256(byte[] data)
         {
-            using SHA256 sha256 = SHA256.Create();
-            
-            return sha256.ComputeHash(data);
+            return SHA256.HashData(data);
         }
 
         public static string GenerateCodeChallenge(byte[] data)
         {
-            return Convert.ToBase64String(GenerateSHA256(data));
+            return Base64UrlTextEncoder.Encode(GenerateSHA256(data));
         }
 
     }
