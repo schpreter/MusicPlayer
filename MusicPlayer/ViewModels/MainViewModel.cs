@@ -37,7 +37,10 @@ public partial class MainViewModel : ViewModelBase
     private readonly AlbumsViewModel albumsViewModel;
     private readonly GenresViewModel genresViewModel;
     private readonly ControlWidget control;
-    private AuthorizationObject authorization;
+    private AuthorizationTokenData authData;
+
+    [ObservableProperty]
+    public bool userAuthenticated = false;
 
     private readonly MainWindow mainWindow;
 
@@ -46,19 +49,19 @@ public partial class MainViewModel : ViewModelBase
 
     public MainViewModel() { }
     public MainViewModel(HomeContentViewModel homeContent,
-        AuthorizationObject authorizationObject,
-        PlaylistsViewModel playlistsView,
-        ArtistsViewModel artistsView,
-        AlbumsViewModel albumsView,
-        GenresViewModel genresView,
-        MusicNavigationViewModel musicNavigationView,
-        MainWindow mainWindow,
-        ControlWidget controlWidget,
-        SharedProperties sharedProperties)
+                         AuthorizationTokenData authData,
+                         PlaylistsViewModel playlistsView,
+                         ArtistsViewModel artistsView,
+                         AlbumsViewModel albumsView,
+                         GenresViewModel genresView,
+                         MusicNavigationViewModel musicNavigationView,
+                         MainWindow mainWindow,
+                         ControlWidget controlWidget,
+                         SharedProperties sharedProperties)
     {
         Properties = sharedProperties;
         HomeContentViewModel = homeContent;
-        authorization = authorizationObject;
+
         Init();
 
         playlistsViewModel = playlistsView;
@@ -125,6 +128,8 @@ public partial class MainViewModel : ViewModelBase
         string codeVerifier = PKCEExtension.GenerateCodeVerifier(64);
         byte[] bytes = Encoding.UTF8.GetBytes(codeVerifier);
 
+        AuthorizationObject authorization = new AuthorizationObject();
+
         string codeChallenge = PKCEExtension.GenerateCodeChallenge(bytes);
         authorization.CodeChallenge = codeChallenge;
 
@@ -137,54 +142,39 @@ public partial class MainViewModel : ViewModelBase
             {"code_challenge" , authorization.CodeChallenge },
             {"redirect_uri" , authorization.RedirectUri },
         });
+        //Open users default browser, with the Spotify authorization url and querydata
         Process.Start(new ProcessStartInfo
         {
             FileName = authUrl,
             UseShellExecute = true
         });
 
-        HttpListenerContext context = await StartCallbackListener(codeVerifier);
+        HttpListenerContext context = await StartCallbackListener(authorization.RedirectUri);
 
         // This is the code from Spotify API
         var codeToRetrieve = context.Request.QueryString["code"];
         if (codeToRetrieve != null)
         {
-            string accessToken = await GetAccessToken(codeToRetrieve, codeVerifier);
-            string profile = await FetchProfile(accessToken);
+            authData = await GetAccessToken(authorization,codeToRetrieve, codeVerifier);
+            //string profile = await FetchProfile(accessToken);
         }
-
-        //try
-        //{
-        //    //using HttpResponseMessage response = await client.GetAsync(authUrl);
-        //    //response.EnsureSuccessStatusCode();
-        //    //string responseBody = await response.Content.ReadAsStringAsync();
-        //    // Above three lines can be replaced with new helper method below
-        //    string responseBody = await client.GetStringAsync(authUrl);
-
-        //    Console.WriteLine(responseBody);
-        //}
-        //catch (HttpRequestException e)
-        //{
-        //    Console.WriteLine("\nException Caught!");
-        //    Console.WriteLine("Message :{0} ", e.Message);
-        //}
 
 
     }
 
 
 
-    private async Task<HttpListenerContext> StartCallbackListener(string verifier)
+    private async Task<HttpListenerContext> StartCallbackListener(string redirectUri)
     {
         HttpListener listener = new HttpListener();
-        listener.Prefixes.Add(authorization.RedirectUri + "/");
+        listener.Prefixes.Add(redirectUri + "/");
         listener.Start();
         HttpListenerContext context = await listener.GetContextAsync();
         listener.Stop();
         return context;
 
     }
-    private async Task<string> GetAccessToken(string code, string verifier)
+    private async Task<AuthorizationTokenData> GetAccessToken(AuthorizationObject authorization,string code, string verifier)
     {
         string url = "https://accounts.spotify.com/api/token";
         
@@ -205,24 +195,17 @@ public partial class MainViewModel : ViewModelBase
 
         //Post the content to the API    
         HttpResponseMessage response = await client.PostAsync(url, content);
-        AuthorizationResponseObject parsedResponse = JsonConvert.DeserializeObject<AuthorizationResponseObject>(response.Content.ReadAsStringAsync().Result);
-        return null;
+        UserAuthenticated = response.IsSuccessStatusCode;
+        return JsonConvert.DeserializeObject<AuthorizationTokenData>(response.Content.ReadAsStringAsync().Result);
     }
 
     private async Task<string> FetchProfile(string token)
     {
+        //TODO
         return null;
 
     }
 
     #endregion
 
-    //public void OpenBrowser()
-    //{
-    //    Process.Start(new ProcessStartInfo
-    //    {
-    //        FileName = "http://www.google.com",
-    //        UseShellExecute = true
-    //    });
-    //}
 }

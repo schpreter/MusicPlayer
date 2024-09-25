@@ -15,16 +15,16 @@ namespace MusicPlayer.Data
     public static class MusicFileCollector
     {
 
-        public static ObservableCollection<SongListItem> CollectFilesFromFolder(string folderPath)
+        public static ObservableCollection<SongItem> CollectFilesFromFolder(string folderPath)
         {
-            ObservableCollection<SongListItem> returnList = new ObservableCollection<SongListItem>();
+            ObservableCollection<SongItem> returnList = new ObservableCollection<SongItem>();
             string[] allowedExtensions = [".ogg", ".mp3", ".flac"];
             var listOfFilesInFolder = Directory.GetFiles(folderPath).Where(fil => allowedExtensions.Any(fil.ToLower().EndsWith));
 
             foreach (string item in listOfFilesInFolder)
             {
                 TagLib.File tagLibFile = TagLib.File.Create(item);
-                SongListItem songItem = new SongListItem
+                SongItem songItem = new SongItem
                 {
                     Album = tagLibFile.Tag.Album,
                     Title = tagLibFile.Tag.Title == null ? Path.GetFileName(item).Split('.').First() : tagLibFile.Tag.Title,

@@ -48,6 +48,11 @@
 		<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
 			<Setter Property="Background" Value="{DynamicResource ButtonBackgroundPointerOver}" />
 		</Style>
+		<Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
+			<!--<Setter Property="Background" Value="{DynamicResource ButtonBackgroundDisabled}" />
+			<Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushDisabled}" />-->
+			<Setter Property="Foreground" Value="{DynamicResource ButtonForegroundDisabled}" />
+		</Style>
 	</ControlTheme>
 
 	<ControlTheme x:Key="MusicNavigationButton" TargetType="Button">

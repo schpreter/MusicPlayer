@@ -19,7 +19,7 @@ namespace MusicPlayer.ViewModels
         public PlaylistsViewModel(SharedProperties props, NewCategoryInputViewModel newCategoryInput)
         {
             ItemCollection = new ObservableCollection<UnifiedDisplayItem>();
-            SongsByCategory = new ObservableCollection<SongListItem> { };
+            SongsByCategory = new ObservableCollection<SongItem> { };
             Properties = props;
             NewCategoryInputViewModel = newCategoryInput;
 
@@ -38,7 +38,7 @@ namespace MusicPlayer.ViewModels
         public override void ShowSongsInCategory(object playlist)
         {
             SelectedCategory = (string)playlist;
-            HashSet<SongListItem> filtered = Properties.MusicFiles.Where(x => x.PlayLists.Contains(SelectedCategory)).ToHashSet();
+            HashSet<SongItem> filtered = Properties.MusicFiles.Where(x => x.PlayLists.Contains(SelectedCategory)).ToHashSet();
             UpdateSongCategory(filtered);
         }
 

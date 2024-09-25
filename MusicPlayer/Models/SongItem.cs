@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MusicPlayer.Models
 {
-    public class SongListItem
+    public class SongItem
     {
 
         public string Album { get; set; }

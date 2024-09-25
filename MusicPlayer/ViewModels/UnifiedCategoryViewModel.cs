@@ -15,7 +15,7 @@ namespace MusicPlayer.ViewModels
     public abstract partial class UnifiedCategoryViewModel : ViewModelBase
     {
         protected NewCategoryInputViewModel NewCategoryInputViewModel { get; set; }
-        public ObservableCollection<SongListItem> SongsByCategory { get; set; }
+        public ObservableCollection<SongItem> SongsByCategory { get; set; }
         public ObservableCollection<UnifiedDisplayItem> ItemCollection { get; set; }
 
         [ObservableProperty]
@@ -55,7 +55,7 @@ namespace MusicPlayer.ViewModels
             ShowSelection();
         }
 
-        protected void UpdateSongCategory(HashSet<SongListItem> filtered)
+        protected void UpdateSongCategory(HashSet<SongItem> filtered)
         {
             SongsByCategory.Clear();
             foreach (var item in filtered)
@@ -89,7 +89,7 @@ namespace MusicPlayer.ViewModels
 
         protected void ModifyFiles(IEnumerable songs, string category)
         {
-            foreach (SongListItem song in songs)
+            foreach (SongItem song in songs)
             {
                 TagLib.File tagLibFile = TagLib.File.Create(song.FilePath);
                 switch (category)

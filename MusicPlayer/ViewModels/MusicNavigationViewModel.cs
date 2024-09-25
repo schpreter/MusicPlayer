@@ -46,7 +46,7 @@ namespace MusicPlayer.ViewModels
         }
         private void PlaySong()
         {
-            SongListItem song = Properties.SelectedSongListItem;
+            SongItem song = Properties.SelectedSongListItem;
             if (song != null)
             {
                 bool newSongSelected = Properties.CurrentPlayingSong != Properties.SelectedSongListItem;
