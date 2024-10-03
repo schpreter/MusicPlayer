@@ -4,10 +4,37 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              xmlns:vm="clr-namespace:MusicPlayer.ViewModels"
+			 xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
 			 xmlns:views="clr-namespace:MusicPlayer.Views"
 			 x:Class="MusicPlayer.Views.SpotifyRecView">
-	<Grid>
-		<Image Margin="20" Height="50" Width="200" VerticalAlignment="Top" HorizontalAlignment="Left"
+	<Grid RowDefinitions="*,*,*,*,*">
+		
+		<Image Grid.Row="0" Margin="20" Height="50" Width="200" VerticalAlignment="Top" HorizontalAlignment="Left"
          Source="Assets/Spotify_Primary_Logo_RGB_Green.png"/>
+		
+		<StackPanel Grid.Row="1">
+			<Label Grid.Row="1">Genres</Label>
+			<TextBox Grid.Row="1" Watermark="Please enter the comma separated genres (max 5)"></TextBox>
+		</StackPanel>
+		
+		<StackPanel Grid.Row="2">
+			<Label>Artists</Label>
+			<TextBox Watermark="Please enter the artists to search Spotify for (max 5)">
+				<TextBox.InnerRightContent>
+					<mi:MaterialIcon Kind="Magnify" />
+				</TextBox.InnerRightContent>
+			</TextBox>
+		</StackPanel>
+		
+		<StackPanel Grid.Row="3">
+			<Label>Tracks</Label>
+			<TextBox Watermark="Please enter the tracks to search Spotify for (max 5)">
+				<TextBox.InnerRightContent>
+					<mi:MaterialIcon Kind="Magnify" />
+				</TextBox.InnerRightContent>
+			</TextBox>
+		</StackPanel>
+
+		<Button HorizontalAlignment="Center" Grid.Row="4">Start Searching</Button>
 	</Grid>
 </UserControl>
