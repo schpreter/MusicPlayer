@@ -28,6 +28,7 @@ namespace MusicPlayer.Models
             .AddTransient<ArtistsViewModel>()
             .AddTransient<AlbumsViewModel>()
             .AddTransient<GenresViewModel>()
+            .AddTransient<SpotifyRecViewModel>()
             .AddTransient<MusicNavigationViewModel>()
             .AddTransient<MainViewModel>();
             #endregion

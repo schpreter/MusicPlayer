@@ -6,35 +6,35 @@
              xmlns:vm="clr-namespace:MusicPlayer.ViewModels"
 			 xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
 			 xmlns:views="clr-namespace:MusicPlayer.Views"
+			 x:DataType="vm:SpotifyRecViewModel"
 			 x:Class="MusicPlayer.Views.SpotifyRecView">
-	<Grid RowDefinitions="*,*,*,*,*">
-		
-		<Image Grid.Row="0" Margin="20" Height="50" Width="200" VerticalAlignment="Top" HorizontalAlignment="Left"
-         Source="Assets/Spotify_Primary_Logo_RGB_Green.png"/>
-		
-		<StackPanel Grid.Row="1">
-			<Label Grid.Row="1">Genres</Label>
-			<TextBox Grid.Row="1" Watermark="Please enter the comma separated genres (max 5)"></TextBox>
-		</StackPanel>
-		
-		<StackPanel Grid.Row="2">
-			<Label>Artists</Label>
+	<Grid RowDefinitions="*,*" ColumnDefinitions="*,*,*">
+
+		<Image Grid.Column="0" Grid.Row="0" Margin="20" Height="50" Width="200" VerticalAlignment="Top" HorizontalAlignment="Left"
+         Source="/Assets/spotify-logo.png"/>
+		<Expander Grid.Row="0" Header="Genres">
+			<StackPanel>
+				<AutoCompleteBox Watermark="Please enter the comma separated genres (max 5)"></AutoCompleteBox >
+			</StackPanel>
+		</Expander>
+
+		<Expander Grid.Column="1" Grid.Row="0" Header="Artists">
 			<TextBox Watermark="Please enter the artists to search Spotify for (max 5)">
 				<TextBox.InnerRightContent>
 					<mi:MaterialIcon Kind="Magnify" />
 				</TextBox.InnerRightContent>
 			</TextBox>
-		</StackPanel>
-		
-		<StackPanel Grid.Row="3">
-			<Label>Tracks</Label>
+		</Expander>
+
+		<Expander Grid.Column="2" Grid.Row="0" Header="Tracks">
 			<TextBox Watermark="Please enter the tracks to search Spotify for (max 5)">
 				<TextBox.InnerRightContent>
 					<mi:MaterialIcon Kind="Magnify" />
 				</TextBox.InnerRightContent>
 			</TextBox>
-		</StackPanel>
+		</Expander>
 
-		<Button HorizontalAlignment="Center" Grid.Row="4">Start Searching</Button>
+
+		<Button HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">Start Searching</Button>
 	</Grid>
 </UserControl>

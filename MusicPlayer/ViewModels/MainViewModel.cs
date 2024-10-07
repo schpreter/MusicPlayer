@@ -32,12 +32,14 @@ public partial class MainViewModel : ViewModelBase
 
     [ObservableProperty]
     private HomeContentViewModel homeContentViewModel;
-    private readonly PlaylistsViewModel playlistsViewModel;
-    private readonly ArtistsViewModel artistsViewModel;
-    private readonly AlbumsViewModel albumsViewModel;
-    private readonly GenresViewModel genresViewModel;
-    private readonly ControlWidget control;
-    private AuthorizationTokenData authData;
+
+    private readonly PlaylistsViewModel PlaylistsViewModel;
+    private readonly ArtistsViewModel ArtistsViewModel;
+    private readonly AlbumsViewModel AlbumsViewModel;
+    private readonly GenresViewModel GenresViewModel;
+    private readonly SpotifyRecViewModel RecViewModel;
+    private readonly ControlWidget Control;
+    private AuthorizationTokenData AuthData;
 
     [ObservableProperty]
     public bool userAuthenticated = false;
@@ -54,6 +56,7 @@ public partial class MainViewModel : ViewModelBase
                          ArtistsViewModel artistsView,
                          AlbumsViewModel albumsView,
                          GenresViewModel genresView,
+                         SpotifyRecViewModel spotifyRecViewModel,
                          MusicNavigationViewModel musicNavigationView,
                          MainWindow mainWindow,
                          ControlWidget controlWidget,
@@ -64,18 +67,19 @@ public partial class MainViewModel : ViewModelBase
 
         Init();
 
-        playlistsViewModel = playlistsView;
-        artistsViewModel = artistsView;
-        albumsViewModel = albumsView;
-        genresViewModel = genresView;
+        PlaylistsViewModel = playlistsView;
+        ArtistsViewModel = artistsView;
+        AlbumsViewModel = albumsView;
+        GenresViewModel = genresView;
+        RecViewModel = spotifyRecViewModel;
         musicNavigation = musicNavigationView;
-        control = controlWidget;
+        Control = controlWidget;
         this.mainWindow = mainWindow;
 
         PixelRect screen = this.mainWindow.Screens.Primary.WorkingArea;
 
-        control.Position = new PixelPoint((int)(screen.BottomRight.X), (int)(screen.BottomRight.Y));
-        control.Show();
+        Control.Position = new PixelPoint((int)(screen.BottomRight.X), (int)(screen.BottomRight.Y));
+        Control.Show();
     }
     private void Init()
     {
@@ -93,16 +97,19 @@ public partial class MainViewModel : ViewModelBase
                 SelectedViewModel = HomeContentViewModel;
                 break;
             case "PLAYLISTS":
-                SelectedViewModel = playlistsViewModel;
+                SelectedViewModel = PlaylistsViewModel;
                 break;
             case "ARTISTS":
-                SelectedViewModel = artistsViewModel;
+                SelectedViewModel = ArtistsViewModel;
                 break;
             case "ALBUMS":
-                SelectedViewModel = albumsViewModel;
+                SelectedViewModel = AlbumsViewModel;
                 break;
             case "GENRES":
-                SelectedViewModel = genresViewModel;
+                SelectedViewModel = GenresViewModel;
+                break;
+            case "RECOMMENDATIONS":
+                SelectedViewModel = RecViewModel;
                 break;
             default:
                 break;
@@ -155,7 +162,7 @@ public partial class MainViewModel : ViewModelBase
         var codeToRetrieve = context.Request.QueryString["code"];
         if (codeToRetrieve != null)
         {
-            authData = await GetAccessToken(authorization,codeToRetrieve, codeVerifier);
+            AuthData = await GetAccessToken(authorization,codeToRetrieve, codeVerifier);
             //string profile = await FetchProfile(accessToken);
         }
 

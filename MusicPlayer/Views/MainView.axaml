@@ -68,7 +68,12 @@
 							<TextBlock Text="Genres"/>
 						</StackPanel>
 					</Button>
-					<Button Theme="{StaticResource SidePanelNavButtons}" IsEnabled="{Binding UserAuthenticated}" ToolTip.ShowOnDisabled="True" >
+					<!--IsEnabled="{Binding UserAuthenticated}"-->
+
+					<Button Theme="{StaticResource SidePanelNavButtons}" 
+							ToolTip.ShowOnDisabled="True"
+							Command="{Binding ShowContent}"
+							CommandParameter="RECOMMENDATIONS">
 						<StackPanel Orientation="Horizontal" Spacing="2" Margin="10">
 							<mi:MaterialIcon Kind="Spotify"/>
 							<TextBlock Text="Recommendations"/>

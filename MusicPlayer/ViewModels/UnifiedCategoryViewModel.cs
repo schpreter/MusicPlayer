@@ -65,7 +65,7 @@ namespace MusicPlayer.ViewModels
             ShowSongs = true;
             ShowCategoryHome = false;
         }
-
+        //TODO: Unselect songs upon submit
         protected void RefreshCategory(HashSet<string> set)
         {
             ItemCollection.Clear();
