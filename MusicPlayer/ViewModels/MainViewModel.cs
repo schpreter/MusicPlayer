@@ -28,7 +28,7 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty]
     private ViewModelBase selectedViewModel;
 
-    static readonly HttpClient client = new HttpClient();
+    private readonly HttpClient Client;
 
     [ObservableProperty]
     private HomeContentViewModel homeContentViewModel;
@@ -51,7 +51,7 @@ public partial class MainViewModel : ViewModelBase
 
     public MainViewModel() { }
     public MainViewModel(HomeContentViewModel homeContent,
-                         AuthorizationTokenData authData,
+                         HttpClient client,
                          PlaylistsViewModel playlistsView,
                          ArtistsViewModel artistsView,
                          AlbumsViewModel albumsView,
@@ -69,6 +69,7 @@ public partial class MainViewModel : ViewModelBase
 
         PlaylistsViewModel = playlistsView;
         ArtistsViewModel = artistsView;
+        Client = client;
         AlbumsViewModel = albumsView;
         GenresViewModel = genresView;
         RecViewModel = spotifyRecViewModel;
@@ -162,14 +163,14 @@ public partial class MainViewModel : ViewModelBase
         var codeToRetrieve = context.Request.QueryString["code"];
         if (codeToRetrieve != null)
         {
-            AuthData = await GetAccessToken(authorization,codeToRetrieve, codeVerifier);
+            AuthData = await GetAccessToken(authorization, codeToRetrieve, codeVerifier);
             //string profile = await FetchProfile(accessToken);
         }
 
 
     }
-
-
+    #endregion
+    #region Authorization
 
     private async Task<HttpListenerContext> StartCallbackListener(string redirectUri)
     {
@@ -181,10 +182,10 @@ public partial class MainViewModel : ViewModelBase
         return context;
 
     }
-    private async Task<AuthorizationTokenData> GetAccessToken(AuthorizationObject authorization,string code, string verifier)
+    private async Task<AuthorizationTokenData> GetAccessToken(AuthorizationObject authorization, string code, string verifier)
     {
         string url = "https://accounts.spotify.com/api/token";
-        
+
 
         using FormUrlEncodedContent content = new FormUrlEncodedContent(
             new List<KeyValuePair<string, string>>()
@@ -201,7 +202,7 @@ public partial class MainViewModel : ViewModelBase
         content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
 
         //Post the content to the API    
-        HttpResponseMessage response = await client.PostAsync(url, content);
+        HttpResponseMessage response = await Client.PostAsync(url, content);
         UserAuthenticated = response.IsSuccessStatusCode;
         return JsonConvert.DeserializeObject<AuthorizationTokenData>(response.Content.ReadAsStringAsync().Result);
     }
@@ -212,7 +213,6 @@ public partial class MainViewModel : ViewModelBase
         return null;
 
     }
-
     #endregion
 
 }

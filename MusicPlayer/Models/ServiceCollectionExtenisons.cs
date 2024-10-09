@@ -8,6 +8,7 @@ using MusicPlayer.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,8 +21,8 @@ namespace MusicPlayer.Models
             collection.AddSingleton<SharedProperties>()
             .AddSingleton<MainWindow>()
             .AddSingleton<ControlWidget>()
+            .AddSingleton<HttpClient>()
             #region ViewModels
-            .AddSingleton<AuthorizationTokenData>()
             .AddTransient<NewCategoryInputViewModel>()
             .AddTransient<HomeContentViewModel>()
             .AddTransient<PlaylistsViewModel>()
