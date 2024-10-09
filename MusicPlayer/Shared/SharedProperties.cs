@@ -8,12 +8,7 @@ namespace MusicPlayer.Shared
 {
     public partial class SharedProperties : ObservableObject
     {
-        private ObservableCollection<SongItem> musicFiles;
-        public ObservableCollection<SongItem> MusicFiles
-        {
-            get { return musicFiles; }
-            set { SetProperty(ref musicFiles, value); }
-        }
+        public ObservableCollection<SongItem> MusicFiles { get; set; }
 
         [ObservableProperty]
         public SongItem selectedSongListItem;
@@ -25,6 +20,7 @@ namespace MusicPlayer.Shared
         [ObservableProperty]
         public string sourceFolderPath = "C:\\Users\\HV387FL\\School\\Szakdoga\\Musics";
         public SongItem CurrentPlayingSong { get; set; }
+        public AuthorizationTokenData AuthData;
 
     }
 }

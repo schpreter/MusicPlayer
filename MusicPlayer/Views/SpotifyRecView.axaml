@@ -14,16 +14,16 @@
          Source="/Assets/spotify-logo.png"/>
 		<Expander Grid.Row="1"  Grid.Column="0" Grid.ColumnSpan="3" Header="Genres (max 5)" VerticalAlignment="Stretch">
 			<Grid RowDefinitions="10*,10*,80*">
-				<AutoCompleteBox
+				<!--<AutoCompleteBox
 					FilterMode="Contains"
 					ItemsSource="{Binding GenresDrpOptions}"
 					Watermark="Please a genre, then press Add"
 					Text="{Binding GenreInput}"
-					Grid.Row="0"/>
-				<Button Command="{Binding AddToCollection}" CommandParameter="Genres" Grid.Row="1" IsEnabled="{Binding IsUnderLimit}">
+					Grid.Row="0"/>-->
+				<Button Command="{Binding GetAvaliableGenreSeeds}" Grid.Row="1" IsEnabled="{Binding IsUnderLimit}">
 					<StackPanel Orientation="Horizontal">
-						<mi:MaterialIcon Kind="Plus"/>
-						<TextBlock Text="Add"/>
+						<mi:MaterialIcon Kind="Download"/>
+						<TextBlock Text="Get Avaliable Genres"/>
 					</StackPanel>
 				</Button>
 
@@ -71,6 +71,6 @@
 		</Expander>-->
 
 
-		<Button Command="{Binding GetRecommendations}" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">Start Searching</Button>
+		<!--<Button Command="{Binding GetRecommendations}" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">Start Searching</Button>-->
 	</Grid>
 </UserControl>

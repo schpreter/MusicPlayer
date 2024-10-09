@@ -39,7 +39,6 @@ public partial class MainViewModel : ViewModelBase
     private readonly GenresViewModel GenresViewModel;
     private readonly SpotifyRecViewModel RecViewModel;
     private readonly ControlWidget Control;
-    private AuthorizationTokenData AuthData;
 
     [ObservableProperty]
     public bool userAuthenticated = false;
@@ -163,8 +162,13 @@ public partial class MainViewModel : ViewModelBase
         var codeToRetrieve = context.Request.QueryString["code"];
         if (codeToRetrieve != null)
         {
-            AuthData = await GetAccessToken(authorization, codeToRetrieve, codeVerifier);
-            //string profile = await FetchProfile(accessToken);
+            Properties.AuthData = await GetAccessToken(authorization, codeToRetrieve, codeVerifier);
+            //string profile = await FetchProfile(accessToken)
+            //If authentication is successfull also add the auth token to the client's header, as it is used in every single API call
+            if (UserAuthenticated)
+            {
+                Client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Properties.AuthData.AccessToken);
+            }
         }
 
 
@@ -204,6 +208,7 @@ public partial class MainViewModel : ViewModelBase
         //Post the content to the API    
         HttpResponseMessage response = await Client.PostAsync(url, content);
         UserAuthenticated = response.IsSuccessStatusCode;
+
         return JsonConvert.DeserializeObject<AuthorizationTokenData>(response.Content.ReadAsStringAsync().Result);
     }
 

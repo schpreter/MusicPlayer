@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using MusicPlayer.API;
 using MusicPlayer.Shared;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,7 +19,6 @@ namespace MusicPlayer.ViewModels
 
         [ObservableProperty]
         public bool isUnderLimit = true;
-        public ObservableCollection<string> GenresDrpOptions { get; set; }
         public ObservableCollection<string> Genres { get; set; }
 
         [ObservableProperty]
@@ -31,56 +32,46 @@ namespace MusicPlayer.ViewModels
 
         public SpotifyRecViewModel(SharedProperties props, HttpClient client)
         {
-            GenresDrpOptions = new ObservableCollection<string>();
             Genres = new ObservableCollection<string>();
             Properties = props;
             Client = client;
         }
 
-        public override void RefreshContent()
+        //public void AddToCollection(string collection)
+        //{
+        //    switch (collection)
+        //    {
+        //        case "Genres":
+        //            {
+        //                if (!Genres.Contains(GenreInput))
+        //                    Genres.Add(GenreInput);
+        //                GenreInput = String.Empty;
+        //                break;
+        //            }
+        //    }
+        //    IsUnderLimit = Genres.Count() < LIMIT;
+
+        //}
+
+        //public void RemoveItem(object item)
+        //{
+        //    //switch (item)
+        //    //{
+        //    //    case "Genre":
+        //    //        {
+        //    Genres.Remove((string)item);
+        //    //            break;
+        //    //        }
+        //    //}
+        //    IsUnderLimit = Genres.Count() < LIMIT;
+
+        //}
+
+        public async void GetAvaliableGenreSeeds()
         {
-            var GenreNames = Properties.MusicFiles.SelectMany(x => x.Genres).Distinct();
-            foreach (string item in GenreNames)
-            {
-                if (!GenresDrpOptions.Contains(item))
-                    GenresDrpOptions.Add(item);
-            }
-
-        }
-
-        public void AddToCollection(string collection)
-        {
-            switch (collection)
-            {
-                case "Genres":
-                    {
-                        if (!Genres.Contains(GenreInput))
-                            Genres.Add(GenreInput);
-                        GenreInput = String.Empty;
-                        break;
-                    }
-            }
-            IsUnderLimit = Genres.Count() < LIMIT;
-
-        }
-
-        public void RemoveItem(object item)
-        {
-            //switch (item)
-            //{
-            //    case "Genre":
-            //        {
-            Genres.Remove((string)item);
-            //            break;
-            //        }
-            //}
-            IsUnderLimit = Genres.Count() < LIMIT;
-
-        }
-
-        public void GetRecommendations()
-        {
-
+           HttpResponseMessage response = await APICallHandler.GetAvaliableGenreSeeds(Client);
+           var content = response.Content.ReadAsStringAsync();
+           var result = JsonConvert.DeserializeObject(content.Result);
         }
 
         public override string ToString()
