@@ -17,7 +17,7 @@ namespace MusicPlayer.ViewModels
 
         public NewCategoryInputViewModel()
         {
-            
+
         }
         public void SubmitNewCategory()
         {

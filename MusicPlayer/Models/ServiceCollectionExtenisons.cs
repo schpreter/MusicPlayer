@@ -1,16 +1,8 @@
-﻿using Avalonia.Platform.Storage;
-using LibVLCSharp.Shared;
-using Microsoft.Extensions.DependencyInjection;
-using MusicPlayer.Data;
+﻿using Microsoft.Extensions.DependencyInjection;
 using MusicPlayer.Shared;
 using MusicPlayer.ViewModels;
 using MusicPlayer.Views;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MusicPlayer.Models
 {

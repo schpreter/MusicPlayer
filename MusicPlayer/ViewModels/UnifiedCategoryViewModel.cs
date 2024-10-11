@@ -5,8 +5,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TagLib.Id3v2;
 
@@ -111,10 +111,10 @@ namespace MusicPlayer.ViewModels
                             song.Artists_conc = tagLibFile.Tag.JoinedPerformers;
                             break;
                         }
-                        //This is where the file format matters, just like during parsing
+                    //This is where the file format matters, just like during parsing
                     case "PLAYLISTS":
                         {
-                            ModifyPlaylistTag(song.PlayLists,tagLibFile);
+                            ModifyPlaylistTag(song.PlayLists, tagLibFile);
                             break;
                         }
                     default:
@@ -136,7 +136,7 @@ namespace MusicPlayer.ViewModels
                         PrivateFrame pFrame = PrivateFrame.Get(tag, "Playlists", true);
 
                         List<string> list = new List<string>();
-                        
+
                         //If there is actual data in the private frame, parse it
                         if (pFrame.PrivateData != null)
                         {
@@ -150,8 +150,8 @@ namespace MusicPlayer.ViewModels
                         //Clean user input
                         var cleaned = playlists;
                         cleaned.ForEach(x => x.Replace(";", @"\;"));
-                        
-                        pFrame.PrivateData = Encoding.Unicode.GetBytes(string.Join(';',list.Union(cleaned)));
+
+                        pFrame.PrivateData = Encoding.Unicode.GetBytes(string.Join(';', list.Union(cleaned)));
                         break;
                     }
                 default:

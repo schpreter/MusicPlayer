@@ -1,11 +1,8 @@
 ﻿using MusicPlayer.Models;
+using MusicPlayer.Shared;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using MusicPlayer.Shared;
-using TagLib.Ape;
-using System;
-using DialogHostAvalonia;
-using System.Collections.Generic;
 
 namespace MusicPlayer.ViewModels
 {

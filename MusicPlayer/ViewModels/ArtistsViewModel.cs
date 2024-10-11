@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using MusicPlayer.Models;
+using MusicPlayer.Shared;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Avalonia.Controls;
-using MusicPlayer.Models;
-using MusicPlayer.Shared;
-using MusicPlayer.Views;
 
 
 namespace MusicPlayer.ViewModels

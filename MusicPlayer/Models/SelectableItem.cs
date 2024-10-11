@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MusicPlayer.Models
+﻿namespace MusicPlayer.Models
 {
     public class SelectableItem
     {
@@ -13,7 +7,7 @@ namespace MusicPlayer.Models
         public string Display { get; set; }
         public SelectableItem()
         {
-            
+
         }
         public SelectableItem(string display)
         {

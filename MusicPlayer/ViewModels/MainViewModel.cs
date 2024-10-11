@@ -1,6 +1,5 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Platform;
 using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.AspNetCore.WebUtilities;
@@ -10,7 +9,6 @@ using MusicPlayer.Models;
 using MusicPlayer.Shared;
 using MusicPlayer.Views;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;

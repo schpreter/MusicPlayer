@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using MusicPlayer.Models;
-using MusicPlayer.ViewModels;
 using System.Collections.ObjectModel;
 
 

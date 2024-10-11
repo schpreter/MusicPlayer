@@ -2,7 +2,6 @@
 using LibVLCSharp.Shared;
 using MusicPlayer.Models;
 using MusicPlayer.Shared;
-using System;
 
 namespace MusicPlayer.ViewModels
 {
@@ -26,7 +25,7 @@ namespace MusicPlayer.ViewModels
 
         public void ShuffleClicked()
         {
-            
+
         }
         public void SkipBackClicked()
         {
@@ -68,7 +67,7 @@ namespace MusicPlayer.ViewModels
 
             }
             else if (MediaPlayer.IsPlaying) MediaPlayer.Pause();
-            
+
         }
         private void SkipSong(SkipDirection direction)
         {
