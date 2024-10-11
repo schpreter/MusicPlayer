@@ -1,0 +1,24 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:vmg="clr-namespace:MusicPlayer.ViewModels.Generic"
+			 xmlns:views="clr-namespace:MusicPlayer.Views"
+             x:Class="MusicPlayer.Views.GenericNotificationModalView"
+			 x:DataType="vmg:GenericNotificationModal">
+	<Grid RowDefinitions="0.5*,0.5*,*">
+		<Label Grid.Row="0" Padding="15" Content="{Binding Title}"/>
+		<TextBlock  Margin="10,10,10,10" Grid.Row="1" Text="{Binding Message}"/>
+		<Button
+			Cursor="Hand"
+			Background="Salmon"
+			Grid.Row="2"
+			Padding="10"
+			Margin="15,0,0,0"
+			Command="{Binding CloseModal}"
+			HorizontalAlignment="Right">
+			Ok
+		</Button>
+	</Grid>
+</UserControl>

@@ -135,11 +135,13 @@
 			BorderBrush="Gray" BorderThickness="1"
 			Padding="5">
 			<StackPanel Orientation="Horizontal">
-				<TextBlock Text="{ReflectionBinding Artists_conc}"/>
+				<TextBlock Text="{ReflectionBinding}"/>
+
+				<!--<TextBlock Text="{ReflectionBinding Artists_conc}"/>
 				<TextBlock Margin="5 0" FontWeight="Bold"
 							Text="{ReflectionBinding Title}"/>
 				<TextBlock Margin="5 0" FontWeight="Bold"
-							Text="{ReflectionBinding Duration_display}"/>
+							Text="{ReflectionBinding Duration_display}"/>-->
 			</StackPanel>
 		</Border>
 	</DataTemplate>
@@ -151,11 +153,13 @@
 			Padding="5">
 			<StackPanel Orientation="Horizontal" Spacing="10">
 				<CheckBox IsChecked="{ReflectionBinding IsSelected}"/>
-				<TextBlock Text="{ReflectionBinding Artists_conc}"/>
+				<TextBlock Text="{ReflectionBinding}"/>
+
+				<!--<TextBlock Text="{ReflectionBinding Artists_conc}"/>
 				<TextBlock Margin="5 0" FontWeight="Bold"
 							Text="{ReflectionBinding Title}"/>
 				<TextBlock Margin="5 0" FontWeight="Bold"
-							Text="{ReflectionBinding Duration_display}"/>
+							Text="{ReflectionBinding Duration_display}"/>-->
 
 			</StackPanel>
 		</Border>

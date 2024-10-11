@@ -2,6 +2,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="MusicPlayer.App"
 			 xmlns:vm="clr-namespace:MusicPlayer.ViewModels"
+			 xmlns:vmg="clr-namespace:MusicPlayer.ViewModels.Generic"
+
 			 xmlns:views="clr-namespace:MusicPlayer.Views"
 			 xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              xmlns:dialogHostAvalonia="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
@@ -41,6 +43,9 @@
 		</DataTemplate>
 		<DataTemplate DataType="{x:Type vm:NewCategoryInputViewModel}">
 			<views:NewCategoryInput />
+		</DataTemplate>
+		<DataTemplate DataType="{x:Type vmg:GenericNotificationModal}">
+			<views:GenericNotificationModalView />
 		</DataTemplate>
 		<DataTemplate DataType="{x:Type vm:SpotifyRecViewModel}">
 			<views:SpotifyRecView />

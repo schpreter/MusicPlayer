@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MusicPlayer.Models
 {
-    public class SongItem
+    public class SongItem : SelectableItem
     {
 
         public string Album { get; set; }
@@ -20,14 +20,17 @@ namespace MusicPlayer.Models
         public string FilePath { get; set; }
         public List<string> PlayLists { get; set; }
 
-        public bool IsSelected { get; set; }
-
         public string Duration_display
         {
             get
             {
                 return Duration.ToString(@"mm\:ss");
             }
+        }
+
+        public override string ToString()
+        {
+            return $"{Artists_conc} {Title} {Duration_display}";
         }
     }
 }
