@@ -1,11 +1,13 @@
-﻿using Newtonsoft.Json;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace MusicPlayer.Models.Recommendations
 {
-    public class RecommendationObject
+    public class RecommendationObject : ObservableObject
     {
         [JsonProperty("tracks")]
-        public Tracks Tracks { get; set; }
+        public List<Track> Tracks { get; set; }
 
     }
 }

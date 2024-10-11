@@ -2,6 +2,7 @@
 using DialogHostAvalonia;
 using MusicPlayer.API;
 using MusicPlayer.Models;
+using MusicPlayer.Models.Recommendations;
 using MusicPlayer.Shared;
 using MusicPlayer.ViewModels.Generic;
 using Newtonsoft.Json;
@@ -20,6 +21,9 @@ namespace MusicPlayer.ViewModels
         [ObservableProperty]
         public bool isUnderLimit = true;
         public ObservableCollection<SelectableItem> Genres { get; set; }
+
+        [ObservableProperty]
+        public RecommendationObject recommendations;
 
         //[ObservableProperty]
         //public string genreInput;
@@ -74,8 +78,11 @@ namespace MusicPlayer.ViewModels
                 try
                 {
                     HttpResponseMessage response = await APICallHandler.GetRecommendations(Client, selectedGenres.ToList());
-                    var content = response.Content.ReadAsStringAsync();
                     response.EnsureSuccessStatusCode();
+                    var content = response.Content.ReadAsStringAsync();
+                    Recommendations = JsonConvert.DeserializeObject<RecommendationObject>(content.Result);
+
+
                 }
                 catch (Exception ex)
                 {

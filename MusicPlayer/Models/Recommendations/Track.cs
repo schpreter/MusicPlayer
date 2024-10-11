@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MusicPlayer.Models.Recommendations
 {
-    public class Tracks
+    public class Track
     {
         [JsonProperty("album")]
         public Album Album { get; set; }

@@ -70,7 +70,8 @@
 					</Button>
 					<!--IsEnabled="{Binding UserAuthenticated}"-->
 
-					<Button Theme="{StaticResource SidePanelNavButtons}" 
+					<Button Theme="{StaticResource SidePanelNavButtons}"
+							IsEnabled="{Binding UserAuthenticated}"
 							ToolTip.ShowOnDisabled="True"
 							Command="{Binding ShowContent}"
 							CommandParameter="RECOMMENDATIONS">
