@@ -1,6 +1,5 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Platform;
 using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.AspNetCore.WebUtilities;
@@ -10,7 +9,6 @@ using MusicPlayer.Models;
 using MusicPlayer.Shared;
 using MusicPlayer.Views;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -28,16 +26,20 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty]
     private ViewModelBase selectedViewModel;
 
-    static readonly HttpClient client = new HttpClient();
+    private readonly HttpClient Client;
 
     [ObservableProperty]
     private HomeContentViewModel homeContentViewModel;
-    private readonly PlaylistsViewModel playlistsViewModel;
-    private readonly ArtistsViewModel artistsViewModel;
-    private readonly AlbumsViewModel albumsViewModel;
-    private readonly GenresViewModel genresViewModel;
-    private readonly ControlWidget control;
-    private AuthorizationObject authorization;
+
+    private readonly PlaylistsViewModel PlaylistsViewModel;
+    private readonly ArtistsViewModel ArtistsViewModel;
+    private readonly AlbumsViewModel AlbumsViewModel;
+    private readonly GenresViewModel GenresViewModel;
+    private readonly SpotifyRecViewModel RecViewModel;
+    private readonly ControlWidget Control;
+
+    [ObservableProperty]
+    public bool userAuthenticated = false;
 
     private readonly MainWindow mainWindow;
 
@@ -46,33 +48,36 @@ public partial class MainViewModel : ViewModelBase
 
     public MainViewModel() { }
     public MainViewModel(HomeContentViewModel homeContent,
-        AuthorizationObject authorizationObject,
-        PlaylistsViewModel playlistsView,
-        ArtistsViewModel artistsView,
-        AlbumsViewModel albumsView,
-        GenresViewModel genresView,
-        MusicNavigationViewModel musicNavigationView,
-        MainWindow mainWindow,
-        ControlWidget controlWidget,
-        SharedProperties sharedProperties)
+                         HttpClient client,
+                         PlaylistsViewModel playlistsView,
+                         ArtistsViewModel artistsView,
+                         AlbumsViewModel albumsView,
+                         GenresViewModel genresView,
+                         SpotifyRecViewModel spotifyRecViewModel,
+                         MusicNavigationViewModel musicNavigationView,
+                         MainWindow mainWindow,
+                         ControlWidget controlWidget,
+                         SharedProperties sharedProperties)
     {
         Properties = sharedProperties;
         HomeContentViewModel = homeContent;
-        authorization = authorizationObject;
+
         Init();
 
-        playlistsViewModel = playlistsView;
-        artistsViewModel = artistsView;
-        albumsViewModel = albumsView;
-        genresViewModel = genresView;
+        PlaylistsViewModel = playlistsView;
+        ArtistsViewModel = artistsView;
+        Client = client;
+        AlbumsViewModel = albumsView;
+        GenresViewModel = genresView;
+        RecViewModel = spotifyRecViewModel;
         musicNavigation = musicNavigationView;
-        control = controlWidget;
+        Control = controlWidget;
         this.mainWindow = mainWindow;
 
         PixelRect screen = this.mainWindow.Screens.Primary.WorkingArea;
 
-        control.Position = new PixelPoint((int)(screen.BottomRight.X), (int)(screen.BottomRight.Y));
-        control.Show();
+        Control.Position = new PixelPoint((int)(screen.BottomRight.X), (int)(screen.BottomRight.Y));
+        Control.Show();
     }
     private void Init()
     {
@@ -90,16 +95,19 @@ public partial class MainViewModel : ViewModelBase
                 SelectedViewModel = HomeContentViewModel;
                 break;
             case "PLAYLISTS":
-                SelectedViewModel = playlistsViewModel;
+                SelectedViewModel = PlaylistsViewModel;
                 break;
             case "ARTISTS":
-                SelectedViewModel = artistsViewModel;
+                SelectedViewModel = ArtistsViewModel;
                 break;
             case "ALBUMS":
-                SelectedViewModel = albumsViewModel;
+                SelectedViewModel = AlbumsViewModel;
                 break;
             case "GENRES":
-                SelectedViewModel = genresViewModel;
+                SelectedViewModel = GenresViewModel;
+                break;
+            case "RECOMMENDATIONS":
+                SelectedViewModel = RecViewModel;
                 break;
             default:
                 break;
@@ -125,6 +133,8 @@ public partial class MainViewModel : ViewModelBase
         string codeVerifier = PKCEExtension.GenerateCodeVerifier(64);
         byte[] bytes = Encoding.UTF8.GetBytes(codeVerifier);
 
+        AuthorizationObject authorization = new AuthorizationObject();
+
         string codeChallenge = PKCEExtension.GenerateCodeChallenge(bytes);
         authorization.CodeChallenge = codeChallenge;
 
@@ -137,57 +147,47 @@ public partial class MainViewModel : ViewModelBase
             {"code_challenge" , authorization.CodeChallenge },
             {"redirect_uri" , authorization.RedirectUri },
         });
+        //Open users default browser, with the Spotify authorization url and querydata
         Process.Start(new ProcessStartInfo
         {
             FileName = authUrl,
             UseShellExecute = true
         });
 
-        HttpListenerContext context = await StartCallbackListener(codeVerifier);
+        HttpListenerContext context = await StartCallbackListener(authorization.RedirectUri);
 
         // This is the code from Spotify API
         var codeToRetrieve = context.Request.QueryString["code"];
         if (codeToRetrieve != null)
         {
-            string accessToken = await GetAccessToken(codeToRetrieve, codeVerifier);
-            string profile = await FetchProfile(accessToken);
+            Properties.AuthData = await GetAccessToken(authorization, codeToRetrieve, codeVerifier);
+            //string profile = await FetchProfile(accessToken)
+            //If authentication is successfull also add the auth token to the client's header, as it is used in every single API call
+            if (UserAuthenticated)
+            {
+                Client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Properties.AuthData.AccessToken);
+            }
         }
-
-        //try
-        //{
-        //    //using HttpResponseMessage response = await client.GetAsync(authUrl);
-        //    //response.EnsureSuccessStatusCode();
-        //    //string responseBody = await response.Content.ReadAsStringAsync();
-        //    // Above three lines can be replaced with new helper method below
-        //    string responseBody = await client.GetStringAsync(authUrl);
-
-        //    Console.WriteLine(responseBody);
-        //}
-        //catch (HttpRequestException e)
-        //{
-        //    Console.WriteLine("\nException Caught!");
-        //    Console.WriteLine("Message :{0} ", e.Message);
-        //}
 
 
     }
+    #endregion
+    #region Authorization
 
-
-
-    private async Task<HttpListenerContext> StartCallbackListener(string verifier)
+    private async Task<HttpListenerContext> StartCallbackListener(string redirectUri)
     {
         HttpListener listener = new HttpListener();
-        listener.Prefixes.Add(authorization.RedirectUri + "/");
+        listener.Prefixes.Add(redirectUri + "/");
         listener.Start();
         HttpListenerContext context = await listener.GetContextAsync();
         listener.Stop();
         return context;
 
     }
-    private async Task<string> GetAccessToken(string code, string verifier)
+    private async Task<AuthorizationTokenData> GetAccessToken(AuthorizationObject authorization, string code, string verifier)
     {
         string url = "https://accounts.spotify.com/api/token";
-        
+
 
         using FormUrlEncodedContent content = new FormUrlEncodedContent(
             new List<KeyValuePair<string, string>>()
@@ -204,25 +204,18 @@ public partial class MainViewModel : ViewModelBase
         content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
 
         //Post the content to the API    
-        HttpResponseMessage response = await client.PostAsync(url, content);
-        AuthorizationResponseObject parsedResponse = JsonConvert.DeserializeObject<AuthorizationResponseObject>(response.Content.ReadAsStringAsync().Result);
-        return null;
+        HttpResponseMessage response = await Client.PostAsync(url, content);
+        UserAuthenticated = response.IsSuccessStatusCode;
+
+        return JsonConvert.DeserializeObject<AuthorizationTokenData>(response.Content.ReadAsStringAsync().Result);
     }
 
     private async Task<string> FetchProfile(string token)
     {
+        //TODO
         return null;
 
     }
-
     #endregion
 
-    //public void OpenBrowser()
-    //{
-    //    Process.Start(new ProcessStartInfo
-    //    {
-    //        FileName = "http://www.google.com",
-    //        UseShellExecute = true
-    //    });
-    //}
 }

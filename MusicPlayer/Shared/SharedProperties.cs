@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using MusicPlayer.Models;
-using MusicPlayer.ViewModels;
 using System.Collections.ObjectModel;
 
 
@@ -8,15 +7,10 @@ namespace MusicPlayer.Shared
 {
     public partial class SharedProperties : ObservableObject
     {
-        private ObservableCollection<SongListItem> musicFiles;
-        public ObservableCollection<SongListItem> MusicFiles
-        {
-            get { return musicFiles; }
-            set { SetProperty(ref musicFiles, value); }
-        }
+        public ObservableCollection<SongItem> MusicFiles { get; set; }
 
         [ObservableProperty]
-        public SongListItem selectedSongListItem;
+        public SongItem selectedSongListItem;
 
         [ObservableProperty]
         public int selectedSongIndex;
@@ -24,7 +18,8 @@ namespace MusicPlayer.Shared
         //Const for now, later user will beable to choose their own folder path
         [ObservableProperty]
         public string sourceFolderPath = "C:\\Users\\HV387FL\\School\\Szakdoga\\Musics";
-        public SongListItem CurrentPlayingSong { get; set; }
+        public SongItem CurrentPlayingSong { get; set; }
+        public AuthorizationTokenData AuthData;
 
     }
 }

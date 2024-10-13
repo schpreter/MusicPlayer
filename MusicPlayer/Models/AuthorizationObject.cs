@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Formats.Asn1.AsnWriter;
-
-namespace MusicPlayer.Models
+﻿namespace MusicPlayer.Models
 {
     public class AuthorizationObject
     {
@@ -17,7 +10,7 @@ namespace MusicPlayer.Models
         public string CodeChallengeMethod { get; set; }
         public string CodeChallenge { get; set; }
 
-        
+
         public AuthorizationObject()
         {
             ClientID = "a14239410839464680e8d0eb8a016e6b";

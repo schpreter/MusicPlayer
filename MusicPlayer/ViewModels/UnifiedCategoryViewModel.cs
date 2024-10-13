@@ -5,8 +5,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TagLib.Id3v2;
 
@@ -15,7 +15,7 @@ namespace MusicPlayer.ViewModels
     public abstract partial class UnifiedCategoryViewModel : ViewModelBase
     {
         protected NewCategoryInputViewModel NewCategoryInputViewModel { get; set; }
-        public ObservableCollection<SongListItem> SongsByCategory { get; set; }
+        public ObservableCollection<SongItem> SongsByCategory { get; set; }
         public ObservableCollection<UnifiedDisplayItem> ItemCollection { get; set; }
 
         [ObservableProperty]
@@ -55,7 +55,7 @@ namespace MusicPlayer.ViewModels
             ShowSelection();
         }
 
-        protected void UpdateSongCategory(HashSet<SongListItem> filtered)
+        protected void UpdateSongCategory(HashSet<SongItem> filtered)
         {
             SongsByCategory.Clear();
             foreach (var item in filtered)
@@ -65,7 +65,7 @@ namespace MusicPlayer.ViewModels
             ShowSongs = true;
             ShowCategoryHome = false;
         }
-
+        //TODO: Unselect songs upon submit
         protected void RefreshCategory(HashSet<string> set)
         {
             ItemCollection.Clear();
@@ -89,7 +89,7 @@ namespace MusicPlayer.ViewModels
 
         protected void ModifyFiles(IEnumerable songs, string category)
         {
-            foreach (SongListItem song in songs)
+            foreach (SongItem song in songs)
             {
                 TagLib.File tagLibFile = TagLib.File.Create(song.FilePath);
                 switch (category)
@@ -111,10 +111,10 @@ namespace MusicPlayer.ViewModels
                             song.Artists_conc = tagLibFile.Tag.JoinedPerformers;
                             break;
                         }
-                        //This is where the file format matters, just like during parsing
+                    //This is where the file format matters, just like during parsing
                     case "PLAYLISTS":
                         {
-                            ModifyPlaylistTag(song.PlayLists,tagLibFile);
+                            ModifyPlaylistTag(song.PlayLists, tagLibFile);
                             break;
                         }
                     default:
@@ -136,7 +136,7 @@ namespace MusicPlayer.ViewModels
                         PrivateFrame pFrame = PrivateFrame.Get(tag, "Playlists", true);
 
                         List<string> list = new List<string>();
-                        
+
                         //If there is actual data in the private frame, parse it
                         if (pFrame.PrivateData != null)
                         {
@@ -150,8 +150,8 @@ namespace MusicPlayer.ViewModels
                         //Clean user input
                         var cleaned = playlists;
                         cleaned.ForEach(x => x.Replace(";", @"\;"));
-                        
-                        pFrame.PrivateData = Encoding.Unicode.GetBytes(string.Join(';',list.Union(cleaned)));
+
+                        pFrame.PrivateData = Encoding.Unicode.GetBytes(string.Join(';', list.Union(cleaned)));
                         break;
                     }
                 default:

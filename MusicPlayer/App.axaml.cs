@@ -24,10 +24,10 @@ public partial class App : Application
         BindingPlugins.DataValidators.RemoveAt(0);
 
         // Register all the services needed for the application to run
-        
+
         ServiceCollection collection = new ServiceCollection();
         collection.AddCommonServices();
-        
+
 
         // Creates a ServiceProvider containing services from the provided IServiceCollection
         ServiceProvider services = collection.BuildServiceProvider();
@@ -54,7 +54,7 @@ public partial class App : Application
                 DataContext = this.DataContext
             };
         }
-       
+
 
         base.OnFrameworkInitializationCompleted();
     }

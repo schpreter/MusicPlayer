@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Text.RegularExpressions;
 using TagLib.Id3v2;
@@ -15,16 +14,16 @@ namespace MusicPlayer.Data
     public static class MusicFileCollector
     {
 
-        public static ObservableCollection<SongListItem> CollectFilesFromFolder(string folderPath)
+        public static ObservableCollection<SongItem> CollectFilesFromFolder(string folderPath)
         {
-            ObservableCollection<SongListItem> returnList = new ObservableCollection<SongListItem>();
+            ObservableCollection<SongItem> returnList = new ObservableCollection<SongItem>();
             string[] allowedExtensions = [".ogg", ".mp3", ".flac"];
             var listOfFilesInFolder = Directory.GetFiles(folderPath).Where(fil => allowedExtensions.Any(fil.ToLower().EndsWith));
 
             foreach (string item in listOfFilesInFolder)
             {
                 TagLib.File tagLibFile = TagLib.File.Create(item);
-                SongListItem songItem = new SongListItem
+                SongItem songItem = new SongItem
                 {
                     Album = tagLibFile.Tag.Album,
                     Title = tagLibFile.Tag.Title == null ? Path.GetFileName(item).Split('.').First() : tagLibFile.Tag.Title,

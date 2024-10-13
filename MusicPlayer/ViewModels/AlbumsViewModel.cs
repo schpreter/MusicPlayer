@@ -1,8 +1,8 @@
 ﻿using MusicPlayer.Models;
+using MusicPlayer.Shared;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using MusicPlayer.Shared;
 
 namespace MusicPlayer.ViewModels
 {
@@ -11,7 +11,7 @@ namespace MusicPlayer.ViewModels
         public AlbumsViewModel(SharedProperties props, NewCategoryInputViewModel newCategoryInput)
         {
             ItemCollection = new ObservableCollection<UnifiedDisplayItem>();
-            SongsByCategory = new ObservableCollection<SongListItem>();
+            SongsByCategory = new ObservableCollection<SongItem>();
             Properties = props;
             NewCategoryInputViewModel = newCategoryInput;
         }
@@ -25,7 +25,7 @@ namespace MusicPlayer.ViewModels
         public override void ShowSongsInCategory(object album)
         {
             SelectedCategory = (string)album;
-            HashSet<SongListItem> filtered = Properties.MusicFiles.Where(x => x.Album == SelectedCategory).ToHashSet();
+            HashSet<SongItem> filtered = Properties.MusicFiles.Where(x => x.Album == SelectedCategory).ToHashSet();
             UpdateSongCategory(filtered);
         }
 

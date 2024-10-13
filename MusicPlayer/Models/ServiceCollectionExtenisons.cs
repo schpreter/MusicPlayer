@@ -1,15 +1,8 @@
-﻿using Avalonia.Platform.Storage;
-using LibVLCSharp.Shared;
-using Microsoft.Extensions.DependencyInjection;
-using MusicPlayer.Data;
+﻿using Microsoft.Extensions.DependencyInjection;
 using MusicPlayer.Shared;
 using MusicPlayer.ViewModels;
 using MusicPlayer.Views;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net.Http;
 
 namespace MusicPlayer.Models
 {
@@ -20,14 +13,15 @@ namespace MusicPlayer.Models
             collection.AddSingleton<SharedProperties>()
             .AddSingleton<MainWindow>()
             .AddSingleton<ControlWidget>()
+            .AddSingleton<HttpClient>()
             #region ViewModels
-            .AddTransient<AuthorizationObject>()
             .AddTransient<NewCategoryInputViewModel>()
             .AddTransient<HomeContentViewModel>()
             .AddTransient<PlaylistsViewModel>()
             .AddTransient<ArtistsViewModel>()
             .AddTransient<AlbumsViewModel>()
             .AddTransient<GenresViewModel>()
+            .AddTransient<SpotifyRecViewModel>()
             .AddTransient<MusicNavigationViewModel>()
             .AddTransient<MainViewModel>();
             #endregion
