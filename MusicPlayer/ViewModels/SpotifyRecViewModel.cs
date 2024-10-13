@@ -37,6 +37,7 @@ namespace MusicPlayer.ViewModels
         public SpotifyRecViewModel(SharedProperties props, HttpClient client)
         {
             Genres = new ObservableCollection<SelectableItem>();
+            Recommendations = new RecommendationObject();
             Properties = props;
             Client = client;
         }

@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MusicPlayer.Models.Recommendations
 {
@@ -49,6 +51,19 @@ namespace MusicPlayer.Models.Recommendations
         [JsonProperty("uri")]
 
         public string Uri { get; set; }
-
+        public string DurationDisplay
+        {
+            get
+            {
+                return TimeSpan.FromMilliseconds(DurationMs).ToString(@"mm\:ss");
+            }
+        }
+        public string ArtistsConc
+        {
+            get
+            {
+                return string.Join(", ", Artists.Select(x => x.Name));
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MusicPlayer.Models.Recommendations
 {
@@ -42,5 +43,13 @@ namespace MusicPlayer.Models.Recommendations
         public Restrictions Restrictions { get; set; }
         [JsonProperty("artists")]
         public List<Artist> Artists { get; set; }
+
+        public Image DefaultImage
+        {
+            get
+            {
+                return Images.First();
+            }
+        }
     }
 }
