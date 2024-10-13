@@ -7,7 +7,7 @@
 		<Setter Property="Focusable" Value="True" />
 		<Setter Property="MinWidth" Value="4" />
 		<Setter Property="MinHeight" Value="4" />
-		<Setter Property="Background" Value="{DynamicResource SystemAltMediumLowColor}" />
+		<Setter Property="Background" Value="{DynamicResource SystemAccentColor}" />
 		<Setter Property="PreviewContent">
 			<Template>
 				<Rectangle Fill="{DynamicResource SystemAccentColor}" />
@@ -58,10 +58,11 @@
 	<ControlTheme x:Key="MusicNavigationButton" TargetType="Button">
 		<Setter Property="Padding" Value="10"/>
 		<Setter Property="Cursor" Value="Hand"/>
+		<Setter Property="Background" Value="{DynamicResource ButtonBackground}" />
 		<Setter Property="Template">
 			<ControlTemplate>
 				<Panel>
-					<Rectangle Fill="SteelBlue" RadiusX="10" RadiusY="10" Margin="10"/>
+					<Rectangle Fill="{DynamicResource ButtonBackground}" RadiusX="10" RadiusY="10" Margin="10"/>
 					<ContentPresenter x:Name="PART_ContentPresenter"
 									  Content="{TemplateBinding Content}"
 									  Margin="{TemplateBinding Padding}"
@@ -75,10 +76,10 @@
 		<Setter Property="Padding" Value="20"/>
 		<Setter Property="Height" Value="40"/>
 		<Setter Property="Cursor" Value="Hand"/>
-
+		
 		<Setter Property="Template">
 			<ControlTemplate>
-				<StackPanel Orientation="Horizontal" Spacing="10" Background="{DynamicResource ThemeControlMidBrush}" x:Name="PART_StackPanel">
+				<StackPanel Orientation="Horizontal" Spacing="10" Background="{DynamicResource ButtonBackground}" x:Name="PART_StackPanel">
 					<mi:MaterialIcon Kind="Backburger" FontSize="10" HorizontalAlignment="Stretch"/>
 					<TextBlock Text="Back to previous page" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
 				</StackPanel>
@@ -99,7 +100,7 @@
 
 		<Setter Property="Template">
 			<ControlTemplate>
-				<StackPanel Orientation="Horizontal" Spacing="10" x:Name="PART_StackPanel">
+				<StackPanel Orientation="Horizontal"  Background="{DynamicResource ButtonBackground}" Spacing="10" x:Name="PART_StackPanel">
 					<mi:MaterialIcon Kind="PlusCircle" FontSize="10" HorizontalAlignment="Stretch"/>
 					<TextBlock Text="Add new song" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
 				</StackPanel>
