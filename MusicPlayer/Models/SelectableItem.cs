@@ -1,8 +1,11 @@
-﻿namespace MusicPlayer.Models
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+
+namespace MusicPlayer.Models
 {
-    public class SelectableItem
+    public partial class SelectableItem : ObservableObject
     {
-        public bool IsSelected { get; set; }
+        [ObservableProperty]
+        public bool isSelected;
 
         public string Display { get; set; }
         public SelectableItem()

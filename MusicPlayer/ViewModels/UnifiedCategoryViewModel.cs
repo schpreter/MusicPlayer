@@ -1,6 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Avalonia.Media.Imaging;
+using CommunityToolkit.Mvvm.ComponentModel;
 using DialogHostAvalonia;
 using MusicPlayer.Models;
+using MusicPlayer.Models.Recommendations;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -41,6 +43,7 @@ namespace MusicPlayer.ViewModels
             ShowSongSelectionList = false;
             ShowSongs = false;
             ShowCategoryHome = true;
+            UnselectListItems();
         }
         public void ShowSelection()
         {
@@ -57,6 +60,8 @@ namespace MusicPlayer.ViewModels
 
         protected void UpdateSongCategory(HashSet<SongItem> filtered)
         {
+            //Observable Collection only refreshes UI upon add/remove full reinit operations
+            //There is also no built in method for HashSet to ObsevableCollection, could implement in the future tho
             SongsByCategory.Clear();
             foreach (var item in filtered)
             {
@@ -65,19 +70,20 @@ namespace MusicPlayer.ViewModels
             ShowSongs = true;
             ShowCategoryHome = false;
         }
-        //TODO: Unselect songs upon submit
-        protected void RefreshCategory(HashSet<string> set)
+        protected void RefreshCategory(IEnumerable<IGrouping<string, SongItem>> groupedCollection)
         {
+            Dictionary<string, Bitmap> categoryDict = groupedCollection.ToDictionary(x => x.Key ?? string.Empty, x => x.ToList().First().FirstImage);
             ItemCollection.Clear();
-            foreach (var item in set)
+            foreach (var item in categoryDict)
             {
-                ItemCollection.Add(new UnifiedDisplayItem(item));
+                ItemCollection.Add(new UnifiedDisplayItem(item.Key,item.Value));
             }
             ShowHome();
         }
         protected async Task ToggleCategoryInputModal(string categoryType)
         {
             //First, if the selected category is null, we must prompt the user to select a category
+            //In case of new category this is always the case
             if (SelectedCategory == null)
             {
                 NewCategoryInputViewModel.Title = $"New {categoryType}:";
@@ -163,6 +169,15 @@ namespace MusicPlayer.ViewModels
                         tag.SetField("Playlists", filtered.ToArray());
                         break;
                     }
+            }
+        }
+
+        private void UnselectListItems()
+        {
+            foreach (SongItem item in Properties.MusicFiles)
+            {
+                if (item.IsSelected)
+                    item.IsSelected = false;
             }
         }
 

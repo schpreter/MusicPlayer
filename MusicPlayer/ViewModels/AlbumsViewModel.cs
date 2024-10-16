@@ -1,4 +1,5 @@
-﻿using MusicPlayer.Models;
+﻿using Avalonia.Media.Imaging;
+using MusicPlayer.Models;
 using MusicPlayer.Shared;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,14 +19,14 @@ namespace MusicPlayer.ViewModels
 
         public override void RefreshContent()
         {
-            HashSet<string> Albums = Properties.MusicFiles.Select(x => x.Album).ToHashSet();
-            RefreshCategory(Albums);
+            IEnumerable<IGrouping<string,SongItem>> albumsOnly = Properties.MusicFiles.GroupBy(x => x.Album);
+            RefreshCategory(albumsOnly);
 
         }
         public override void ShowSongsInCategory(object album)
         {
             SelectedCategory = (string)album;
-            HashSet<SongItem> filtered = Properties.MusicFiles.Where(x => x.Album == SelectedCategory).ToHashSet();
+            HashSet<SongItem> filtered = SelectedCategory == string.Empty ? Properties.MusicFiles.Where(x => x.Album == null).ToHashSet() :  Properties.MusicFiles.Where(x => x.Album == SelectedCategory).ToHashSet();
             UpdateSongCategory(filtered);
         }
 
@@ -52,7 +53,7 @@ namespace MusicPlayer.ViewModels
 
         public override string ToString()
         {
-            return "Albums - " + SelectedCategory;
+            return "Albums";
         }
     }
 }

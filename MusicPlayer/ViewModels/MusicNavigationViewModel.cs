@@ -25,7 +25,7 @@ namespace MusicPlayer.ViewModels
 
         public void ShuffleClicked()
         {
-
+            //TODO
         }
         public void SkipBackClicked()
         {
@@ -42,9 +42,11 @@ namespace MusicPlayer.ViewModels
         }
         public void RepeatClicked()
         {
+            //TODO
         }
         private void PlaySong()
         {
+            //TODO: Refactor, this is ugly code
             SongItem song = Properties.SelectedSongListItem;
             if (song != null)
             {
@@ -71,6 +73,7 @@ namespace MusicPlayer.ViewModels
         }
         private void SkipSong(SkipDirection direction)
         {
+            //TODO: Skipping should be working on either all songs or the songs in a given category
             int length = Properties.MusicFiles.Count;
             switch (direction)
             {

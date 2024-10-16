@@ -1,4 +1,5 @@
-﻿using MusicPlayer.Models;
+﻿using Avalonia.Media.Imaging;
+using MusicPlayer.Models;
 using MusicPlayer.Shared;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,8 +20,10 @@ namespace MusicPlayer.ViewModels
         }
         public override void RefreshContent()
         {
-            HashSet<string> Genres = Properties.MusicFiles.SelectMany(x => x.Genres).ToHashSet();
-            RefreshCategory(Genres);
+            //HashSet<string> Genres = Properties.MusicFiles.SelectMany(x => x.Genres).ToHashSet();
+            //Dictionary<string, Bitmap> Genres = Properties.MusicFiles.ToDictionary(x => x.Genres.Distinct(), x => x.FirstImage);
+
+            //RefreshCategory(Genres);
 
         }
         public override void ShowSongsInCategory(object genre)

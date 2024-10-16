@@ -22,12 +22,21 @@ namespace MusicPlayer.ViewModels
         public void SubmitNewCategory()
         {
             DialogHost.GetDialogSession("CategoryView")?.Close(NewCategoryInput);
+
         }
 
 
         public void CancelNewCategory()
         {
             DialogHost.GetDialogSession("CategoryView")?.Close(null);
+        }
+
+        private void ClearSongSelection()
+        {
+            foreach (var item in Properties.MusicFiles)
+            {
+                item.IsSelected = false;
+            }
         }
     }
 }

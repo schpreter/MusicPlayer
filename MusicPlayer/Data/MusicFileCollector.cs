@@ -1,4 +1,6 @@
-﻿using MusicPlayer.Models;
+﻿using Avalonia.Media.Imaging;
+using Avalonia.Platform;
+using MusicPlayer.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -6,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using TagLib;
 using TagLib.Id3v2;
 
 
@@ -23,6 +26,8 @@ namespace MusicPlayer.Data
             foreach (string item in listOfFilesInFolder)
             {
                 TagLib.File tagLibFile = TagLib.File.Create(item);
+                var pics = tagLibFile.Tag.Pictures;
+
                 SongItem songItem = new SongItem
                 {
                     Album = tagLibFile.Tag.Album,
@@ -34,7 +39,8 @@ namespace MusicPlayer.Data
                     Duration = TimeSpan.FromSeconds(tagLibFile.Properties.Duration.TotalSeconds),
                     FilePath = tagLibFile.Name,
                     PlayLists = ParseData(tagLibFile),
-                    IsSelected = false
+                    IsSelected = false,
+                    Images = tagLibFile.Tag.Pictures.Select(img => img.Data).ToList(),
 
                 };
                 returnList.Add(songItem);

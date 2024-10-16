@@ -1,5 +1,9 @@
-﻿using System;
+﻿using Avalonia.Media.Imaging;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using TagLib;
 
 namespace MusicPlayer.Models
 {
@@ -16,6 +20,9 @@ namespace MusicPlayer.Models
         public TimeSpan Duration { get; set; }
         public string FilePath { get; set; }
         public List<string> PlayLists { get; set; }
+        //TODO: Figure out what to do with these pics
+        //For now I will only use the first pics data, read it into a stream and feed that stream to a Bitmap
+        public List<ByteVector> Images { get; set; }
 
         public string Duration_display
         {
@@ -28,6 +35,20 @@ namespace MusicPlayer.Models
         public override string ToString()
         {
             return $"{Artists_conc} {Title} {Duration_display}";
+        }
+
+        public Bitmap FirstImage
+        {
+            get
+            {
+                var pic = Images.FirstOrDefault();
+                if(pic != null)
+                {
+                    using MemoryStream ms = new MemoryStream(pic.ToArray());
+                    return new Bitmap(ms);
+                }
+                return null;
+            }
         }
     }
 }

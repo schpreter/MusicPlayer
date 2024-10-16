@@ -9,13 +9,12 @@ namespace MusicPlayer.Models
         public string Name { get; set; }
         public string ImagePath { get; set; }
         public Bitmap ImageMap { get; set; }
-        public UnifiedDisplayItem(string name, string imgpath = null)
+        public UnifiedDisplayItem(string name, Bitmap image = null)
         {
             Name = name;
-            if (imgpath != null)
+            if (image != null)
             {
-                ImagePath = imgpath;
-                ImageMap = new Bitmap(AssetLoader.Open(new Uri(imgpath)));
+                ImageMap = image;
             }
 
         }
