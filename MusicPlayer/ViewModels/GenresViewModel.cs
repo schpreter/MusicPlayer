@@ -1,5 +1,4 @@
-﻿using Avalonia.Media.Imaging;
-using MusicPlayer.Models;
+﻿using MusicPlayer.Models;
 using MusicPlayer.Shared;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,10 +19,8 @@ namespace MusicPlayer.ViewModels
         }
         public override void RefreshContent()
         {
-            //HashSet<string> Genres = Properties.MusicFiles.SelectMany(x => x.Genres).ToHashSet();
-            //Dictionary<string, Bitmap> Genres = Properties.MusicFiles.ToDictionary(x => x.Genres.Distinct(), x => x.FirstImage);
-
-            //RefreshCategory(Genres);
+            var GenresSet = Properties.MusicFiles.SelectMany(x => x.Genres).ToHashSet();
+            RefreshCategory(GenresSet, nameof(GenresViewModel));
 
         }
         public override void ShowSongsInCategory(object genre)
@@ -51,7 +48,7 @@ namespace MusicPlayer.ViewModels
                     }
                 }
                 //Then based on the changed values we save the modifications to the file
-                ModifyFiles(selectedSongs, "GENRES");
+                ModifyFiles(selectedSongs, nameof(GenresViewModel));
             }
         }
 

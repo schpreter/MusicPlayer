@@ -20,8 +20,8 @@ namespace MusicPlayer.ViewModels
 
         public override void RefreshContent()
         {
-            //var playlistNames = Properties.MusicFiles.SelectMany(x => x.PlayLists).ToHashSet();
-            //RefreshCategory(playlistNames);
+            var playlistNames = Properties.MusicFiles.SelectMany(x => x.PlayLists).ToHashSet();
+            RefreshCategory(playlistNames, nameof(PlaylistsViewModel));
         }
         public override string ToString()
         {

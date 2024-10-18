@@ -1,6 +1,4 @@
-﻿using Avalonia.Media.Imaging;
-using Avalonia.Platform;
-using MusicPlayer.Models;
+﻿using MusicPlayer.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using TagLib;
 using TagLib.Id3v2;
 
 

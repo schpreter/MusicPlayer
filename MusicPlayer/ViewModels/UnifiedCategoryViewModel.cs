@@ -2,7 +2,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using DialogHostAvalonia;
 using MusicPlayer.Models;
-using MusicPlayer.Models.Recommendations;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -70,24 +69,63 @@ namespace MusicPlayer.ViewModels
             ShowSongs = true;
             ShowCategoryHome = false;
         }
-        protected void RefreshCategory(IEnumerable<IGrouping<string, SongItem>> groupedCollection)
+        protected void RefreshCategory(HashSet<string> keys, string category)
         {
-            Dictionary<string, Bitmap> categoryDict = groupedCollection.ToDictionary(x => x.Key ?? string.Empty, x => x.ToList().First().FirstImage);
-            ItemCollection.Clear();
-            foreach (var item in categoryDict)
+            HashSet<KeyValuePair<string, Bitmap>> groupedCollection = new HashSet<KeyValuePair<string, Bitmap>>();
+            foreach (var key in keys)
             {
-                ItemCollection.Add(new UnifiedDisplayItem(item.Key,item.Value));
+                List<SongItem> items = GetItemsForCategory(key, category);
+
+                if (items.Any())
+                {
+                    groupedCollection.Add(KeyValuePair.Create(key, items.ToList().First().FirstImage));
+                }
+            }
+
+            ItemCollection.Clear();
+            foreach (var item in groupedCollection)
+            {
+                ItemCollection.Add(new UnifiedDisplayItem(item.Key, item.Value));
             }
             ShowHome();
         }
-        protected async Task ToggleCategoryInputModal(string categoryType)
+        private List<SongItem> GetItemsForCategory(string key, string category)
+        {
+            List<SongItem> res = new List<SongItem>();
+            switch (category)
+            {
+                case nameof(ArtistsViewModel):
+                    {
+                        res = Properties.MusicFiles.Where(x => x.Artists.Contains(key)).ToList();
+                        break;
+                    }
+                case nameof(AlbumsViewModel):
+                    {
+                        res = Properties.MusicFiles.Where(x => x.Album == key).ToList();
+                        break;
+                    }
+                case nameof(GenresViewModel):
+                    {
+                        res = Properties.MusicFiles.Where(x => x.Genres.Contains(key)).ToList();
+                        break;
+                    }
+                case nameof(PlaylistsViewModel):
+                    {
+                        res = Properties.MusicFiles.Where(x => x.PlayLists.Contains(key)).ToList();
+                        break;
+                    }
+            }
+            return res;
+        }
+
+        protected async Task ToggleCategoryInputModal(string category)
         {
             //First, if the selected category is null, we must prompt the user to select a category
             //In case of new category this is always the case
             if (SelectedCategory == null)
             {
-                NewCategoryInputViewModel.Title = $"New {categoryType}:";
-                NewCategoryInputViewModel.Description = $"Enter your new {categoryType}.";
+                NewCategoryInputViewModel.Title = $"New {category}:";
+                NewCategoryInputViewModel.Description = $"Enter your new {category}.";
                 SelectedCategory = (string)await DialogHost.Show(NewCategoryInputViewModel);
             }
 
@@ -100,25 +138,25 @@ namespace MusicPlayer.ViewModels
                 TagLib.File tagLibFile = TagLib.File.Create(song.FilePath);
                 switch (category)
                 {
-                    case "GENRES":
+                    case nameof(GenresViewModel):
                         {
                             tagLibFile.Tag.Genres = song.Genres.ToArray();
                             song.Genres = tagLibFile.Tag.Genres.ToList();
                             break;
                         }
-                    case "ARTISTS":
-                        {
-                            tagLibFile.Tag.Album = song.Album;
-                            break;
-                        }
-                    case "ALBUM":
+                    case nameof(ArtistsViewModel):
                         {
                             tagLibFile.Tag.Performers = song.Artists.ToArray();
                             song.Artists_conc = tagLibFile.Tag.JoinedPerformers;
                             break;
                         }
+                    case nameof(AlbumsViewModel):
+                        {
+                            tagLibFile.Tag.Album = song.Album;
+                            break;
+                        }
                     //This is where the file format matters, just like during parsing
-                    case "PLAYLISTS":
+                    case nameof(PlaylistsViewModel):
                         {
                             ModifyPlaylistTag(song.PlayLists, tagLibFile);
                             break;

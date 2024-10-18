@@ -12,6 +12,6 @@ namespace MusicPlayer.Models.Recommendations
         public int Height { get; set; }
         [JsonProperty("width")]
 
-        public int Width { get; set; } 
+        public int Width { get; set; }
     }
 }
