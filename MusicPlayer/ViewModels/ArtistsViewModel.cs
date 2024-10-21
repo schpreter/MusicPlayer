@@ -31,7 +31,7 @@ namespace MusicPlayer.ViewModels
         {
             SelectedCategory = (string)genre;
             HashSet<SongItem> filtered = Properties.MusicFiles.Where(x => x.Artists.Contains(SelectedCategory)).ToHashSet();
-            UpdateSongCategory(filtered);
+            UpdateSongCategory(filtered, nameof(ArtistsViewModel));
         }
 
 

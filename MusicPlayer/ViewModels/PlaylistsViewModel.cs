@@ -32,7 +32,7 @@ namespace MusicPlayer.ViewModels
         {
             SelectedCategory = (string)playlist;
             HashSet<SongItem> filtered = Properties.MusicFiles.Where(x => x.PlayLists.Contains(SelectedCategory)).ToHashSet();
-            UpdateSongCategory(filtered);
+            UpdateSongCategory(filtered,nameof(PlaylistsViewModel));
         }
 
         public override async void AddSelectedSongs()

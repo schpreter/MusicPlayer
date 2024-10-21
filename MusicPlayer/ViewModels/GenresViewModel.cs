@@ -26,8 +26,10 @@ namespace MusicPlayer.ViewModels
         public override void ShowSongsInCategory(object genre)
         {
             SelectedCategory = (string)genre;
+
+
             HashSet<SongItem> filtered = Properties.MusicFiles.Where(x => x.Genres.Contains(SelectedCategory)).ToHashSet();
-            UpdateSongCategory(filtered);
+            UpdateSongCategory(filtered,nameof(GenresViewModel));
         }
 
         public override async void AddSelectedSongs()

@@ -26,7 +26,7 @@ namespace MusicPlayer.ViewModels
         {
             SelectedCategory = (string)album;
             HashSet<SongItem> filtered = SelectedCategory == string.Empty ? Properties.MusicFiles.Where(x => x.Album == null).ToHashSet() : Properties.MusicFiles.Where(x => x.Album == SelectedCategory).ToHashSet();
-            UpdateSongCategory(filtered);
+            UpdateSongCategory(filtered,nameof(AlbumsViewModel));
         }
 
         public override async void AddSelectedSongs()

@@ -11,7 +11,7 @@
 	</Design.DataContext>
 	<Grid>
 		<ListBox ItemsSource="{Binding Properties.MusicFiles}" 
-				 SelectedItem="{Binding Properties.SelectedSongListItem}" 
+				 SelectedItem="{Binding Properties.SelectedSong}" 
 				 SelectedIndex="{Binding Properties.SelectedSongIndex}"
 				 Background="Transparent"
 				 ItemTemplate="{StaticResource SongListDisplayTemplate}">

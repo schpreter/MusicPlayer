@@ -43,6 +43,7 @@ namespace MusicPlayer.ViewModels
             ShowSongs = false;
             ShowCategoryHome = true;
             UnselectListItems();
+            Properties.SongsByCategory.Clear();
         }
         public void ShowSelection()
         {
@@ -57,7 +58,8 @@ namespace MusicPlayer.ViewModels
             ShowSelection();
         }
 
-        protected void UpdateSongCategory(HashSet<SongItem> filtered)
+
+        protected void UpdateSongCategory(HashSet<SongItem> filtered, string category)
         {
             //Observable Collection only refreshes UI upon add/remove full reinit operations
             //There is also no built in method for HashSet to ObsevableCollection, could implement in the future tho
@@ -66,6 +68,9 @@ namespace MusicPlayer.ViewModels
             {
                 SongsByCategory.Add(item);
             }
+            //Setting the filtered list in the properties, whivh the navigation can use
+            Properties.SongsByCategory = GetItemsForCategory(category, SelectedCategory);
+
             ShowSongs = true;
             ShowCategoryHome = false;
         }
