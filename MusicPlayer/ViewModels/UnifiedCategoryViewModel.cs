@@ -69,7 +69,7 @@ namespace MusicPlayer.ViewModels
                 SongsByCategory.Add(item);
             }
             //Setting the filtered list in the properties, whivh the navigation can use
-            Properties.SongsByCategory = GetItemsForCategory(category, SelectedCategory);
+            Properties.SongsByCategory = GetItemsForCategory(SelectedCategory, category);
 
             ShowSongs = true;
             ShowCategoryHome = false;

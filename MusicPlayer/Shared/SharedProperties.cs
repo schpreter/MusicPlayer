@@ -10,7 +10,7 @@ namespace MusicPlayer.Shared
     public partial class SharedProperties : ObservableObject
     {
         public ObservableCollection<SongItem> MusicFiles { get; set; }
-        public List<SongItem> SongsByCategory { get; set; }
+        public List<SongItem> SongsByCategory { get; set; } = new List<SongItem>();
         public string Category { get; set; }
         public string CategoryName { get; set; }
         [ObservableProperty]
@@ -22,7 +22,7 @@ namespace MusicPlayer.Shared
         //Const for now, later user will beable to choose their own folder path
         [ObservableProperty]
         public string sourceFolderPath = "C:\\Users\\HV387FL\\School\\Szakdoga\\Musics";
-        public SongItem CurrentSong { get; set; }
+        public string PreviousSongPath { get; set; }
         public AuthorizationTokenData AuthData;
 
     }
