@@ -11,7 +11,7 @@
 
 	<Grid RowDefinitions="10*,10*,80*">
 
-		<Button Theme="{StaticResource BackToCategoryHomeButton}" Grid.Row="0" Padding="20" Margin="10" HorizontalAlignment="Left" Command="{Binding ShowHome}"/>
+		<!--<Button Theme="{StaticResource BackToCategoryHomeButton}" Grid.Row="0" Padding="20" Margin="10" HorizontalAlignment="Left" Command="{Binding ShowHome}"/>-->
 		<!--<StackPanel Grid.Row="0" HorizontalAlignment="Right" Orientation="Horizontal">
 			-->
 		<!--<Button Theme="{StaticResource AddNewButton}"  Padding="20" Margin="10" Command="{Binding ShowSelection}"/>-->
@@ -19,7 +19,16 @@
 
 
 		</StackPanel>-->
-		<Button Grid.Row="0"  HorizontalAlignment="Right" >
+
+		<Button Cursor="Hand" Grid.Row="0" HorizontalAlignment="Left" Command="{Binding ShowHome}">
+			<StackPanel Orientation="Horizontal" Spacing="10">
+				<mi:MaterialIcon Kind="Backburger" FontSize="10" HorizontalAlignment="Stretch"/>
+				<TextBlock Text="Back to home page" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+			</StackPanel>
+		</Button>
+
+
+		<Button Cursor="Hand" Grid.Row="0"  HorizontalAlignment="Right" >
 			<Button.Flyout>
 				<MenuFlyout>
 					<MenuItem Command="{Binding ShowSelection}">
