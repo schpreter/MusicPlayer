@@ -2,8 +2,10 @@
 using LibVLCSharp.Shared;
 using MusicPlayer.Models;
 using MusicPlayer.Shared;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using TagLib.Riff;
 
 namespace MusicPlayer.ViewModels
@@ -25,7 +27,17 @@ namespace MusicPlayer.ViewModels
         public MusicNavigationViewModel(SharedProperties props)
         {
             MediaPlayer = new MediaPlayer(LibVlc);
+            //In theory this should keep the listener alive throughout the whole life cycle of the app
+            //Needs testing tho
+            MediaPlayer.EndReached += MediaPlayer_EndReached;
             Properties = props;
+        }
+
+        private void MediaPlayer_EndReached(object sender, System.EventArgs e)
+        {
+            //Calling back to LibVLC sharp from an event may freeze the app
+            //As described by https://github.com/videolan/libvlcsharp/blob/3.x/docs/best_practices.md
+            ThreadPool.QueueUserWorkItem(_ => SkipForwardClicked());
         }
 
         public void ShuffleClicked()
@@ -51,25 +63,16 @@ namespace MusicPlayer.ViewModels
         }
         private void PlaySong()
         {
-            //TODO: Refactor, this is ugly code
-            /* Step 1: User Selects a song, if no song is selected do nothing
-             * Step 2: Play Selected Song
-             * Step 3: In case selected song is the same all you do is toggle the pause
-             * Step 4: If the selected song changes
-             *  -> Play the selected song
-             *  -> update the pause variable accordingly (should never be true in this case
-             */
-
-            //Step 1: If no song is selected skip
             if (Properties.SelectedSong != null)
             {
 
                 //If new is selected we switch the playback to that one
                 if (IsNewSongSelected())
                 {
+
                     using Media media = new Media(LibVlc, Properties.SelectedSong.FilePath);
                     IsPaused = !MediaPlayer.Play(media);
-                    //Stroe the PreviousSongPath for future reference
+                    //Stroe the SelectedSongPath for song switches
                     Properties.PreviousSongPath = Properties.SelectedSong.FilePath;
 
                 }
@@ -79,21 +82,18 @@ namespace MusicPlayer.ViewModels
                     MediaPlayer.Pause();
                 }
                 MediaPlayer.Paused += MediaPlayer_Paused;
+
             }
         }
 
+        /*
+         * Event Listener, in case the paused event fires it sets the paused property to true
+         */
         private void MediaPlayer_Paused(object sender, System.EventArgs e)
         {
             IsPaused = true;
         }
 
-        public bool IsMediaPlaying
-        {
-            get
-            {
-                return MediaPlayer.IsPlaying;
-            }
-        }
         /*
          * If the PreviousSong (loaded into the media player that is)
          * Doesn't equal the one we selected, it means a song switching happened
@@ -134,7 +134,6 @@ namespace MusicPlayer.ViewModels
             }
 
             Properties.SelectedSong = SongsToPlay.ElementAtOrDefault(Properties.SelectedSongIndex);
-            //Properties.PreviousSongPath = Properties.SelectedSong.FilePath;
             PlaySong();
         }
 

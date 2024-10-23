@@ -15,15 +15,15 @@ namespace MusicPlayer.Models
             .AddSingleton<ControlWidget>()
             .AddSingleton<HttpClient>()
             #region ViewModels
-            .AddTransient<NewCategoryInputViewModel>()
-            .AddTransient<HomeContentViewModel>()
-            .AddTransient<PlaylistsViewModel>()
-            .AddTransient<ArtistsViewModel>()
-            .AddTransient<AlbumsViewModel>()
-            .AddTransient<GenresViewModel>()
-            .AddTransient<SpotifyRecViewModel>()
-            .AddTransient<MusicNavigationViewModel>()
-            .AddTransient<MainViewModel>();
+            .AddSingleton<NewCategoryInputViewModel>()
+            .AddSingleton<HomeContentViewModel>()
+            .AddSingleton<PlaylistsViewModel>()
+            .AddSingleton<ArtistsViewModel>()
+            .AddSingleton<AlbumsViewModel>()
+            .AddSingleton<GenresViewModel>()
+            .AddSingleton<SpotifyRecViewModel>()
+            .AddSingleton<MusicNavigationViewModel>()
+            .AddSingleton<MainViewModel>();
             #endregion
 
         }
