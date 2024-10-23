@@ -29,7 +29,7 @@
 		</Setter>
 	</ControlTheme>
 
-	<ControlTheme x:Key="SidePanelNavButtons" TargetType="Button">
+	<!--<ControlTheme x:Key="SidePanelNavButtons" TargetType="Button">
 		<Setter Property="Padding" Value="10"/>
 		<Setter Property="Cursor" Value="Hand"/>
 		<Setter Property="Template">
@@ -49,13 +49,13 @@
 			<Setter Property="Background" Value="{DynamicResource ButtonBackgroundPointerOver}" />
 		</Style>
 		<Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-			<!--<Setter Property="Background" Value="{DynamicResource ButtonBackgroundDisabled}" />
-			<Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushDisabled}" />-->
+			--><!--<Setter Property="Background" Value="{DynamicResource ButtonBackgroundDisabled}" />
+			<Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushDisabled}" />--><!--
 			<Setter Property="Foreground" Value="{DynamicResource ButtonForegroundDisabled}" />
 		</Style>
-	</ControlTheme>
+	</ControlTheme>-->
 
-	<ControlTheme x:Key="MusicNavigationButton" TargetType="Button">
+	<!--<ControlTheme x:Key="MusicNavigationButton" TargetType="Button">
 		<Setter Property="Padding" Value="10"/>
 		<Setter Property="Cursor" Value="Hand"/>
 		<Setter Property="Background" Value="{DynamicResource ButtonBackground}" />
@@ -70,7 +70,7 @@
 				</Panel>
 			</ControlTemplate>
 		</Setter>
-	</ControlTheme>
+	</ControlTheme>-->
 
 	<ControlTheme x:Key="BackToCategoryHomeButton" TargetType="Button">
 		<Setter Property="Padding" Value="20"/>

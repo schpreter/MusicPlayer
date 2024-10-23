@@ -10,13 +10,13 @@
 			  x:DataType="vm:MusicNavigationViewModel">
 
 	<Grid ColumnDefinitions="*,*,2*,*,*">
-		<Button Theme="{StaticResource MusicNavigationButton}" Grid.Column="0" HorizontalAlignment="Stretch" Command="{Binding ShuffleClicked}">
+		<Button Classes="Light" Theme="{StaticResource MusicNavigationButton}" Grid.Column="0" HorizontalAlignment="Stretch" Command="{Binding ShuffleClicked}">
 			<mi:MaterialIcon Kind="ShuffleVariant"/>
 		</Button>
 		<Button Theme="{StaticResource MusicNavigationButton}" Grid.Column="1" HorizontalAlignment="Stretch" Command="{Binding SkipBackClicked}">
 			<mi:MaterialIcon Kind="SkipPrevious"/>
 		</Button>
-		<ToggleButton Theme="{StaticResource MusicNavigationButton}" Grid.Column="2" HorizontalAlignment="Stretch" Command="{Binding PausePlayClicked}">
+		<ToggleButton Classes="Mid" Theme="{StaticResource MusicNavigationButton}" Grid.Column="2" HorizontalAlignment="Stretch" Command="{Binding PausePlayClicked}">
 			<Panel>
 				<mi:MaterialIcon Kind="Play" IsVisible="{Binding IsPaused}"/>
 				<mi:MaterialIcon Kind="Pause" IsVisible="{Binding !IsPaused}"/>
