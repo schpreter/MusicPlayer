@@ -32,28 +32,34 @@
 	<ControlTheme x:Key="SidePanelNavButtons" TargetType="Button">
 		<Setter Property="Padding" Value="10"/>
 		<Setter Property="Cursor" Value="Hand"/>
+		<Setter Property="Transitions">
+			<Transitions>
+				<TransformOperationsTransition Property="RenderTransform" Duration="0:0:.075" />
+			</Transitions>
+		</Setter>
 		<Setter Property="Template">
 			<ControlTemplate>
-				<Panel x:Name="PART_Panel">
-					<Rectangle Fill="AliceBlue" Opacity="0"/>
-					<ContentPresenter x:Name="PART_ContentPresenter"
-									  Content="{TemplateBinding Content}"
-									  Margin="{TemplateBinding Padding}"
+				<ContentPresenter x:Name="PART_ContentPresenter"
+								  Content="{TemplateBinding Content}"
+								  Margin="{TemplateBinding Padding}"
+								  CornerRadius="10"
 									  />
-					<Separator VerticalAlignment="Bottom"/>
 
-				</Panel>
 			</ControlTemplate>
 		</Setter>
 		<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
 			<Setter Property="Background" Value="{DynamicResource ButtonBackgroundPointerOver}" />
 		</Style>
 		<Style Selector="^:disabled /template/ ContentPresenter#PART_ContentPresenter">
-			<!--<Setter Property="Background" Value="{DynamicResource ButtonBackgroundDisabled}" />
-			<Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushDisabled}" />-->
 			<Setter Property="Foreground" Value="{DynamicResource ButtonForegroundDisabled}" />
 		</Style>
+		<Style Selector="^:pressed">
+			<Setter Property="RenderTransform" Value="scale(0.98)" />
+		</Style>
+
+
 	</ControlTheme>
+
 
 	<ControlTheme x:Key="MusicNavigationButton" TargetType="Button">
 		<Setter Property="Padding" Value="10"/>
@@ -76,7 +82,7 @@
 		<Setter Property="Padding" Value="20"/>
 		<Setter Property="Height" Value="40"/>
 		<Setter Property="Cursor" Value="Hand"/>
-		
+
 		<Setter Property="Template">
 			<ControlTemplate>
 				<StackPanel Orientation="Horizontal" Spacing="10" Background="{DynamicResource ButtonBackground}" x:Name="PART_StackPanel">
@@ -116,54 +122,60 @@
 		<Button
 			Command="{ReflectionBinding DataContext.ShowSongsInCategory, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
 			CommandParameter ="{ReflectionBinding Name}"
-			Cursor="Hand">
-			<Border Margin="10,10,0,20"
-				CornerRadius="10"
-				BorderBrush="Gray" BorderThickness="1"
-				Padding="20"
-				Height="250" Width="200">
-				<StackPanel Orientation="Vertical" Spacing="10">
-					<Image  Source="{ReflectionBinding ImageMap}"/>
-					<TextBlock Text="{ReflectionBinding Name}" HorizontalAlignment="Center" FontSize="26"/>
-				</StackPanel>
-			</Border>
+			Cursor="Hand"
+			Height="250"
+			Width="200"
+			Padding="20"
+			Margin="5">
+
+			<StackPanel Orientation="Vertical" Spacing="10">
+				<Image  Source="{ReflectionBinding ImageMap}"/>
+				<TextBlock Text="{ReflectionBinding Name}" HorizontalAlignment="Center" FontSize="26"/>
+			</StackPanel>
 		</Button>
 	</DataTemplate>
 
-	<DataTemplate x:Key="SongListDisplayTemplate">
-		<Border Margin="0,10,0,0"
-			CornerRadius="10"
-			BorderBrush="Gray" BorderThickness="1"
-			Padding="5">
-			<StackPanel Orientation="Horizontal">
-				<TextBlock Text="{ReflectionBinding}"/>
+	<DataTemplate x:Key="SongListHomeDisplayTemplate">
+		<TextBlock HorizontalAlignment="Left" Text="{ReflectionBinding}" VerticalAlignment="Center"/>
 
-				<!--<TextBlock Text="{ReflectionBinding Artists_conc}"/>
+		<!--<TextBlock Text="{ReflectionBinding Artists_conc}"/>
 				<TextBlock Margin="5 0" FontWeight="Bold"
 							Text="{ReflectionBinding Title}"/>
 				<TextBlock Margin="5 0" FontWeight="Bold"
 							Text="{ReflectionBinding Duration_display}"/>-->
-			</StackPanel>
-		</Border>
+	</DataTemplate>
+
+	<DataTemplate x:Key="SongListCategoryDisplayTemplate">
+		<Grid>
+			<TextBlock HorizontalAlignment="Left" Text="{ReflectionBinding}" VerticalAlignment="Center"/>
+
+			<!--<TextBlock Text="{ReflectionBinding Artists_conc}"/>
+				<TextBlock Margin="5 0" FontWeight="Bold"
+							Text="{ReflectionBinding Title}"/>
+				<TextBlock Margin="5 0" FontWeight="Bold"
+							Text="{ReflectionBinding Duration_display}"/>-->
+			<Button Background="Transparent" Cursor="Hand" VerticalAlignment="Center" HorizontalAlignment="Right">
+				<Button.Flyout>
+					<MenuFlyout>
+						<MenuItem Header="Remove"/>
+					</MenuFlyout>
+				</Button.Flyout>
+				<mi:MaterialIcon Kind="Menu"/>
+			</Button>
+		</Grid>
 	</DataTemplate>
 
 	<DataTemplate x:Key="SongListSelectionTemplate">
-		<Border Margin="0,10,0,0"
-			CornerRadius="10"
-			BorderBrush="Gray" BorderThickness="1"
-			Padding="5">
-			<StackPanel Orientation="Horizontal" Spacing="10">
-				<CheckBox IsChecked="{ReflectionBinding IsSelected}"/>
-				<TextBlock Text="{ReflectionBinding}"/>
 
-				<!--<TextBlock Text="{ReflectionBinding Artists_conc}"/>
+		<CheckBox Margin="10" IsChecked="{ReflectionBinding IsSelected}" VerticalAlignment="Center" Cursor="Hand">
+			<TextBlock Text="{ReflectionBinding}" VerticalAlignment="Center"/>
+		</CheckBox>
+		<!--<TextBlock Text="{ReflectionBinding Artists_conc}"/>
 				<TextBlock Margin="5 0" FontWeight="Bold"
 							Text="{ReflectionBinding Title}"/>
 				<TextBlock Margin="5 0" FontWeight="Bold"
 							Text="{ReflectionBinding Duration_display}"/>-->
 
-			</StackPanel>
-		</Border>
 
 	</DataTemplate>
 

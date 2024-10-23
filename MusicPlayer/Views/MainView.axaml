@@ -14,7 +14,7 @@
 	</Design.DataContext>
 
 	<Grid RowDefinitions="10*,80*,8*">
-		<DockPanel Height="10" Grid.Row="0">
+		<DockPanel Grid.Row="0">
 			<Menu>
 				<MenuItem DockPanel.Dock="Top" Header="_Settings">
 					<MenuItem  Header="Set Input Folder" Command="{Binding SetInputFolderAsync}">
@@ -44,32 +44,35 @@
 							<TextBlock Text="Songs"/>
 						</StackPanel>
 					</Button>
+					<Separator VerticalAlignment="Bottom"/>
 					<Button Theme="{StaticResource SidePanelNavButtons}" Command="{Binding ShowContent}" CommandParameter="PLAYLISTS">
 						<StackPanel Orientation="Horizontal" Spacing="2" Margin="10">
 							<mi:MaterialIcon Kind="PlaylistMusic"/>
 							<TextBlock Text="Playlists"/>
 						</StackPanel>
 					</Button>
+					<Separator VerticalAlignment="Bottom"/>
 					<Button Theme="{StaticResource SidePanelNavButtons}" Command="{Binding ShowContent}" CommandParameter="ARTISTS">
 						<StackPanel Orientation="Horizontal" Spacing="2" Margin="10">
 							<mi:MaterialIcon Kind="Artist"/>
 							<TextBlock Text="Artists"/>
 						</StackPanel>
 					</Button>
+					<Separator VerticalAlignment="Bottom"/>
 					<Button Theme="{StaticResource SidePanelNavButtons}" Command="{Binding ShowContent}" CommandParameter="ALBUMS">
 						<StackPanel Orientation="Horizontal" Spacing="2" Margin="10">
 							<mi:MaterialIcon Kind="Album"/>
 							<TextBlock Text="Albums"/>
 						</StackPanel>
 					</Button>
+					<Separator VerticalAlignment="Bottom"/>
 					<Button Theme="{StaticResource SidePanelNavButtons}" Command="{Binding ShowContent}" CommandParameter="GENRES">
 						<StackPanel Orientation="Horizontal" Spacing="2" Margin="10">
 							<mi:MaterialIcon Kind="MusicBox"/>
 							<TextBlock Text="Genres"/>
 						</StackPanel>
 					</Button>
-					<!--IsEnabled="{Binding UserAuthenticated}"-->
-
+					<Separator VerticalAlignment="Bottom"/>
 					<Button Theme="{StaticResource SidePanelNavButtons}"
 							IsEnabled="{Binding UserAuthenticated}"
 							ToolTip.ShowOnDisabled="True"
@@ -88,8 +91,9 @@
 			</StackPanel>
 
 			<GridSplitter Theme="{StaticResource CustomSplitter}" Grid.Column="1" ResizeDirection="Columns" Width="10"/>
-			<Grid Grid.Column="2" RowDefinitions="5* , 95*">
+			<Grid Grid.Column="2" RowDefinitions="10* , 90*">
 				<TextBlock Text="{Binding SelectedViewModel}" Grid.Row="0" HorizontalAlignment="Center" FontSize="20"/>
+				<Separator VerticalAlignment="Bottom"/>
 				<UserControl Content="{Binding SelectedViewModel}" Grid.Row="1"/>
 			</Grid>
 

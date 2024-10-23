@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 			 xmlns:vm="clr-namespace:MusicPlayer.ViewModels"
+			 xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
 			 xmlns:views="clr-namespace:MusicPlayer.Views"
              x:Class="MusicPlayer.Views.SongsInCategoryView"
 			 x:DataType="vm:UnifiedCategoryViewModel">
@@ -11,7 +12,39 @@
 	<Grid RowDefinitions="10*,10*,80*">
 
 		<Button Theme="{StaticResource BackToCategoryHomeButton}" Grid.Row="0" Padding="20" Margin="10" HorizontalAlignment="Left" Command="{Binding ShowHome}"/>
-		<Button Theme="{StaticResource AddNewButton}" Grid.Row="0" Padding="20" Margin="10" HorizontalAlignment="Right" Command="{Binding ShowSelection}"/>
+		<!--<StackPanel Grid.Row="0" HorizontalAlignment="Right" Orientation="Horizontal">
+			-->
+		<!--<Button Theme="{StaticResource AddNewButton}"  Padding="20" Margin="10" Command="{Binding ShowSelection}"/>-->
+		<!--
+
+
+		</StackPanel>-->
+		<Button Grid.Row="0"  HorizontalAlignment="Right" >
+			<Button.Flyout>
+				<MenuFlyout>
+					<MenuItem Command="{Binding ShowSelection}">
+						<MenuItem.Header>
+							<StackPanel Orientation="Horizontal">
+								<mi:MaterialIcon Kind="PlusCircle" FontSize="10" HorizontalAlignment="Stretch"/>
+								<TextBlock Text="Add new songs" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+							</StackPanel>
+						</MenuItem.Header>
+					</MenuItem>
+					<MenuItem>
+						<MenuItem.Header>
+							<StackPanel Orientation="Horizontal">
+								<mi:MaterialIcon Kind="MinusCircle" FontSize="10" HorizontalAlignment="Stretch"/>
+								<TextBlock Text="Remove song" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+							</StackPanel>
+						</MenuItem.Header>
+					</MenuItem>
+				</MenuFlyout>
+			</Button.Flyout>
+			<StackPanel Orientation="Horizontal" Spacing="10">
+				<mi:MaterialIcon Kind="Pencil"/>
+				<TextBlock Text="Modify"/>
+			</StackPanel>
+		</Button>
 		<TextBlock Text="{Binding SelectedCategory}" Grid.Row="1" Padding="20" HorizontalAlignment="Center" FontSize="20"/>
 
 		<ListBox
@@ -20,7 +53,7 @@
 	  SelectedItem="{Binding Properties.SelectedSong}"
 	  SelectedIndex="{Binding Properties.SelectedSongIndex}"
 	  Background="Transparent"
-	  ItemTemplate="{StaticResource SongListDisplayTemplate}"
+	  ItemTemplate="{StaticResource SongListCategoryDisplayTemplate}"
 		  >
 			<ListBox.Styles>
 				<Style Selector="ListBoxItem">

@@ -1,5 +1,4 @@
 ﻿using Avalonia.Controls;
-using SukiUI.Controls;
 namespace MusicPlayer.Views;
 
 public partial class MainWindow : Window

@@ -14,7 +14,9 @@
 				 SelectedItem="{Binding Properties.SelectedSong}" 
 				 SelectedIndex="{Binding Properties.SelectedSongIndex}"
 				 Background="Transparent"
-				 ItemTemplate="{StaticResource SongListDisplayTemplate}">
+				 ItemTemplate="{StaticResource SongListHomeDisplayTemplate}"
+				 Cursor="Hand"
+				 Margin="10">
 			<ListBox.Styles>
 				<Style Selector="ListBoxItem">
 					<Setter Property="Background" Value="Transparent"/>
