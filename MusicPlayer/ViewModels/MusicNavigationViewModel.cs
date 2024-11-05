@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using TagLib.Riff;
 
 namespace MusicPlayer.ViewModels
 {
@@ -71,7 +70,7 @@ namespace MusicPlayer.ViewModels
                 {
 
                     using Media media = new Media(LibVlc, Properties.SelectedSong.FilePath);
-                    IsPaused = !MediaPlayer.Play(media);
+                    MediaPlayer.Play(media);
                     //Stroe the SelectedSongPath for song switches
                     Properties.PreviousSongPath = Properties.SelectedSong.FilePath;
 
@@ -82,8 +81,15 @@ namespace MusicPlayer.ViewModels
                     MediaPlayer.Pause();
                 }
                 MediaPlayer.Paused += MediaPlayer_Paused;
+                MediaPlayer.Playing += MediaPlayer_Playing;
+                //MediaPlayer.E
 
             }
+        }
+
+        private void MediaPlayer_Playing(object sender, EventArgs e)
+        {
+            IsPaused = false;
         }
 
         /*

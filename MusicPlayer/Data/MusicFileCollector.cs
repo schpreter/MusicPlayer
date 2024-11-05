@@ -45,7 +45,8 @@ namespace MusicPlayer.Data
             }
             return returnList;
         }
-
+        //TODO: Fix folder selection
+        //Song skip issue
         private static List<string> ParseData(TagLib.File tagLibfile)
         {
 

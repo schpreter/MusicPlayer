@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.AspNetCore.WebUtilities;
+using MusicPlayer.API;
 using MusicPlayer.Authorization;
 using MusicPlayer.Data;
 using MusicPlayer.Models;
@@ -123,8 +124,14 @@ public partial class MainViewModel : ViewModelBase
         IReadOnlyList<IStorageFolder> selectedFolder = await TopLevel.GetTopLevel(mainWindow).StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions { AllowMultiple = false, Title = "Select Input Folder" });
         if (selectedFolder.Count > 0)
         {
-            Properties.MusicFiles = MusicFileCollector.CollectFilesFromFolder(selectedFolder.First().TryGetLocalPath());
+            var files = MusicFileCollector.CollectFilesFromFolder(selectedFolder.First().TryGetLocalPath());
+            Properties.MusicFiles.Clear();
+            foreach (var file in files)
+            {
+                Properties.MusicFiles.Add(file);
+            }
         }
+        SelectedViewModel.RefreshContent();
     }
 
     public async void AuthorizeUserAsync()
@@ -160,7 +167,10 @@ public partial class MainViewModel : ViewModelBase
         var codeToRetrieve = context.Request.QueryString["code"];
         if (codeToRetrieve != null)
         {
-            Properties.AuthData = await GetAccessToken(authorization, codeToRetrieve, codeVerifier);
+            Properties.AuthData = await APICallHandler.GetAccessTokenAsync(Client,authorization, codeToRetrieve, codeVerifier);
+            //This will not be reached if the previous line throws an exception
+            UserAuthenticated = true;
+
             //string profile = await FetchProfile(accessToken)
             //If authentication is successfull also add the auth token to the client's header, as it is used in every single API call
             if (UserAuthenticated)
@@ -184,38 +194,7 @@ public partial class MainViewModel : ViewModelBase
         return context;
 
     }
-    private async Task<AuthorizationTokenData> GetAccessToken(AuthorizationObject authorization, string code, string verifier)
-    {
-        string url = "https://accounts.spotify.com/api/token";
 
-
-        using FormUrlEncodedContent content = new FormUrlEncodedContent(
-            new List<KeyValuePair<string, string>>()
-            {
-                new KeyValuePair<string, string> ( "client_id", authorization.ClientID ),
-                new KeyValuePair<string, string> ( "grant_type", "authorization_code" ),
-                new KeyValuePair<string, string> ( "code", code ),
-                new KeyValuePair<string, string> ( "redirect_uri" , authorization.RedirectUri ),
-                new KeyValuePair<string, string> ( "code_verifier" , verifier ),
-            }
-            );
-
-        //Setting the header's content type   
-        content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
-
-        //Post the content to the API    
-        HttpResponseMessage response = await Client.PostAsync(url, content);
-        UserAuthenticated = response.IsSuccessStatusCode;
-
-        return JsonConvert.DeserializeObject<AuthorizationTokenData>(response.Content.ReadAsStringAsync().Result);
-    }
-
-    private async Task<string> FetchProfile(string token)
-    {
-        //TODO
-        return null;
-
-    }
     #endregion
 
 }
