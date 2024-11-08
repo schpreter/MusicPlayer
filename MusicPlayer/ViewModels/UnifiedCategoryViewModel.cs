@@ -146,13 +146,13 @@ namespace MusicPlayer.ViewModels
                     case nameof(GenresViewModel):
                         {
                             tagLibFile.Tag.Genres = song.Genres.ToArray();
-                            song.Genres = tagLibFile.Tag.Genres.ToList();
+                            //song.Genres = tagLibFile.Tag.Genres.ToList();
                             break;
                         }
                     case nameof(ArtistsViewModel):
                         {
                             tagLibFile.Tag.Performers = song.Artists.ToArray();
-                            song.Artists_conc = tagLibFile.Tag.JoinedPerformers;
+                            //song.Artists_conc = tagLibFile.Tag.JoinedPerformers;
                             break;
                         }
                     case nameof(AlbumsViewModel):

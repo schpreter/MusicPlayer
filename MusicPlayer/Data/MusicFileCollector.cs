@@ -30,7 +30,6 @@ namespace MusicPlayer.Data
                     Album = tagLibFile.Tag.Album,
                     Title = tagLibFile.Tag.Title == null ? Path.GetFileName(item).Split('.').First() : tagLibFile.Tag.Title,
                     Artists = tagLibFile.Tag.Performers.ToList(),
-                    Artists_conc = tagLibFile.Tag.JoinedPerformers,
                     Genres = tagLibFile.Tag.Genres.ToList(),
                     Year = (int)tagLibFile.Tag.Year,
                     Duration = TimeSpan.FromSeconds(tagLibFile.Properties.Duration.TotalSeconds),

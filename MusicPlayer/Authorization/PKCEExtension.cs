@@ -20,20 +20,13 @@ namespace MusicPlayer.Authorization
             }
             return Base64UrlTextEncoder.Encode(Encoding.UTF8.GetBytes(sb.ToString())); ;
         }
-        /*
-         * Hashes the data with the SHA256 algorithm.
-         */
-        private static byte[] GenerateSHA256(byte[] data)
-        {
-            return SHA256.HashData(data);
-        }
 
         /*
          * Base64url encodes the data.
          */
         public static string GenerateCodeChallenge(byte[] data)
         {
-            return Base64UrlTextEncoder.Encode(GenerateSHA256(data));
+            return Base64UrlTextEncoder.Encode(SHA256.HashData(data));
         }
 
     }

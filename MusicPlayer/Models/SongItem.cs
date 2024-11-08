@@ -13,7 +13,6 @@ namespace MusicPlayer.Models
         public string Album { get; set; }
         public string Title { get; set; }
         public List<string> Artists { get; set; }
-        public string Artists_conc { get; set; }
 
         public List<string> Genres { get; set; }
         public int Year { get; set; }
@@ -31,6 +30,13 @@ namespace MusicPlayer.Models
                 return Duration.ToString(@"mm\:ss");
             }
         }
+        public string Artists_conc { 
+            get
+            {
+                return string.Join("; ", Artists);
+            } 
+        }
+
 
         public override string ToString()
         {

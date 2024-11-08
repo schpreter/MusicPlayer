@@ -142,8 +142,7 @@ public partial class MainViewModel : ViewModelBase
 
         AuthorizationObject authorization = new AuthorizationObject();
 
-        string codeChallenge = PKCEExtension.GenerateCodeChallenge(bytes);
-        authorization.CodeChallenge = codeChallenge;
+        authorization.CodeChallenge = PKCEExtension.GenerateCodeChallenge(bytes);
 
         authUrl = QueryHelpers.AddQueryString(authUrl, new Dictionary<string, string>()
         {
@@ -169,14 +168,8 @@ public partial class MainViewModel : ViewModelBase
         {
             Properties.AuthData = await APICallHandler.GetAccessTokenAsync(Client,authorization, codeToRetrieve, codeVerifier);
             //This will not be reached if the previous line throws an exception
-            UserAuthenticated = true;
-
-            //string profile = await FetchProfile(accessToken)
-            //If authentication is successfull also add the auth token to the client's header, as it is used in every single API call
-            if (UserAuthenticated)
-            {
-                Client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Properties.AuthData.AccessToken);
-            }
+            Client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Properties.AuthData.AccessToken);
+            
         }
 
 
