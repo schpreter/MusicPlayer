@@ -36,6 +36,9 @@ namespace MusicPlayer.ViewModels
 
         public abstract void ShowSongsInCategory(object category);
         public abstract void AddSelectedSongs();
+        public abstract void RemoveSelectedSongs();
+        //Single song removal from the given category
+        public abstract void RemoveSong(object song);
 
         public void ShowHome()
         {
@@ -163,7 +166,7 @@ namespace MusicPlayer.ViewModels
                     //This is where the file format matters, just like during parsing
                     case nameof(PlaylistsViewModel):
                         {
-                            ModifyPlaylistTag(song.PlayLists, tagLibFile);
+                            AddPlaylistTag(song.PlayLists, tagLibFile);
                             break;
                         }
                     default:
@@ -175,7 +178,67 @@ namespace MusicPlayer.ViewModels
             ShowHome();
         }
 
-        private void ModifyPlaylistTag(List<string> playlists, TagLib.File tagLibFile)
+        protected void RemoveSingleTag(SongItem song, string category)
+        {
+            TagLib.File tagLibFile = TagLib.File.Create(song.FilePath);
+            switch (category)
+            {
+                case nameof(GenresViewModel):
+                    {
+                        tagLibFile.Tag.Genres = song.Genres.ToArray();
+                        //song.Genres = tagLibFile.Tag.Genres.ToList();
+                        break;
+                    }
+                case nameof(ArtistsViewModel):
+                    {
+                        tagLibFile.Tag.Performers = song.Artists.ToArray();
+                        //song.Artists_conc = tagLibFile.Tag.JoinedPerformers;
+                        break;
+                    }
+                case nameof(AlbumsViewModel):
+                    {
+                        tagLibFile.Tag.Album = song.Album;
+                        break;
+                    }
+                //This is where the file format matters, just like during parsing
+                case nameof(PlaylistsViewModel):
+                    {
+                        RemovePlaylistTag(song,tagLibFile);
+                        break;
+                    }
+                default:
+                    break;
+            }
+            tagLibFile.Save();
+            RefreshContent();
+            ShowHome();
+        }
+
+        private void RemovePlaylistTag(SongItem song,TagLib.File tagLibFile) 
+        {
+            switch (tagLibFile.MimeType)
+            {
+                case "taglib/mp3":
+                    {
+                        TagLib.Id3v2.Tag tag = (TagLib.Id3v2.Tag)tagLibFile.GetTag(TagLib.TagTypes.Id3v2, true);
+                        PrivateFrame pFrame = PrivateFrame.Get(tag, "Playlists", true);
+
+                        var cleaned = song.PlayLists;
+                        cleaned.ForEach(x => x.Replace(";", @"\;"));
+
+                        pFrame.PrivateData = Encoding.Unicode.GetBytes(string.Join(';', cleaned));
+                        break;
+                    }
+                default:
+                    {
+                        var tag = (TagLib.Ogg.XiphComment)tagLibFile.GetTag(TagLib.TagTypes.Xiph, true);
+                        tag.SetField("Playlists", song.PlayLists.ToArray());
+                        break;
+                    }
+            }
+        }
+
+        private void AddPlaylistTag(List<string> playlists, TagLib.File tagLibFile)
         {
             switch (tagLibFile.MimeType)
             {

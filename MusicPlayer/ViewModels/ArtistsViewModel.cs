@@ -62,5 +62,19 @@ namespace MusicPlayer.ViewModels
         {
             return "Artists";
         }
+
+        public override void RemoveSelectedSongs()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void RemoveSong(object song)
+        {
+            SongItem item = (SongItem)song;
+            if (item.Artists.Remove(SelectedCategory))
+            {
+                RemoveSingleTag(item, nameof(ArtistsViewModel));
+            }
+        }
     }
 }

@@ -55,5 +55,19 @@ namespace MusicPlayer.ViewModels
                 ModifyFiles(selectedSongs, "PLAYLISTS");
             }
         }
+
+        public override void RemoveSelectedSongs()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void RemoveSong(object song)
+        {
+            SongItem item = (SongItem)song;
+            if (item.PlayLists.Remove(SelectedCategory))
+            {
+                RemoveSingleTag(item, nameof(PlaylistsViewModel));
+            }
+        }
     }
 }

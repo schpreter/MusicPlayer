@@ -59,5 +59,18 @@ namespace MusicPlayer.ViewModels
             return "Genres";
         }
 
+        public override void RemoveSelectedSongs()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void RemoveSong(object song)
+        {
+            SongItem item = (SongItem)song;
+            if (item.Genres.Remove(SelectedCategory))
+            {
+                RemoveSingleTag(item, nameof(GenresViewModel));
+            }
+        }
     }
 }

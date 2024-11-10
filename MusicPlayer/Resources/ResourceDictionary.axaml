@@ -157,7 +157,10 @@
 			<Button Background="Transparent" Cursor="Hand" VerticalAlignment="Center" HorizontalAlignment="Right">
 				<Button.Flyout>
 					<MenuFlyout>
-						<MenuItem Header="Remove"/>
+						<!--Document this bs with visual and logical tree thingy-->
+						<MenuItem Header="Remove"
+									Command="{ReflectionBinding $parent[ListBox].((vm:UnifiedCategoryViewModel)DataContext).RemoveSong}"
+								  CommandParameter="{ReflectionBinding}"/>
 					</MenuFlyout>
 				</Button.Flyout>
 				<mi:MaterialIcon Kind="Menu"/>

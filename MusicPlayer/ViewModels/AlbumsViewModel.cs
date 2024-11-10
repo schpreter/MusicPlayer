@@ -18,15 +18,16 @@ namespace MusicPlayer.ViewModels
 
         public override void RefreshContent()
         {
-            var AlbumSet = Properties.MusicFiles.Select(x => x.Album).ToHashSet();
+            //Songs that are not in albums should not even appear as an "album"
+            var AlbumSet = Properties.MusicFiles.Select(x => x.Album).Where(x => x != string.Empty).ToHashSet();
             RefreshCategory(AlbumSet, nameof(AlbumsViewModel));
 
         }
         public override void ShowSongsInCategory(object album)
         {
             SelectedCategory = (string)album;
-            HashSet<SongItem> filtered = SelectedCategory == string.Empty ? Properties.MusicFiles.Where(x => x.Album == null).ToHashSet() : Properties.MusicFiles.Where(x => x.Album == SelectedCategory).ToHashSet();
-            UpdateSongCategory(filtered,nameof(AlbumsViewModel));
+            HashSet<SongItem> filtered = Properties.MusicFiles.Where(x => x.Album == SelectedCategory).ToHashSet();
+            UpdateSongCategory(filtered, nameof(AlbumsViewModel));
         }
 
         public override async void AddSelectedSongs()
@@ -55,6 +56,22 @@ namespace MusicPlayer.ViewModels
             return "Albums";
         }
 
+        public override void RemoveSelectedSongs()
+        {
+            throw new System.NotImplementedException();
+        }
 
+        public override void RemoveSong(object song)
+        {
+            {
+                SongItem item = (SongItem)song;
+                if (item.Album == SelectedCategory)
+                {
+                    item.Album = string.Empty;
+                    RemoveSingleTag(item, nameof(AlbumsViewModel));
+
+                }
+            }
+        }
     }
 }

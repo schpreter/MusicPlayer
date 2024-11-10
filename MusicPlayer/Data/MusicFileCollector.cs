@@ -27,7 +27,7 @@ namespace MusicPlayer.Data
 
                 SongItem songItem = new SongItem
                 {
-                    Album = tagLibFile.Tag.Album,
+                    Album = tagLibFile.Tag.Album ?? string.Empty,
                     Title = tagLibFile.Tag.Title == null ? Path.GetFileName(item).Split('.').First() : tagLibFile.Tag.Title,
                     Artists = tagLibFile.Tag.Performers.ToList(),
                     Genres = tagLibFile.Tag.Genres.ToList(),
