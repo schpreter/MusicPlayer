@@ -12,7 +12,7 @@
 	<Design.DataContext>
 		<vm:UnifiedCategoryViewModel />
 	</Design.DataContext>
-	
+
 	<dialogHost:DialogHost CloseOnClickAway="True" Identifier="CategoryView">
 		<Grid>
 			<!--Category Home Page-->

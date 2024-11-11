@@ -34,6 +34,9 @@ namespace MusicPlayer.ViewModels
         [ObservableProperty]
         public bool newCategoryDialogOpen = false;
 
+        [ObservableProperty]
+        public bool selectionIsAdd;
+
         public abstract void ShowSongsInCategory(object category);
         public abstract void AddSelectedSongs();
         public abstract void RemoveSelectedSongs();
@@ -48,8 +51,9 @@ namespace MusicPlayer.ViewModels
             UnselectListItems();
             Properties.SongsByCategory.Clear();
         }
-        public void ShowSelection()
+        public void ShowSelection(object selectionType)
         {
+            SelectionIsAdd = (string)selectionType == "Add";
             ShowSongSelectionList = true;
             ShowSongs = false;
             ShowCategoryHome = false;
@@ -58,7 +62,7 @@ namespace MusicPlayer.ViewModels
         public void AddNewCategory()
         {
             SelectedCategory = null;
-            ShowSelection();
+            ShowSelection("Add");
         }
 
 
@@ -203,7 +207,7 @@ namespace MusicPlayer.ViewModels
                 //This is where the file format matters, just like during parsing
                 case nameof(PlaylistsViewModel):
                     {
-                        RemovePlaylistTag(song,tagLibFile);
+                        ModifyPlaylistTag(song,tagLibFile);
                         break;
                     }
                 default:
@@ -214,7 +218,7 @@ namespace MusicPlayer.ViewModels
             ShowHome();
         }
 
-        private void RemovePlaylistTag(SongItem song,TagLib.File tagLibFile) 
+        private void ModifyPlaylistTag(SongItem song,TagLib.File tagLibFile) 
         {
             switch (tagLibFile.MimeType)
             {

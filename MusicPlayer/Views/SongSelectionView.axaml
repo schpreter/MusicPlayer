@@ -14,7 +14,7 @@
 		<TextBlock HorizontalAlignment="Center" Text="{Binding SelectedCategory}" Grid.Row="0"/>
 		<StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal">
 			<Button  Theme="{StaticResource BackToCategoryHomeButton}" Padding="20" Margin="10" HorizontalAlignment="Left" Command="{Binding ShowHome}"/>
-			<Button Command="{Binding AddSelectedSongs}">
+			<Button Command="{Binding AddSelectedSongs}" IsVisible="{Binding SelectionIsAdd}">
 				<StackPanel Orientation="Horizontal" Margin="10">
 					<mi:MaterialIcon Kind="PlusCircle"/>
 					<TextBlock >
@@ -22,15 +22,34 @@
 					</TextBlock>
 				</StackPanel>
 			</Button>
+			<Button Command="{Binding RemoveSelectedSongs}" IsVisible="{Binding !SelectionIsAdd}">
+				<StackPanel Orientation="Horizontal" Margin="10">
+					<mi:MaterialIcon Kind="MinusCircle"/>
+					<TextBlock >
+						Remove Selected
+					</TextBlock>
+				</StackPanel>
+			</Button>
 
 		</StackPanel>
 		<ScrollViewer Grid.Row="2">
-			<ItemsControl ItemsSource="{Binding Properties.MusicFiles}"
-						 Background="Transparent"
-						 ItemTemplate="{StaticResource SongListSelectionTemplate}"
-						  Margin="10">
+			<StackPanel>
+				<ItemsControl ItemsSource="{Binding Properties.MusicFiles}"
+			 Background="Transparent"
+			 ItemTemplate="{StaticResource SongListSelectionTemplate}"
+			  Margin="10"
+			  IsVisible="{Binding SelectionIsAdd}">
 
-			</ItemsControl>
+				</ItemsControl>
+				<ItemsControl ItemsSource="{Binding SongsByCategory}"
+				 Background="Transparent"
+				 ItemTemplate="{StaticResource SongListSelectionTemplate}"
+				  Margin="10"
+							   IsVisible="{Binding !SelectionIsAdd}">
+
+				</ItemsControl>
+			</StackPanel>
+
 		</ScrollViewer>
 
 	</Grid>

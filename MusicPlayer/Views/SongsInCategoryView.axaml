@@ -31,7 +31,7 @@
 		<Button Cursor="Hand" Grid.Row="0"  HorizontalAlignment="Right" >
 			<Button.Flyout>
 				<MenuFlyout>
-					<MenuItem Command="{Binding ShowSelection}">
+					<MenuItem Command="{Binding ShowSelection}" CommandParameter="Add">
 						<MenuItem.Header>
 							<StackPanel Orientation="Horizontal">
 								<mi:MaterialIcon Kind="PlusCircle" FontSize="10" HorizontalAlignment="Stretch"/>
@@ -39,7 +39,7 @@
 							</StackPanel>
 						</MenuItem.Header>
 					</MenuItem>
-					<MenuItem>
+					<MenuItem Command="{Binding ShowSelection}" CommandParameter="Remove">
 						<MenuItem.Header>
 							<StackPanel Orientation="Horizontal">
 								<mi:MaterialIcon Kind="MinusCircle" FontSize="10" HorizontalAlignment="Stretch"/>

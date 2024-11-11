@@ -29,7 +29,7 @@ namespace MusicPlayer.ViewModels
 
 
             HashSet<SongItem> filtered = Properties.MusicFiles.Where(x => x.Genres.Contains(SelectedCategory)).ToHashSet();
-            UpdateSongCategory(filtered,nameof(GenresViewModel));
+            UpdateSongCategory(filtered, nameof(GenresViewModel));
         }
 
         public override async void AddSelectedSongs()
@@ -61,7 +61,18 @@ namespace MusicPlayer.ViewModels
 
         public override void RemoveSelectedSongs()
         {
-            throw new System.NotImplementedException();
+            if (SelectedCategory != null)
+            {
+                var selectedSongs = Properties.MusicFiles.Where(x => x.IsSelected);
+                //First we change the category that is stored inside the application
+                foreach (var song in selectedSongs)
+                {
+                    song.Genres.Remove(SelectedCategory);
+
+                }
+                //Then based on the changed values we save the modifications to the file
+                ModifyFiles(selectedSongs, nameof(GenresViewModel));
+            }
         }
 
         public override void RemoveSong(object song)
