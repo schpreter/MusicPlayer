@@ -76,7 +76,6 @@ public partial class MainViewModel : ViewModelBase
         this.mainWindow = mainWindow;
 
         PixelRect screen = this.mainWindow.Screens.Primary.WorkingArea;
-
         Control.Position = new PixelPoint((int)(screen.BottomRight.X), (int)(screen.BottomRight.Y));
         Control.Show();
     }

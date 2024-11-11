@@ -2,32 +2,40 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="70"
              xmlns:vm="clr-namespace:MusicPlayer.ViewModels"
 			 xmlns:views="clr-namespace:MusicPlayer.Views"
 			 x:Class="MusicPlayer.Views.MusicNavigationView"
 			 xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
-			  x:DataType="vm:MusicNavigationViewModel">
+			 x:DataType="vm:MusicNavigationViewModel">
 
-	<Grid ColumnDefinitions="*,*,2*,*,*">
-		<Button Theme="{StaticResource MusicNavigationButton}" Grid.Column="0" HorizontalAlignment="Stretch" Command="{Binding ShuffleClicked}">
-			<mi:MaterialIcon Kind="ShuffleVariant"/>
-		</Button>
-		<Button Theme="{StaticResource MusicNavigationButton}" Grid.Column="1" HorizontalAlignment="Stretch" Command="{Binding SkipBackClicked}">
-			<mi:MaterialIcon Kind="SkipPrevious"/>
-		</Button>
-		<ToggleButton Theme="{StaticResource MusicNavigationButton}" Grid.Column="2" HorizontalAlignment="Stretch" Command="{Binding PausePlayClicked}">
-			<Panel>
-				<mi:MaterialIcon Kind="Play" IsVisible="{Binding IsPaused}"/>
-				<mi:MaterialIcon Kind="Pause" IsVisible="{Binding !IsPaused}"/>
-			</Panel>
+	<Grid RowDefinitions="40*,60*">
 
-		</ToggleButton>
-		<Button Theme="{StaticResource MusicNavigationButton}" Grid.Column="3" HorizontalAlignment="Stretch" Command="{Binding SkipForwardClicked}">
-			<mi:MaterialIcon Kind="SkipNext"/>
-		</Button>
-		<Button Theme="{StaticResource MusicNavigationButton}" Grid.Column="4" HorizontalAlignment="Stretch" Command="{Binding RepeatClicked}">
-			<mi:MaterialIcon Kind="RepeatVariant"/>
-		</Button>
+		<Grid Grid.Row="0" ColumnDefinitions="15*,70*,15*">
+			<TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0">--Time Here--</TextBlock>
+			<Slider  Grid.Column="1"  x:Name="slider" />
+		</Grid>
+		<Grid Grid.Row="1" ColumnDefinitions="*,*,2*,*,*">
+			<Button Theme="{StaticResource MusicNavigationButton}" Grid.Column="0" HorizontalAlignment="Stretch" Command="{Binding ShuffleClicked}">
+				<mi:MaterialIcon Kind="ShuffleVariant"/>
+			</Button>
+			<Button Theme="{StaticResource MusicNavigationButton}" Grid.Column="1" HorizontalAlignment="Stretch" Command="{Binding SkipBackClicked}">
+				<mi:MaterialIcon Kind="SkipPrevious"/>
+			</Button>
+			<ToggleButton Theme="{StaticResource MusicNavigationButton}" Grid.Column="2" HorizontalAlignment="Stretch" Command="{Binding PausePlayClicked}">
+				<Panel>
+					<mi:MaterialIcon Kind="Play" IsVisible="{Binding IsPaused}"/>
+					<mi:MaterialIcon Kind="Pause" IsVisible="{Binding !IsPaused}"/>
+				</Panel>
+
+			</ToggleButton>
+			<Button Theme="{StaticResource MusicNavigationButton}" Grid.Column="3" HorizontalAlignment="Stretch" Command="{Binding SkipForwardClicked}">
+				<mi:MaterialIcon Kind="SkipNext"/>
+			</Button>
+			<Button Theme="{StaticResource MusicNavigationButton}" Grid.Column="4" HorizontalAlignment="Stretch" Command="{Binding RepeatClicked}">
+				<mi:MaterialIcon Kind="RepeatVariant"/>
+			</Button>
+		</Grid>
 	</Grid>
+
 </UserControl>

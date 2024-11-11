@@ -3,6 +3,8 @@
 					xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
 					xmlns:vm="clr-namespace:MusicPlayer.ViewModels">
 
+
+
 	<ControlTheme x:Key="CustomSplitter" TargetType="GridSplitter">
 		<Setter Property="Focusable" Value="True" />
 		<Setter Property="MinWidth" Value="4" />

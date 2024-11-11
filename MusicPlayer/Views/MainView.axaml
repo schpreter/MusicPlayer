@@ -13,7 +13,7 @@
 		<vm:MainViewModel />
 	</Design.DataContext>
 
-	<Grid RowDefinitions="10*,80*,8*">
+	<Grid RowDefinitions="10*,75*,15*">
 		<DockPanel Grid.Row="0">
 			<Menu>
 				<MenuItem DockPanel.Dock="Top" Header="_Settings">

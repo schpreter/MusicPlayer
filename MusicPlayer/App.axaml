@@ -6,7 +6,7 @@
 			 xmlns:views="clr-namespace:MusicPlayer.Views"
 			 xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              xmlns:dialogHostAvalonia="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
-			 RequestedThemeVariant="Light"
+			 RequestedThemeVariant="Default"
 			 x:DataType="vm:MainViewModel">
 
 	<!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->

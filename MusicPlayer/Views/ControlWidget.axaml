@@ -4,15 +4,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:views="clr-namespace:MusicPlayer.Views"
 		xmlns:vm="clr-namespace:MusicPlayer.ViewModels"
-		mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="50" Width="400" Height="50"
+		mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="50" Width="400" Height="90"
         x:Class="MusicPlayer.Views.ControlWidget"
 		x:DataType="vm:MainViewModel"
         Title="ControlWidget"
 		SystemDecorations="None"
 		ShowInTaskbar="False"
-		Topmost="True">
+		Topmost="True"
+		>
 	<Window.Background>
-		<SolidColorBrush Opacity="0.5" Color="Black"/>
+		<SolidColorBrush Opacity="0.5" Color="{DynamicResource SystemRegionColor}"/>
 	</Window.Background>
 	<UserControl Content="{Binding MusicNavigation}"/>
+
 </Window>
