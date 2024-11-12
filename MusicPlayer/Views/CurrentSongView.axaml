@@ -1,0 +1,22 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:vm="clr-namespace:MusicPlayer.ViewModels"
+			 xmlns:views="clr-namespace:MusicPlayer.Views"
+			 xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+			 x:DataType="vm:CurrentSongViewModel"
+			 x:Class="MusicPlayer.Views.CurrentSongView">
+
+	<Grid RowDefinitions="*,*" ColumnDefinitions="*">
+		<Image MaxHeight="200" MaxWidth="200" VerticalAlignment="Top" HorizontalAlignment="Center" Source="{Binding Properties.SelectedSong.FirstImage}"/>
+		<StackPanel Grid.Row="1">
+			<TextBlock HorizontalAlignment="Center"  Text="{Binding Properties.SelectedSong.Title}"/>
+			<TextBlock HorizontalAlignment="Center" Text="{Binding Properties.SelectedSong.Artists_conc}"/>
+			<TextBlock HorizontalAlignment="Center" Text="{Binding Properties.SelectedSong.Album}"/>
+			<TextBlock HorizontalAlignment="Center" Text="{Binding Properties.SelectedSong.Genres_conc}"/>
+		</StackPanel>
+
+	</Grid>
+</UserControl>

@@ -43,6 +43,14 @@ namespace MusicPlayer.Models
             return $"{Artists_conc} {Title} {Duration_display}";
         }
 
+        public string Genres_conc
+        {
+            get
+            {
+                return string.Join("; ", Genres);
+            }
+        }
+
         public Bitmap FirstImage
         {
             get

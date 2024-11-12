@@ -22,6 +22,7 @@ namespace MusicPlayer.Models
             .AddSingleton<AlbumsViewModel>()
             .AddSingleton<GenresViewModel>()
             .AddSingleton<SpotifyRecViewModel>()
+            .AddSingleton<CurrentSongViewModel>()
             .AddSingleton<MusicNavigationViewModel>()
             .AddSingleton<MainViewModel>();
             #endregion

@@ -11,8 +11,7 @@
 
 	<Grid RowDefinitions="40*,60*">
 
-		<Grid Grid.Row="0" ColumnDefinitions="15*,70*,15*">
-			<TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0">--Time Here--</TextBlock>
+		<Grid Grid.Row="0" ColumnDefinitions="*,50*,*">
 			<Slider  Grid.Column="1"  x:Name="slider" />
 		</Grid>
 		<Grid Grid.Row="1" ColumnDefinitions="*,*,2*,*,*">

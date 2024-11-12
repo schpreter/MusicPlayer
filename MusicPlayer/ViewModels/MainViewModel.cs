@@ -47,6 +47,9 @@ public partial class MainViewModel : ViewModelBase
     [ObservableProperty]
     public MusicNavigationViewModel musicNavigation;
 
+    [ObservableProperty]
+    public CurrentSongViewModel currentSongViewModel;
+
     public MainViewModel() { }
     public MainViewModel(HomeContentViewModel homeContent,
                          HttpClient client,
@@ -56,6 +59,7 @@ public partial class MainViewModel : ViewModelBase
                          GenresViewModel genresView,
                          SpotifyRecViewModel spotifyRecViewModel,
                          MusicNavigationViewModel musicNavigationView,
+                         CurrentSongViewModel currentSongViewModel,
                          MainWindow mainWindow,
                          ControlWidget controlWidget,
                          SharedProperties sharedProperties)
@@ -71,7 +75,8 @@ public partial class MainViewModel : ViewModelBase
         AlbumsViewModel = albumsView;
         GenresViewModel = genresView;
         RecViewModel = spotifyRecViewModel;
-        musicNavigation = musicNavigationView;
+        MusicNavigation = musicNavigationView;
+        CurrentSongViewModel = currentSongViewModel;
         Control = controlWidget;
         this.mainWindow = mainWindow;
 
