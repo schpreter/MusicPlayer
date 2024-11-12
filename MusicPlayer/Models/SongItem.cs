@@ -23,6 +23,14 @@ namespace MusicPlayer.Models
         //For now I will only use the first pics data, read it into a stream and feed that stream to a Bitmap
         public List<ByteVector> Images { get; set; }
 
+        public double Duration_s
+        {
+            get
+            {
+                return Duration.TotalMilliseconds;
+            }
+        }
+
         public string Duration_display
         {
             get

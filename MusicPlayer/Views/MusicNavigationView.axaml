@@ -11,8 +11,17 @@
 
 	<Grid RowDefinitions="40*,60*">
 
-		<Grid Grid.Row="0" ColumnDefinitions="*,50*,*">
-			<Slider  Grid.Column="1"  x:Name="slider" />
+		<Grid Grid.Row="0" ColumnDefinitions="5*,50*,*">
+			<TextBlock Grid.Column="0" Text="{Binding CurrentTimeStamp}"
+			HorizontalAlignment="Center"/>
+			<Slider  Grid.Column="1"  Value="{Binding CurrentTimeMs}" Maximum="{Binding Properties.SelectedSong.Duration_s}"  x:Name="slider">
+				<Interaction.Behaviors>
+					<EventTriggerBehavior EventName="PointerReleased">
+						<InvokeCommandAction Command="{Binding SliderUserChanged}"/>
+
+					</EventTriggerBehavior>
+				</Interaction.Behaviors>
+			</Slider>
 		</Grid>
 		<Grid Grid.Row="1" ColumnDefinitions="*,*,2*,*,*">
 			<Button Theme="{StaticResource MusicNavigationButton}" Grid.Column="0" HorizontalAlignment="Stretch" Command="{Binding ShuffleClicked}">

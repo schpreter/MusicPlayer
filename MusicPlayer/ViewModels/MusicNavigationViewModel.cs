@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using LibVLCSharp.Shared;
 using MusicPlayer.Models;
 using MusicPlayer.Shared;
@@ -6,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Windows.Input;
 
 namespace MusicPlayer.ViewModels
 {
@@ -19,6 +21,31 @@ namespace MusicPlayer.ViewModels
         [ObservableProperty]
         public bool isPaused = true;
 
+        [ObservableProperty]
+        public string currentTimeStamp = string.Empty;
+
+        private bool IsSliderDragging { get; set; } = false;
+        //[ObservableProperty]
+        //public long currentTimeMs = 0;
+
+        private long currentTimeMs = 0;
+        public long CurrentTimeMs
+        {
+            get => currentTimeMs;
+            set
+            {
+                if (IsUserSliderChange && MediaPlayer.IsPlaying)
+                {
+                    MediaPlayer.Time = value;
+                    IsUserSliderChange = false;
+                }
+                SetProperty(ref currentTimeMs, value);
+
+            }
+        }
+
+        private bool IsUserSliderChange { get; set; } = false;
+
         private LibVLC LibVlc = new LibVLC();
 
         private MediaPlayer MediaPlayer { get; }
@@ -26,10 +53,15 @@ namespace MusicPlayer.ViewModels
         public MusicNavigationViewModel(SharedProperties props)
         {
             MediaPlayer = new MediaPlayer(LibVlc);
-            //In theory this should keep the listener alive throughout the whole life cycle of the app
-            //Needs testing tho
-            MediaPlayer.EndReached += MediaPlayer_EndReached;
             Properties = props;
+
+            //Registering listeners for the different media player events
+            MediaPlayer.EndReached += MediaPlayer_EndReached;
+            MediaPlayer.Paused += MediaPlayer_Paused;
+            MediaPlayer.Playing += MediaPlayer_Playing;
+            MediaPlayer.TimeChanged += MediaPlayer_TimeChanged;
+
+
         }
 
         private void MediaPlayer_EndReached(object sender, System.EventArgs e)
@@ -70,7 +102,12 @@ namespace MusicPlayer.ViewModels
                 {
 
                     using Media media = new Media(LibVlc, Properties.SelectedSong.FilePath);
-                    MediaPlayer.Play(media);
+                    if (MediaPlayer.Play(media))
+                    {
+                        MediaPlayer.Time = CurrentTimeMs;
+
+                    }
+
                     //Stroe the SelectedSongPath for song switches
                     Properties.PreviousSongPath = Properties.SelectedSong.FilePath;
 
@@ -80,11 +117,32 @@ namespace MusicPlayer.ViewModels
                 {
                     MediaPlayer.Pause();
                 }
-                MediaPlayer.Paused += MediaPlayer_Paused;
-                MediaPlayer.Playing += MediaPlayer_Playing;
+                //MediaPlayer.Paused += MediaPlayer_Paused;
+                //MediaPlayer.Playing += MediaPlayer_Playing;
+                //MediaPlayer.TimeChanged += MediaPlayer_TimeChanged;
                 //MediaPlayer.E
 
             }
+        }
+
+        private void MediaPlayer_TimeChanged(object sender, MediaPlayerTimeChangedEventArgs e)
+        {
+            IsUserSliderChange = false;
+            if (!IsSliderDragging)
+            {
+                CurrentTimeMs = e.Time;
+                CurrentTimeStamp = TimeSpan.FromMilliseconds(CurrentTimeMs).ToString(@"mm\:ss");
+            }
+
+        }
+
+        public void SliderUserChanged(long valueInMs)
+        {
+            IsUserSliderChange = true;
+            IsSliderDragging = false;
+
+            CurrentTimeMs = valueInMs;
+            CurrentTimeStamp = TimeSpan.FromMilliseconds(CurrentTimeMs).ToString(@"mm\:ss");
         }
 
         private void MediaPlayer_Playing(object sender, EventArgs e)
@@ -143,5 +201,10 @@ namespace MusicPlayer.ViewModels
             PlaySong();
         }
 
+        public void SliderDragging(long valueInMs)
+        {
+            IsSliderDragging = true;
+            CurrentTimeStamp = TimeSpan.FromMilliseconds(valueInMs).ToString(@"mm\:ss");
+        }
     }
 }
