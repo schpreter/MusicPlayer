@@ -117,11 +117,6 @@ namespace MusicPlayer.ViewModels
                 {
                     MediaPlayer.Pause();
                 }
-                //MediaPlayer.Paused += MediaPlayer_Paused;
-                //MediaPlayer.Playing += MediaPlayer_Playing;
-                //MediaPlayer.TimeChanged += MediaPlayer_TimeChanged;
-                //MediaPlayer.E
-
             }
         }
 
@@ -135,29 +130,6 @@ namespace MusicPlayer.ViewModels
             }
 
         }
-
-        public void SliderUserChanged(long valueInMs)
-        {
-            IsUserSliderChange = true;
-            IsSliderDragging = false;
-
-            CurrentTimeMs = valueInMs;
-            CurrentTimeStamp = TimeSpan.FromMilliseconds(CurrentTimeMs).ToString(@"mm\:ss");
-        }
-
-        private void MediaPlayer_Playing(object sender, EventArgs e)
-        {
-            IsPaused = false;
-        }
-
-        /*
-         * Event Listener, in case the paused event fires it sets the paused property to true
-         */
-        private void MediaPlayer_Paused(object sender, System.EventArgs e)
-        {
-            IsPaused = true;
-        }
-
         /*
          * If the PreviousSong (loaded into the media player that is)
          * Doesn't equal the one we selected, it means a song switching happened
@@ -206,5 +178,28 @@ namespace MusicPlayer.ViewModels
             IsSliderDragging = true;
             CurrentTimeStamp = TimeSpan.FromMilliseconds(valueInMs).ToString(@"mm\:ss");
         }
+
+        public void SliderUserChanged(long valueInMs)
+        {
+            IsUserSliderChange = true;
+            IsSliderDragging = false;
+
+            CurrentTimeMs = valueInMs;
+            CurrentTimeStamp = TimeSpan.FromMilliseconds(CurrentTimeMs).ToString(@"mm\:ss");
+        }
+
+        private void MediaPlayer_Playing(object sender, EventArgs e)
+        {
+            IsPaused = false;
+        }
+
+        /*
+         * Event Listener, in case the paused event fires it sets the paused property to true
+         */
+        private void MediaPlayer_Paused(object sender, System.EventArgs e)
+        {
+            IsPaused = true;
+        }
+
     }
 }
