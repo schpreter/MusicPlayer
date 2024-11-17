@@ -126,8 +126,9 @@ namespace MusicPlayer.ViewModels
             if (!IsSliderDragging)
             {
                 CurrentTimeMs = e.Time;
-                CurrentTimeStamp = TimeSpan.FromMilliseconds(CurrentTimeMs).ToString(@"mm\:ss");
             }
+            CurrentTimeStamp = TimeSpan.FromMilliseconds(CurrentTimeMs).ToString(@"mm\:ss");
+
 
         }
         /*
@@ -176,7 +177,7 @@ namespace MusicPlayer.ViewModels
         public void SliderDragging(long valueInMs)
         {
             IsSliderDragging = true;
-            CurrentTimeStamp = TimeSpan.FromMilliseconds(valueInMs).ToString(@"mm\:ss");
+            //CurrentTimeStamp = TimeSpan.FromMilliseconds(valueInMs).ToString(@"mm\:ss");
         }
 
         public void SliderUserChanged(long valueInMs)
