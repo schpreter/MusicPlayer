@@ -1,8 +1,13 @@
 using Avalonia;
 using Avalonia.Headless;
 using Avalonia.Markup.Xaml;
+using MusicPlayerTest;
+
 
 [assembly: AvaloniaTestApplication(typeof(App))]
+
+namespace MusicPlayerTest;
+
 public class App : Application
 {
     public override void Initialize()

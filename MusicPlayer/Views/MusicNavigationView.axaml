@@ -15,12 +15,6 @@
 			<TextBlock Grid.Column="0" Text="{Binding CurrentTimeStamp}"
 			HorizontalAlignment="Center"/>
 			<Slider  Grid.Column="1"  Value="{Binding CurrentTimeMs}" Maximum="{Binding Properties.SelectedSong.Duration_s}"  x:Name="slider">
-				<Interaction.Behaviors>
-					<EventTriggerBehavior EventName="PointerReleased">
-						<InvokeCommandAction Command="{Binding SliderUserChanged}"/>
-
-					</EventTriggerBehavior>
-				</Interaction.Behaviors>
 			</Slider>
 		</Grid>
 		<Grid Grid.Row="1" ColumnDefinitions="*,*,2*,*,*">

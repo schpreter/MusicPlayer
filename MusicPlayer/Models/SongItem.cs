@@ -63,13 +63,18 @@ namespace MusicPlayer.Models
         {
             get
             {
-                var pic = Images.FirstOrDefault();
-                if (pic != null)
+                if(Images != null)
                 {
-                    using MemoryStream ms = new MemoryStream(pic.ToArray());
-                    return new Bitmap(ms);
+                    var pic = Images.FirstOrDefault();
+                    if (pic != null)
+                    {
+                        using MemoryStream ms = new MemoryStream(pic.ToArray());
+                        return new Bitmap(ms);
+                    }
                 }
                 return null;
+
+
             }
         }
     }

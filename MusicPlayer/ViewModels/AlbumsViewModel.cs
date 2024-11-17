@@ -10,7 +10,7 @@ namespace MusicPlayer.ViewModels
     {
         public AlbumsViewModel(SharedProperties props, NewCategoryInputViewModel newCategoryInput)
         {
-            ItemCollection = new ObservableCollection<UnifiedDisplayItem>();
+            //ItemCollection = new ObservableCollection<UnifiedDisplayItem>();
             SongsByCategory = new ObservableCollection<SongItem>();
             Properties = props;
             NewCategoryInputViewModel = newCategoryInput;
@@ -19,7 +19,7 @@ namespace MusicPlayer.ViewModels
         public override void RefreshContent()
         {
             //Songs that are not in albums should not even appear as an "album"
-            var AlbumSet = Properties.MusicFiles.Select(x => x.Album).Where(x => x != string.Empty).ToHashSet();
+            var AlbumSet = Properties.MusicFiles.Select(x => x.Album).Where(x => !string.IsNullOrEmpty(x)).ToHashSet();
             RefreshCategory(AlbumSet, nameof(AlbumsViewModel));
 
         }

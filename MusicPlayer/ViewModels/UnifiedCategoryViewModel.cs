@@ -15,9 +15,9 @@ namespace MusicPlayer.ViewModels
 {
     public abstract partial class UnifiedCategoryViewModel : ViewModelBase
     {
-        protected NewCategoryInputViewModel NewCategoryInputViewModel { get; set; }
-        public ObservableCollection<SongItem> SongsByCategory { get; set; }
-        public ObservableCollection<UnifiedDisplayItem> ItemCollection { get; set; }
+        public NewCategoryInputViewModel NewCategoryInputViewModel { get; set; }
+        public ObservableCollection<SongItem> SongsByCategory { get; set; } = new ObservableCollection<SongItem>();
+        public ObservableCollection<UnifiedDisplayItem> ItemCollection { get; set; } = new ObservableCollection<UnifiedDisplayItem>();
 
         [ObservableProperty]
         public string selectedCategory;
