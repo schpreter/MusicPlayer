@@ -12,9 +12,9 @@ namespace MusicPlayer.Models
 
         public string Album { get; set; }
         public string Title { get; set; }
-        public List<string> Artists { get; set; }
+        public List<string> Artists { get; set; } = new List<string>();
 
-        public List<string> Genres { get; set; }
+        public List<string> Genres { get; set; } = new List<string>();
         public int Year { get; set; }
         public TimeSpan Duration { get; set; }
         public string FilePath { get; set; }

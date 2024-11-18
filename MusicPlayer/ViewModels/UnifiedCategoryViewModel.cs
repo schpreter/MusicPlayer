@@ -1,6 +1,7 @@
 ﻿using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using DialogHostAvalonia;
+using MusicPlayer.Interfaces;
 using MusicPlayer.Models;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,6 +16,8 @@ namespace MusicPlayer.ViewModels
 {
     public abstract partial class UnifiedCategoryViewModel : ViewModelBase
     {
+        protected ITaglLibFactory taglLibFactory;
+
         public NewCategoryInputViewModel NewCategoryInputViewModel { get; set; }
         public ObservableCollection<SongItem> SongsByCategory { get; set; } = new ObservableCollection<SongItem>();
         public ObservableCollection<UnifiedDisplayItem> ItemCollection { get; set; } = new ObservableCollection<UnifiedDisplayItem>();
@@ -39,7 +42,12 @@ namespace MusicPlayer.ViewModels
 
         public abstract void ShowSongsInCategory(object category);
         public abstract void AddSelectedSongs();
-        public abstract void RemoveSelectedSongs();
+        public void RemoveSelectedSongs() { ModifySelected(true); }
+        protected abstract void RemoveCurrentSong(SongItem song);
+        protected abstract void AddCurrentSong(SongItem song);
+        protected abstract string GetCategory();
+
+
         //Single song removal from the given category
         public abstract void RemoveSong(object song);
 
@@ -64,9 +72,30 @@ namespace MusicPlayer.ViewModels
             SelectedCategory = null;
             ShowSelection("Add");
         }
+        public virtual void ModifySelected(bool isRemove = false)
+        {
+            if (!string.IsNullOrEmpty(SelectedCategory))
+            {
+                var selectedSongs = Properties.MusicFiles.Where(x => x.IsSelected);
+                //First we change the category that is stored inside the application
+                foreach (var song in selectedSongs)
+                {
+                    if (isRemove)
+                    {
+                        RemoveCurrentSong(song);
+                    }
+                    else
+                    {
+                        AddCurrentSong(song);
+                    }
+                }
+                //Then based on the changed values we save the modifications to the file
+                ModifyFiles(selectedSongs);
+            }
+        }
 
 
-        protected void UpdateSongCategory(HashSet<SongItem> filtered, string category)
+        protected void UpdateSongCategory(HashSet<SongItem> filtered)
         {
             //Observable Collection only refreshes UI upon add/remove full reinit operations
             //There is also no built in method for HashSet to ObsevableCollection, could implement in the future tho
@@ -76,17 +105,17 @@ namespace MusicPlayer.ViewModels
                 SongsByCategory.Add(item);
             }
             //Setting the filtered list in the properties, whivh the navigation can use
-            Properties.SongsByCategory = GetItemsForCategory(SelectedCategory, category);
+            Properties.SongsByCategory = GetItemsForCategory(SelectedCategory);
 
             ShowSongs = true;
             ShowCategoryHome = false;
         }
-        protected void RefreshCategory(HashSet<string> keys, string category)
+        protected void RefreshCategory(HashSet<string> keys)
         {
             HashSet<KeyValuePair<string, Bitmap>> groupedCollection = new HashSet<KeyValuePair<string, Bitmap>>();
             foreach (var key in keys)
             {
-                List<SongItem> items = GetItemsForCategory(key, category);
+                List<SongItem> items = GetItemsForCategory(key);
 
                 if (items.Any())
                 {
@@ -101,10 +130,10 @@ namespace MusicPlayer.ViewModels
             }
             ShowHome();
         }
-        private List<SongItem> GetItemsForCategory(string key, string category)
+        private List<SongItem> GetItemsForCategory(string key)
         {
             List<SongItem> res = new List<SongItem>();
-            switch (category)
+            switch (GetCategory())
             {
                 case nameof(ArtistsViewModel):
                     {
@@ -143,49 +172,60 @@ namespace MusicPlayer.ViewModels
 
         }
 
-        protected void ModifyFiles(IEnumerable songs, string category)
+        protected virtual void ModifyFiles(IEnumerable songs)
         {
             foreach (SongItem song in songs)
             {
-                TagLib.File tagLibFile = TagLib.File.Create(song.FilePath);
-                switch (category)
+                TagLib.File tagLibFile;
+                try
                 {
-                    case nameof(GenresViewModel):
-                        {
-                            tagLibFile.Tag.Genres = song.Genres.ToArray();
-                            //song.Genres = tagLibFile.Tag.Genres.ToList();
-                            break;
-                        }
-                    case nameof(ArtistsViewModel):
-                        {
-                            tagLibFile.Tag.Performers = song.Artists.ToArray();
-                            //song.Artists_conc = tagLibFile.Tag.JoinedPerformers;
-                            break;
-                        }
-                    case nameof(AlbumsViewModel):
-                        {
-                            tagLibFile.Tag.Album = song.Album;
-                            break;
-                        }
-                    //This is where the file format matters, just like during parsing
-                    case nameof(PlaylistsViewModel):
-                        {
-                            AddPlaylistTag(song.PlayLists, tagLibFile);
-                            break;
-                        }
-                    default:
-                        break;
+                    tagLibFile = TagLib.File.Create(song.FilePath);
                 }
-                tagLibFile.Save();
+                catch
+                {
+                    tagLibFile = null;
+                }
+                if (tagLibFile != null)
+                {
+                    switch (GetCategory())
+                    {
+                        case nameof(GenresViewModel):
+                            {
+                                tagLibFile.Tag.Genres = song.Genres.ToArray();
+                                //song.Genres = tagLibFile.Tag.Genres.ToList();
+                                break;
+                            }
+                        case nameof(ArtistsViewModel):
+                            {
+                                tagLibFile.Tag.Performers = song.Artists.ToArray();
+                                //song.Artists_conc = tagLibFile.Tag.JoinedPerformers;
+                                break;
+                            }
+                        case nameof(AlbumsViewModel):
+                            {
+                                tagLibFile.Tag.Album = song.Album;
+                                break;
+                            }
+                        //This is where the file format matters, just like during parsing
+                        case nameof(PlaylistsViewModel):
+                            {
+                                AddPlaylistTag(song.PlayLists, tagLibFile);
+                                break;
+                            }
+                        default:
+                            break;
+                    }
+                    tagLibFile.Save();
+                }
             }
             RefreshContent();
             ShowHome();
         }
 
-        protected void RemoveSingleTag(SongItem song, string category)
+        protected void RemoveSingleTag(SongItem song)
         {
             TagLib.File tagLibFile = TagLib.File.Create(song.FilePath);
-            switch (category)
+            switch (GetCategory())
             {
                 case nameof(GenresViewModel):
                     {

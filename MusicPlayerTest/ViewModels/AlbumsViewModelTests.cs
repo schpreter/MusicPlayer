@@ -1,14 +1,7 @@
-﻿using Xunit;
-using MusicPlayer.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Moq;
-using MusicPlayer.Shared;
-using TagLib;
+﻿using Moq;
+using MusicPlayer.Interfaces;
 using MusicPlayer.Models;
+using MusicPlayer.Shared;
 using System.Collections.ObjectModel;
 
 namespace MusicPlayer.ViewModels.Tests
@@ -17,11 +10,12 @@ namespace MusicPlayer.ViewModels.Tests
     {
         private readonly Mock<SharedProperties> _properties = new Mock<SharedProperties>();
         private readonly Mock<NewCategoryInputViewModel> _newCategoryInputViewModel = new Mock<NewCategoryInputViewModel>();
+        private readonly Mock<ITaglLibFactory> _tagLibFactory = new Mock<ITaglLibFactory>();
 
         [Fact()]
         public void AlbumsViewModelTest()
         {
-            AlbumsViewModel vm = new AlbumsViewModel(_properties.Object, _newCategoryInputViewModel.Object);
+            AlbumsViewModel vm = new AlbumsViewModel(_properties.Object, _newCategoryInputViewModel.Object, _tagLibFactory.Object);
 
             Assert.NotNull(vm);
             Assert.Empty(vm.ItemCollection);
@@ -33,7 +27,7 @@ namespace MusicPlayer.ViewModels.Tests
         [Fact()]
         public void RefreshContentTest()
         {
-            Mock<AlbumsViewModel> vmMock = new Mock<AlbumsViewModel>(_properties.Object,_newCategoryInputViewModel.Object);
+            Mock<AlbumsViewModel> vmMock = new Mock<AlbumsViewModel>(_properties.Object, _newCategoryInputViewModel.Object, _tagLibFactory.Object);
             ObservableCollection<SongItem> mockSongs = new ObservableCollection<SongItem>()
             {
                 new SongItem(){Album = "Album1"},
@@ -52,10 +46,10 @@ namespace MusicPlayer.ViewModels.Tests
 
 
             vmMock.Object.RefreshContent();
-            
+
             Assert.Collection<UnifiedDisplayItem>(vmMock.Object.ItemCollection
-                ,item => Assert.Equal("Album1", item.Name)
-                ,item => Assert.Equal("Album2", item.Name)
+                , item => Assert.Equal("Album1", item.Name)
+                , item => Assert.Equal("Album2", item.Name)
                 , item => Assert.Equal("Album3", item.Name));
 
 
@@ -64,7 +58,7 @@ namespace MusicPlayer.ViewModels.Tests
         [Fact()]
         public void ShowSongsInCategoryTest()
         {
-            Mock<AlbumsViewModel> vmMock = new Mock<AlbumsViewModel>();
+            Mock<AlbumsViewModel> vmMock = new Mock<AlbumsViewModel>(_properties.Object, _newCategoryInputViewModel.Object, _tagLibFactory.Object);
             ObservableCollection<SongItem> mockSongs = new ObservableCollection<SongItem>()
             {
                 new SongItem(){Album = "Album1"},
@@ -77,8 +71,9 @@ namespace MusicPlayer.ViewModels.Tests
                 new SongItem(){Album = string.Empty},
                 new SongItem(){Album = null},
             };
-            vmMock.Object.Properties = new Shared.SharedProperties();
             vmMock.Object.Properties.MusicFiles = mockSongs;
+
+            vmMock.CallBase = true;
 
             vmMock.Object.ShowSongsInCategory("Album1");
             Assert.Collection<SongItem>(vmMock.Object.SongsByCategory
@@ -111,28 +106,79 @@ namespace MusicPlayer.ViewModels.Tests
             Assert.False(vmMock.Object.ShowCategoryHome);
         }
 
+        ////Could try to test this with Avalonias UI tester later on
         [Fact()]
         public void AddSelectedSongsTest()
         {
-            Xunit.Assert.Fail("This test needs an implementation");
-        }
+            //Most of this will be moved into ModifySelected in the parent class
+            Mock<AlbumsViewModel> vmMock = new Mock<AlbumsViewModel>(_properties.Object, _newCategoryInputViewModel.Object, _tagLibFactory.Object);
+            //SongItem item1 = new SongItem() { Album = "Album2", IsSelected = true };
+            //SongItem item2 = new SongItem() { Album = "", IsSelected = true };
+            //SongItem item3 = new SongItem() { Album = null, IsSelected = true };
 
-        [Fact()]
-        public void ToStringTest()
-        {
-            Xunit.Assert.Fail("This test needs an implementation");
-        }
+            //ObservableCollection<SongItem> mockSongs = new ObservableCollection<SongItem>()
+            //{
+            //    item1,
+            //    item2,
+            //    item3,
+            //};
+            //vmMock.Object.Properties.MusicFiles = mockSongs;
 
-        [Fact()]
-        public void RemoveSelectedSongsTest()
-        {
-            Xunit.Assert.Fail("This test needs an implementation");
+
+            vmMock.CallBase = true;
+
+
+            //vmMock.Object.SelectedCategory = null;
+            vmMock.Object.AddSelectedSongs();
+
+            //Assert.Equal("Album2", item1.Album);
+            //Assert.Equal("", item2.Album);
+            //Assert.Null(item3.Album);
+
+            vmMock.Verify(p => p.ModifySelected(false), Times.Once());
+            //Assert.All(mockSongs, song => Assert.True(song.IsSelected));
+
+
+            //vmMock.Object.SelectedCategory = "Album1";
+            //vmMock.Object.AddSelectedSongs();
+
+            //Assert.Equal("Album1", item1.Album);
+            //Assert.Equal("Album1", item2.Album);
+            //Assert.Equal("Album1", item3.Album);
+
+
+            //Assert.All(mockSongs, song => Assert.False(song.IsSelected));
+
         }
 
         [Fact()]
         public void RemoveSongTest()
         {
-            Xunit.Assert.Fail("This test needs an implementation");
+            Mock<AlbumsViewModel> vmMock = new Mock<AlbumsViewModel>(_properties.Object, _newCategoryInputViewModel.Object, _tagLibFactory.Object);
+
+            SongItem item1 = new SongItem() { Album = "Album2", IsSelected = true };
+            SongItem item2 = new SongItem() { Album = "", IsSelected = true };
+            SongItem item3 = new SongItem() { Album = null, IsSelected = true };
+
+            vmMock.CallBase = true;
+
+            vmMock.Object.SelectedCategory = "Album2";
+            vmMock.Object.RemoveSong(item1);
+
+            Assert.Empty(item1.Album);
+
+            //Does nothing
+            vmMock.Object.SelectedCategory = string.Empty;
+            vmMock.Object.RemoveSong(item2);
+
+            vmMock.Object.SelectedCategory = null;
+            vmMock.Object.RemoveSong(item1);
+
+            vmMock.Object.SelectedCategory = "NonExistentAlbum";
+            vmMock.Object.RemoveSong(item3);
+
+            vmMock.Verify(p => p.ModifySelected(false), Times.Once());
+
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using MusicPlayer.Models;
+﻿using MusicPlayer.Interfaces;
+using MusicPlayer.Models;
 using MusicPlayer.Shared;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,17 +11,17 @@ namespace MusicPlayer.ViewModels
     {
 
 
-        public GenresViewModel(SharedProperties props, NewCategoryInputViewModel newCategoryInput)
+        public GenresViewModel(SharedProperties props, NewCategoryInputViewModel newCategoryInput, ITaglLibFactory taglLibFactory)
         {
-            ItemCollection = new ObservableCollection<UnifiedDisplayItem>();
-            SongsByCategory = new ObservableCollection<SongItem> { };
             Properties = props;
             NewCategoryInputViewModel = newCategoryInput;
+            this.taglLibFactory = taglLibFactory;
+
         }
         public override void RefreshContent()
         {
             var GenresSet = Properties.MusicFiles.SelectMany(x => x.Genres).ToHashSet();
-            RefreshCategory(GenresSet, nameof(GenresViewModel));
+            RefreshCategory(GenresSet);
 
         }
         public override void ShowSongsInCategory(object genre)
@@ -29,29 +30,14 @@ namespace MusicPlayer.ViewModels
 
 
             HashSet<SongItem> filtered = Properties.MusicFiles.Where(x => x.Genres.Contains(SelectedCategory)).ToHashSet();
-            UpdateSongCategory(filtered, nameof(GenresViewModel));
+            UpdateSongCategory(filtered);
         }
 
         public override async void AddSelectedSongs()
         {
 
             await ToggleCategoryInputModal("genre");
-
-            if (SelectedCategory != null)
-            {
-                var selectedSongs = Properties.MusicFiles.Where(x => x.IsSelected);
-                //First we change the category that is stored inside the application
-                foreach (var song in selectedSongs)
-                {
-
-                    if (!song.Genres.Contains(SelectedCategory))
-                    {
-                        song.Genres.Add(SelectedCategory);
-                    }
-                }
-                //Then based on the changed values we save the modifications to the file
-                ModifyFiles(selectedSongs, nameof(GenresViewModel));
-            }
+            ModifySelected();
         }
 
         public override string ToString()
@@ -59,29 +45,31 @@ namespace MusicPlayer.ViewModels
             return "Genres";
         }
 
-        public override void RemoveSelectedSongs()
-        {
-            if (SelectedCategory != null)
-            {
-                var selectedSongs = Properties.MusicFiles.Where(x => x.IsSelected);
-                //First we change the category that is stored inside the application
-                foreach (var song in selectedSongs)
-                {
-                    song.Genres.Remove(SelectedCategory);
-
-                }
-                //Then based on the changed values we save the modifications to the file
-                ModifyFiles(selectedSongs, nameof(GenresViewModel));
-            }
-        }
-
         public override void RemoveSong(object song)
         {
             SongItem item = (SongItem)song;
             if (item.Genres.Remove(SelectedCategory))
             {
-                RemoveSingleTag(item, nameof(GenresViewModel));
+                RemoveSingleTag(item);
             }
+        }
+
+        protected override void RemoveCurrentSong(SongItem song)
+        {
+            song.Genres.Remove(SelectedCategory);
+        }
+
+        protected override void AddCurrentSong(SongItem song)
+        {
+            if (!song.Genres.Contains(SelectedCategory))
+            {
+                song.Genres.Add(SelectedCategory);
+            }
+        }
+
+        protected override string GetCategory()
+        {
+            return nameof(GenresViewModel);
         }
     }
 }

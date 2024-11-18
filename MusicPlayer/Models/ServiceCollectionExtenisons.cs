@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using MusicPlayer.Interfaces;
 using MusicPlayer.Shared;
 using MusicPlayer.ViewModels;
 using MusicPlayer.Views;
@@ -14,6 +15,7 @@ namespace MusicPlayer.Models
             .AddSingleton<MainWindow>()
             .AddSingleton<ControlWidget>()
             .AddSingleton<HttpClient>()
+            .AddSingleton<ITaglLibFactory, TagLibFactory>()
             #region ViewModels
             .AddSingleton<NewCategoryInputViewModel>()
             .AddSingleton<HomeContentViewModel>()
