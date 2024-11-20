@@ -37,7 +37,7 @@ namespace MusicPlayer.ViewModels
         {
 
             await ToggleCategoryInputModal("genre");
-            ModifySelected();
+            ModifySelectedSongs();
         }
 
         public override string ToString()
@@ -45,21 +45,22 @@ namespace MusicPlayer.ViewModels
             return "Genres";
         }
 
-        public override void RemoveSong(object song)
+        public override void RemoveSingleSong(object song)
         {
             SongItem item = (SongItem)song;
             if (item.Genres.Remove(SelectedCategory))
             {
-                RemoveSingleTag(item);
+                ModifyFile(item);
+                ShowSongsInCategory(SelectedCategory);
             }
         }
 
-        protected override void RemoveCurrentSong(SongItem song)
+        protected override void RemoveSong(SongItem song)
         {
             song.Genres.Remove(SelectedCategory);
         }
 
-        protected override void AddCurrentSong(SongItem song)
+        protected override void AddSong(SongItem song)
         {
             if (!song.Genres.Contains(SelectedCategory))
             {

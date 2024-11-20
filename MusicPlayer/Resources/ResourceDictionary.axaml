@@ -161,7 +161,7 @@
 					<MenuFlyout>
 						<!--Document this bs with visual and logical tree thingy-->
 						<MenuItem Header="Remove"
-									Command="{ReflectionBinding $parent[ListBox].((vm:UnifiedCategoryViewModel)DataContext).RemoveSong}"
+									Command="{ReflectionBinding $parent[ListBox].((vm:UnifiedCategoryViewModel)DataContext).RemoveSingleSong}"
 								  CommandParameter="{ReflectionBinding}"/>
 					</MenuFlyout>
 				</Button.Flyout>

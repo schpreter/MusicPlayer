@@ -38,24 +38,25 @@ namespace MusicPlayer.ViewModels
         public override async void AddSelectedSongs()
         {
             await ToggleCategoryInputModal("playlist");
-            ModifySelected();
+            ModifySelectedSongs();
         }
 
-        public override void RemoveSong(object song)
+        public override void RemoveSingleSong(object song)
         {
             SongItem item = (SongItem)song;
             if (item.PlayLists.Remove(SelectedCategory))
             {
-                RemoveSingleTag(item);
+                ModifyFile(item);
+                ShowSongsInCategory(SelectedCategory);
             }
         }
 
-        protected override void RemoveCurrentSong(SongItem song)
+        protected override void RemoveSong(SongItem song)
         {
             song.PlayLists.Remove(SelectedCategory);
         }
 
-        protected override void AddCurrentSong(SongItem song)
+        protected override void AddSong(SongItem song)
         {
             if (!song.PlayLists.Contains(SelectedCategory))
             {

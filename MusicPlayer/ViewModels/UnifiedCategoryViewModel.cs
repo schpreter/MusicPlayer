@@ -40,16 +40,16 @@ namespace MusicPlayer.ViewModels
         [ObservableProperty]
         public bool selectionIsAdd;
 
-        public abstract void ShowSongsInCategory(object category);
-        public abstract void AddSelectedSongs();
-        public void RemoveSelectedSongs() { ModifySelected(true); }
-        protected abstract void RemoveCurrentSong(SongItem song);
-        protected abstract void AddCurrentSong(SongItem song);
+        protected abstract void RemoveSong(SongItem song);
+        protected abstract void AddSong(SongItem song);
         protected abstract string GetCategory();
-
+        public abstract void ShowSongsInCategory(object category);
 
         //Single song removal from the given category
-        public abstract void RemoveSong(object song);
+        public abstract void RemoveSingleSong(object song);
+        public abstract void AddSelectedSongs();
+        public void RemoveSelectedSongs() { ModifySelectedSongs(true); }
+
 
         public void ShowHome()
         {
@@ -72,26 +72,35 @@ namespace MusicPlayer.ViewModels
             SelectedCategory = null;
             ShowSelection("Add");
         }
-        public virtual void ModifySelected(bool isRemove = false)
+        public virtual void ModifySelectedSongs(bool isRemove = false)
         {
-            if (!string.IsNullOrEmpty(SelectedCategory))
+            if (string.IsNullOrEmpty(SelectedCategory))
             {
-                var selectedSongs = Properties.MusicFiles.Where(x => x.IsSelected);
-                //First we change the category that is stored inside the application
+                return;
+            }
+
+            var selectedSongs = Properties.MusicFiles.Where(x => x.IsSelected);
+            //First we change the category that is stored inside the application
+            if (isRemove)
+            {
                 foreach (var song in selectedSongs)
                 {
-                    if (isRemove)
-                    {
-                        RemoveCurrentSong(song);
-                    }
-                    else
-                    {
-                        AddCurrentSong(song);
-                    }
+                    RemoveSong(song);
                 }
-                //Then based on the changed values we save the modifications to the file
-                ModifyFiles(selectedSongs);
             }
+            else
+            {
+                foreach (var song in selectedSongs)
+                {
+
+                    AddSong(song);
+
+                }
+            }
+
+            //Then based on the changed values we save the modifications to the file
+            ModifyFiles(selectedSongs);
+
         }
 
 
@@ -171,60 +180,19 @@ namespace MusicPlayer.ViewModels
             }
 
         }
-
-        protected virtual void ModifyFiles(IEnumerable songs)
+        protected void ModifyFile(SongItem song)
         {
-            foreach (SongItem song in songs)
+            TagLib.File tagLibFile;
+            try
             {
-                TagLib.File tagLibFile;
-                try
-                {
-                    tagLibFile = TagLib.File.Create(song.FilePath);
-                }
-                catch
-                {
-                    tagLibFile = null;
-                }
-                if (tagLibFile != null)
-                {
-                    switch (GetCategory())
-                    {
-                        case nameof(GenresViewModel):
-                            {
-                                tagLibFile.Tag.Genres = song.Genres.ToArray();
-                                //song.Genres = tagLibFile.Tag.Genres.ToList();
-                                break;
-                            }
-                        case nameof(ArtistsViewModel):
-                            {
-                                tagLibFile.Tag.Performers = song.Artists.ToArray();
-                                //song.Artists_conc = tagLibFile.Tag.JoinedPerformers;
-                                break;
-                            }
-                        case nameof(AlbumsViewModel):
-                            {
-                                tagLibFile.Tag.Album = song.Album;
-                                break;
-                            }
-                        //This is where the file format matters, just like during parsing
-                        case nameof(PlaylistsViewModel):
-                            {
-                                AddPlaylistTag(song.PlayLists, tagLibFile);
-                                break;
-                            }
-                        default:
-                            break;
-                    }
-                    tagLibFile.Save();
-                }
+                tagLibFile = TagLib.File.Create(song.FilePath);
             }
-            RefreshContent();
-            ShowHome();
-        }
+            catch
+            {
+                //Maybe also notify the user of funky behavior
+                return;
+            }
 
-        protected void RemoveSingleTag(SongItem song)
-        {
-            TagLib.File tagLibFile = TagLib.File.Create(song.FilePath);
             switch (GetCategory())
             {
                 case nameof(GenresViewModel):
@@ -247,18 +215,27 @@ namespace MusicPlayer.ViewModels
                 //This is where the file format matters, just like during parsing
                 case nameof(PlaylistsViewModel):
                     {
-                        ModifyPlaylistTag(song,tagLibFile);
+                        ModifyPlaylistTag(song, tagLibFile);
                         break;
                     }
                 default:
                     break;
             }
             tagLibFile.Save();
-            RefreshContent();
-            ShowHome();
+
         }
 
-        private void ModifyPlaylistTag(SongItem song,TagLib.File tagLibFile) 
+        protected virtual void ModifyFiles(IEnumerable songs)
+        {
+            foreach (SongItem song in songs)
+            {
+                ModifyFile(song);
+            }
+            RefreshContent();
+            ShowSongsInCategory(SelectedCategory);
+        }
+
+        private void ModifyPlaylistTag(SongItem song, TagLib.File tagLibFile)
         {
             switch (tagLibFile.MimeType)
             {

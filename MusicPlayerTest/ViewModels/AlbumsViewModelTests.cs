@@ -110,7 +110,7 @@ namespace MusicPlayer.ViewModels.Tests
         [Fact()]
         public void AddSelectedSongsTest()
         {
-            //Most of this will be moved into ModifySelected in the parent class
+            //Most of this will be moved into ModifySelectedSongs in the parent class
             Mock<AlbumsViewModel> vmMock = new Mock<AlbumsViewModel>(_properties.Object, _newCategoryInputViewModel.Object, _tagLibFactory.Object);
             //SongItem item1 = new SongItem() { Album = "Album2", IsSelected = true };
             //SongItem item2 = new SongItem() { Album = "", IsSelected = true };
@@ -135,7 +135,7 @@ namespace MusicPlayer.ViewModels.Tests
             //Assert.Equal("", item2.Album);
             //Assert.Null(item3.Album);
 
-            vmMock.Verify(p => p.ModifySelected(false), Times.Once());
+            vmMock.Verify(p => p.ModifySelectedSongs(false), Times.Once());
             //Assert.All(mockSongs, song => Assert.True(song.IsSelected));
 
 
@@ -163,21 +163,21 @@ namespace MusicPlayer.ViewModels.Tests
             vmMock.CallBase = true;
 
             vmMock.Object.SelectedCategory = "Album2";
-            vmMock.Object.RemoveSong(item1);
+            vmMock.Object.RemoveSingleSong(item1);
 
             Assert.Empty(item1.Album);
 
             //Does nothing
             vmMock.Object.SelectedCategory = string.Empty;
-            vmMock.Object.RemoveSong(item2);
+            vmMock.Object.RemoveSingleSong(item2);
 
             vmMock.Object.SelectedCategory = null;
-            vmMock.Object.RemoveSong(item1);
+            vmMock.Object.RemoveSingleSong(item1);
 
             vmMock.Object.SelectedCategory = "NonExistentAlbum";
-            vmMock.Object.RemoveSong(item3);
+            vmMock.Object.RemoveSingleSong(item3);
 
-            vmMock.Verify(p => p.ModifySelected(false), Times.Once());
+            vmMock.Verify(p => p.ModifySelectedSongs(false), Times.Once());
 
         }
     }

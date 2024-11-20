@@ -38,7 +38,7 @@ namespace MusicPlayer.ViewModels
         public override async void AddSelectedSongs()
         {
             await ToggleCategoryInputModal("artist");
-            ModifySelected();
+            ModifySelectedSongs();
         }
 
         public override string ToString()
@@ -46,21 +46,24 @@ namespace MusicPlayer.ViewModels
             return "Artists";
         }
 
-        public override void RemoveSong(object song)
+        public override void RemoveSingleSong(object song)
         {
             SongItem item = (SongItem)song;
             if (item.Artists.Remove(SelectedCategory))
             {
-                RemoveSingleTag(item);
+                ModifyFile(item);
+                ShowSongsInCategory(SelectedCategory);
+
             }
+
         }
 
-        protected override void RemoveCurrentSong(SongItem song)
+        protected override void RemoveSong(SongItem song)
         {
             song.Artists.Remove(SelectedCategory);
         }
 
-        protected override void AddCurrentSong(SongItem song)
+        protected override void AddSong(SongItem song)
         {
             if (!song.Artists.Contains(SelectedCategory))
             {
