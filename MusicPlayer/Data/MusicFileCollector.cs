@@ -16,7 +16,7 @@ namespace MusicPlayer.Data
 
         public static ObservableCollection<SongItem> CollectFilesFromFolder(string folderPath)
         {
-            ObservableCollection<SongItem> returnList = new ObservableCollection<SongItem>();
+            List<SongItem> returnList = new List<SongItem>();
             string[] allowedExtensions = [".ogg", ".mp3", ".flac"];
             var listOfFilesInFolder = Directory.GetFiles(folderPath).Where(fil => allowedExtensions.Any(fil.ToLower().EndsWith));
 
@@ -42,10 +42,9 @@ namespace MusicPlayer.Data
                 returnList.Add(songItem);
 
             }
-            return returnList;
+            return new ObservableCollection<SongItem>(returnList.OrderBy(x => x.Title));
         }
-        //TODO: Fix folder selection
-        //Song skip issue
+
         private static List<string> ParseData(TagLib.File tagLibfile)
         {
 

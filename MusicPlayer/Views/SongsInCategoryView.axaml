@@ -25,6 +25,7 @@
 				<mi:MaterialIcon Kind="Backburger" FontSize="10" HorizontalAlignment="Stretch"/>
 				<TextBlock Text="Back to home page" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
 			</StackPanel>
+			
 		</Button>
 
 

@@ -81,7 +81,7 @@ public partial class MainViewModel : ViewModelBase
         this.mainWindow = mainWindow;
 
         PixelRect screen = this.mainWindow.Screens.Primary.WorkingArea;
-        Control.Position = new PixelPoint((int)(screen.BottomRight.X), (int)(screen.BottomRight.Y));
+        Control.Position = new PixelPoint((int)(screen.BottomRight.X + Control.Width), (int)(screen.BottomRight.Y + Control.Height));
         Control.Show();
     }
     private void Init()
@@ -90,6 +90,20 @@ public partial class MainViewModel : ViewModelBase
         //Possibly remove in the end, user can input the source folder themselves
         Properties.MusicFiles = MusicFileCollector.CollectFilesFromFolder(Properties.SourceFolderPath);
 
+    }
+
+    public void ToggleWidget()
+    {
+        if (Control.IsVisible)
+        { 
+            Control.Hide(); 
+        }
+        else 
+        {
+            Control.Show(); 
+        }
+
+        mainWindow.Focus();
     }
     #region ViewModel Switching
     public void ShowContent(string view)
@@ -172,8 +186,18 @@ public partial class MainViewModel : ViewModelBase
         {
             Properties.AuthData = await APICallHandler.GetAccessTokenAsync(Client,authorization, codeToRetrieve, codeVerifier);
             //This will not be reached if the previous line throws an exception
-            Client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Properties.AuthData.AccessToken);
-            
+            if(Properties.AuthData != null)
+            {
+                Client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Properties.AuthData.AccessToken);
+                //Recommendations nav binds it's state to this variable
+                await RecViewModel.GetAvaliableGenreSeeds();
+                UserAuthenticated = true;
+            }
+            else
+            {
+                //Maybe show a popup in the app that the auth failed or something
+            }
+
         }
 
 

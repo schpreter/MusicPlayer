@@ -35,9 +35,16 @@ namespace MusicPlayer.API
 
             //Post the content to the API    
             HttpResponseMessage response = await client.PostAsync(url, content);
-            response.EnsureSuccessStatusCode();
+            try
+            {
+                response.EnsureSuccessStatusCode();
+                return JsonConvert.DeserializeObject<AuthorizationTokenData>(response.Content.ReadAsStringAsync().Result);
+            }
+            catch 
+            { 
+                return null;
+            }
 
-            return JsonConvert.DeserializeObject<AuthorizationTokenData>(response.Content.ReadAsStringAsync().Result);
         }
 
         public static async Task<string> FetchProfile(string token)

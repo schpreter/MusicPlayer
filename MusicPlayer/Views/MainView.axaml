@@ -17,7 +17,7 @@
 		<DockPanel Grid.Row="0">
 			<Menu>
 				<MenuItem DockPanel.Dock="Top" Header="_Settings">
-					<MenuItem  Header="Set Input Folder" Command="{Binding SetInputFolderAsync}">
+					<MenuItem  Header="Set Source Folder" Command="{Binding SetInputFolderAsync}">
 						<MenuItem.Icon>
 							<mi:MaterialIcon Kind="Folder"/>
 						</MenuItem.Icon>
@@ -28,8 +28,11 @@
 						</MenuItem.Icon>
 					</MenuItem>
 				</MenuItem>
-
-
+				<MenuItem DockPanel.Dock="Top" Header="_Toggle Widget" Command="{Binding ToggleWidget}" HotKey="Ctrl+H">
+					<MenuItem.Icon>
+						<mi:MaterialIcon Kind="DockWindow"/>
+					</MenuItem.Icon>
+				</MenuItem>
 			</Menu>
 		</DockPanel>
 

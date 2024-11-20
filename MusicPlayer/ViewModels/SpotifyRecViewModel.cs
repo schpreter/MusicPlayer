@@ -10,6 +10,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace MusicPlayer.ViewModels
 {
@@ -42,7 +43,7 @@ namespace MusicPlayer.ViewModels
             Client = client;
         }
 
-        public async void GetAvaliableGenreSeeds()
+        public async Task GetAvaliableGenreSeeds()
         {
             try
             {
@@ -60,6 +61,7 @@ namespace MusicPlayer.ViewModels
             }
             catch (Exception ex)
             {
+                //TODO: deal with failure, possibly with the button showing up
                 Console.WriteLine(ex.Message);
             }
 

@@ -20,14 +20,14 @@ namespace MusicPlayer.ViewModels
         public override void RefreshContent()
         {
             //Songs that are not in albums should not even appear as an "album"
-            var AlbumSet = Properties.MusicFiles.Select(x => x.Album).Where(x => !string.IsNullOrEmpty(x)).ToHashSet();
+            var AlbumSet = Properties.MusicFiles.Select(x => x.Album).Where(x => !string.IsNullOrEmpty(x)).Order().ToHashSet();
             RefreshCategory(AlbumSet);
 
         }
         public override void ShowSongsInCategory(object album)
         {
             SelectedCategory = (string)album;
-            HashSet<SongItem> filtered = Properties.MusicFiles.Where(x => x.Album == SelectedCategory && !string.IsNullOrEmpty(x.Album)).ToHashSet();
+            HashSet<SongItem> filtered = Properties.MusicFiles.Where(x => x.Album == SelectedCategory && !string.IsNullOrEmpty(x.Album)).OrderBy(x => x.Title).ToHashSet();
             UpdateSongCategory(filtered);
         }
 

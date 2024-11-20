@@ -22,7 +22,7 @@ namespace MusicPlayer.ViewModels
         }
         public override void RefreshContent()
         {
-            var ArtistsSet = Properties.MusicFiles.SelectMany(x => x.Artists).ToHashSet();
+            var ArtistsSet = Properties.MusicFiles.SelectMany(x => x.Artists).Order().ToHashSet();
             RefreshCategory(ArtistsSet);
 
 
@@ -30,7 +30,7 @@ namespace MusicPlayer.ViewModels
         public override void ShowSongsInCategory(object genre)
         {
             SelectedCategory = (string)genre;
-            HashSet<SongItem> filtered = Properties.MusicFiles.Where(x => x.Artists.Contains(SelectedCategory)).ToHashSet();
+            HashSet<SongItem> filtered = Properties.MusicFiles.Where(x => x.Artists.Contains(SelectedCategory)).OrderBy(x => x.Title).ToHashSet();
             UpdateSongCategory(filtered);
         }
 

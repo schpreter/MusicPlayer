@@ -21,7 +21,7 @@ namespace MusicPlayer.Shared
 
         //Const for now, later user will beable to choose their own folder path
         [ObservableProperty]
-        public string sourceFolderPath = "C:\\Users\\HV387FL\\School\\Szakdoga\\Musics";
+        public string sourceFolderPath = "C:\\Users\\HV387FL\\School\\Szakdoga\\Musics\\NonJapanese";
         public string PreviousSongPath { get; set; }
         public AuthorizationTokenData AuthData;
 

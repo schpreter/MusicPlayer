@@ -20,7 +20,7 @@ namespace MusicPlayer.ViewModels
         }
         public override void RefreshContent()
         {
-            var GenresSet = Properties.MusicFiles.SelectMany(x => x.Genres).ToHashSet();
+            var GenresSet = Properties.MusicFiles.SelectMany(x => x.Genres).Order().ToHashSet();
             RefreshCategory(GenresSet);
 
         }
@@ -29,7 +29,7 @@ namespace MusicPlayer.ViewModels
             SelectedCategory = (string)genre;
 
 
-            HashSet<SongItem> filtered = Properties.MusicFiles.Where(x => x.Genres.Contains(SelectedCategory)).ToHashSet();
+            HashSet<SongItem> filtered = Properties.MusicFiles.Where(x => x.Genres.Contains(SelectedCategory)).OrderBy(x => x.Title).ToHashSet();
             UpdateSongCategory(filtered);
         }
 

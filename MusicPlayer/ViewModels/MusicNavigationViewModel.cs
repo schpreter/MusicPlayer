@@ -115,6 +115,7 @@ namespace MusicPlayer.ViewModels
                 //Otherwise we just toggle the pause state
                 else
                 {
+                    MediaPlayer.Time = CurrentTimeMs;
                     MediaPlayer.Pause();
                 }
                 //MediaPlayer.Paused += MediaPlayer_Paused;
@@ -171,6 +172,9 @@ namespace MusicPlayer.ViewModels
         {
             //TODO: Skipping should be working on either all songs or the songs in a given category
             IEnumerable<SongItem> SongsToPlay;
+            CurrentTimeMs = 0;
+            CurrentTimeStamp = TimeSpan.FromMilliseconds(CurrentTimeMs).ToString(@"mm\:ss");
+
             if (Properties.SongsByCategory.Count == 0)
             {
                 SongsToPlay = Properties.MusicFiles;

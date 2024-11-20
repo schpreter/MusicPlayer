@@ -35,7 +35,6 @@ public partial class App : Application
         MainViewModel viewModel = services.GetRequiredService<MainViewModel>();
         ControlWidget controlWindow = services.GetRequiredService<ControlWidget>();
 
-        //Need for tray functionality, as it can not be binded to the window datacontext
         this.DataContext = viewModel;
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
@@ -43,7 +42,7 @@ public partial class App : Application
             {
                 DataContext = this.DataContext
             };
-            controlWindow.DataContext = viewModel;
+            controlWindow.DataContext = desktop.MainWindow.DataContext;
             desktop.ShutdownMode = ShutdownMode.OnMainWindowClose;
 
         }

@@ -14,47 +14,46 @@
 	<dialogHost:DialogHost CloseOnClickAway="True" Identifier="GenericModal">
 		<Grid RowDefinitions="10*,90*" ColumnDefinitions="5*,95*">
 
-		<Image Grid.Column="0" Grid.Row="0" Margin="20" Height="50" Width="200" VerticalAlignment="Top" HorizontalAlignment="Left"
-         Source="/Assets/spotify-logo.png"/>
+			<Image Grid.Column="0" Grid.Row="0" Margin="20" Height="50" Width="200" VerticalAlignment="Top" HorizontalAlignment="Left"
+			 Source="/Assets/spotify-logo.png"/>
 			<TabControl Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"  VerticalAlignment="Top" Margin="10,20,0,0">
 				<TabItem Header="Search">
 					<StackPanel Orientation="Horizontal" Spacing="50">
-						<Expander Header="Genres (max 5)" VerticalAlignment="Stretch" Margin="0,20,0,0">
-							<Grid RowDefinitions="10*,10*,80*">
-								<Button Command="{Binding GetAvaliableGenreSeeds}" Grid.Row="1">
-									<StackPanel Orientation="Horizontal">
-										<mi:MaterialIcon Kind="Download"/>
-										<TextBlock Text="Get Avaliable Genres"/>
-									</StackPanel>
-								</Button>
+						<Grid RowDefinitions="10*,90*">
+							<!--<Button Command="{Binding GetAvaliableGenreSeeds}" Grid.Row="1" IsVisible="False" Name="Seedbutton">
+								<StackPanel Orientation="Horizontal">
+									<mi:MaterialIcon Kind="Download"/>
+									<TextBlock Text="Get Avaliable Genres"/>
+								</StackPanel>
+							</Button>-->
+							<TextBlock Text="Select max 5" Grid.Row="0"/>
 
 
-								<ScrollViewer Grid.Row="2" AllowAutoHide="False">
-									<ItemsControl ItemsSource="{Binding Genres}">
-										<ItemsControl.ItemTemplate>
-											<DataTemplate>
-												<Border Margin="0,10,10,0"
-													CornerRadius="5"
-													BorderBrush="Gray" BorderThickness="1"
-													Padding="5">
-													<StackPanel Orientation="Horizontal">
-														<!--TODO: bind this checkbox-->
-														<CheckBox IsChecked="{Binding IsSelected}"/>
-														<TextBlock Text="{Binding}" VerticalAlignment="Center"/>
-													</StackPanel>
-												</Border>
-											</DataTemplate>
-										</ItemsControl.ItemTemplate>
-									</ItemsControl>
-								</ScrollViewer>
-							</Grid>
-						</Expander>
+							<ScrollViewer Grid.Row="1" AllowAutoHide="False">
+								<ItemsControl ItemsSource="{Binding Genres}">
+									<ItemsControl.ItemTemplate>
+										<DataTemplate>
+											<Border Margin="0,10,10,0"
+												CornerRadius="5"
+												BorderBrush="Gray" BorderThickness="1"
+												Padding="5">
+												<StackPanel Orientation="Horizontal">
+													<!--TODO: bind this checkbox-->
+													<CheckBox IsChecked="{Binding IsSelected}"/>
+													<TextBlock Text="{Binding}" VerticalAlignment="Center"/>
+												</StackPanel>
+											</Border>
+										</DataTemplate>
+									</ItemsControl.ItemTemplate>
+								</ItemsControl>
+							</ScrollViewer>
+						</Grid>
 						<Button Padding="10" Command="{Binding GetRecommendations}" HorizontalAlignment="Right">
 							<StackPanel Orientation="Horizontal" Spacing="10">
 								<TextBlock Text="Start Searching" VerticalAlignment="Center"/>
 								<mi:MaterialIcon Kind="Magnify" VerticalAlignment="Center"/>
 							</StackPanel>
-							
+
 						</Button>
 					</StackPanel>
 
@@ -90,7 +89,7 @@
 					</ScrollViewer>
 				</TabItem>
 			</TabControl>
-		
+
 
 			<!--<Expander Grid.Column="1" Grid.Row="0" Header="Artists (max 5)" IsEnabled="False">
 			<TextBox Watermark="Please enter the artists to search Spotify for (max 5)">
@@ -107,7 +106,7 @@
 				</TextBox.InnerRightContent>
 			</TextBox>
 		</Expander>-->
-	</Grid>
+		</Grid>
 	</dialogHost:DialogHost>
 
 </UserControl>

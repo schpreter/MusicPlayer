@@ -10,13 +10,15 @@
 		<vm:HomeContentViewModel />
 	</Design.DataContext>
 	<Grid>
+		<TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="No songs found. Please select a folder which contains songs." IsVisible="{Binding !Properties.MusicFiles.Count}"/>
 		<ListBox ItemsSource="{Binding Properties.MusicFiles}" 
 				 SelectedItem="{Binding Properties.SelectedSong}" 
 				 SelectedIndex="{Binding Properties.SelectedSongIndex}"
 				 Background="Transparent"
 				 ItemTemplate="{StaticResource SongListHomeDisplayTemplate}"
 				 Cursor="Hand"
-				 Margin="10">
+				 Margin="10"
+				 IsVisible="{Binding Properties.MusicFiles.Count}">
 			<ListBox.Styles>
 				<Style Selector="ListBoxItem">
 					<Setter Property="Background" Value="Transparent"/>

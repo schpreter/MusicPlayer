@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:views="clr-namespace:MusicPlayer.Views"
 		xmlns:vm="clr-namespace:MusicPlayer.ViewModels"
-		mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="50" Width="400" Height="90"
+		mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="50" Width="420" Height="90"
         x:Class="MusicPlayer.Views.ControlWidget"
 		x:DataType="vm:MainViewModel"
         Title="ControlWidget"

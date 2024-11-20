@@ -11,32 +11,27 @@
 
 	<Grid RowDefinitions="40*,60*">
 
-		<Grid Grid.Row="0" ColumnDefinitions="5*,50*,*">
+		<Grid Grid.Row="0" ColumnDefinitions="10*,45*,*">
 			<TextBlock Grid.Column="0" Text="{Binding CurrentTimeStamp}"
-			HorizontalAlignment="Center"/>
+			HorizontalAlignment="Center" VerticalAlignment="Center"/>
 			<Slider  Grid.Column="1"  Value="{Binding CurrentTimeMs}" Maximum="{Binding Properties.SelectedSong.Duration_s}"  x:Name="slider">
 			</Slider>
 		</Grid>
-		<Grid Grid.Row="1" ColumnDefinitions="*,*,2*,*,*">
-			<Button Theme="{StaticResource MusicNavigationButton}" Grid.Column="0" HorizontalAlignment="Stretch" Command="{Binding ShuffleClicked}">
-				<mi:MaterialIcon Kind="ShuffleVariant"/>
-			</Button>
-			<Button Theme="{StaticResource MusicNavigationButton}" Grid.Column="1" HorizontalAlignment="Stretch" Command="{Binding SkipBackClicked}">
+		<Grid Grid.Row="1" ColumnDefinitions="*,2*,*">
+			<Button Theme="{StaticResource MusicNavigationButton}" Grid.Column="0" HorizontalAlignment="Stretch" Command="{Binding SkipBackClicked}">
 				<mi:MaterialIcon Kind="SkipPrevious"/>
 			</Button>
-			<ToggleButton Theme="{StaticResource MusicNavigationButton}" Grid.Column="2" HorizontalAlignment="Stretch" Command="{Binding PausePlayClicked}">
+			<ToggleButton Theme="{StaticResource MusicNavigationButton}" Grid.Column="1" HorizontalAlignment="Stretch" Command="{Binding PausePlayClicked}">
 				<Panel>
 					<mi:MaterialIcon Kind="Play" IsVisible="{Binding IsPaused}"/>
 					<mi:MaterialIcon Kind="Pause" IsVisible="{Binding !IsPaused}"/>
 				</Panel>
 
 			</ToggleButton>
-			<Button Theme="{StaticResource MusicNavigationButton}" Grid.Column="3" HorizontalAlignment="Stretch" Command="{Binding SkipForwardClicked}">
+			<Button Theme="{StaticResource MusicNavigationButton}" Grid.Column="2" HorizontalAlignment="Stretch" Command="{Binding SkipForwardClicked}">
 				<mi:MaterialIcon Kind="SkipNext"/>
 			</Button>
-			<Button Theme="{StaticResource MusicNavigationButton}" Grid.Column="4" HorizontalAlignment="Stretch" Command="{Binding RepeatClicked}">
-				<mi:MaterialIcon Kind="RepeatVariant"/>
-			</Button>
+
 		</Grid>
 	</Grid>
 
