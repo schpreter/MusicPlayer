@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using DialogHostAvalonia;
 using MusicPlayer.Models;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -184,7 +185,7 @@ namespace MusicPlayer.ViewModels
             {
                 tagLibFile = TagLib.File.Create(song.FilePath);
             }
-            catch
+            catch(Exception ex)
             {
                 //Maybe also notify the user of funky behavior
                 return;

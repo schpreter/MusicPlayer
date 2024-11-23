@@ -31,7 +31,7 @@ namespace MusicPlayer.ViewModels
         //public ObservableCollection<string> ArtistsDrpOptions { get; set; }
         //public ObservableCollection<string> AlbumsDrpOptions { get; set; }
 
-        private readonly HttpClient Client;
+        public HttpClient Client { get; set; }
 
 
 
@@ -43,7 +43,7 @@ namespace MusicPlayer.ViewModels
             Client = client;
         }
 
-        public async Task GetAvaliableGenreSeeds()
+        public virtual async Task GetAvaliableGenreSeeds()
         {
             try
             {
@@ -68,7 +68,7 @@ namespace MusicPlayer.ViewModels
 
         }
 
-        public async void GetRecommendations()
+        public virtual async void GetRecommendations()
         {
             var selectedGenres = Genres.Where(x => x.IsSelected);
             //Validations
