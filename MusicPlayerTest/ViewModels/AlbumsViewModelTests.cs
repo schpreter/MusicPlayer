@@ -1,5 +1,4 @@
 ﻿using Moq;
-using MusicPlayer.Interfaces;
 using MusicPlayer.Models;
 using MusicPlayer.Shared;
 using System.Collections.ObjectModel;
@@ -10,12 +9,11 @@ namespace MusicPlayer.ViewModels.Tests
     {
         private readonly Mock<SharedProperties> _properties = new Mock<SharedProperties>();
         private readonly Mock<NewCategoryInputViewModel> _newCategoryInputViewModel = new Mock<NewCategoryInputViewModel>();
-        private readonly Mock<ITaglLibFactory> _tagLibFactory = new Mock<ITaglLibFactory>();
 
         [Fact()]
         public void AlbumsViewModelTest()
         {
-            AlbumsViewModel vm = new AlbumsViewModel(_properties.Object, _newCategoryInputViewModel.Object, _tagLibFactory.Object);
+            AlbumsViewModel vm = new AlbumsViewModel(_properties.Object, _newCategoryInputViewModel.Object);
 
             Assert.NotNull(vm);
             Assert.Empty(vm.ItemCollection);
@@ -27,7 +25,7 @@ namespace MusicPlayer.ViewModels.Tests
         [Fact()]
         public void RefreshContentTest()
         {
-            Mock<AlbumsViewModel> vmMock = new Mock<AlbumsViewModel>(_properties.Object, _newCategoryInputViewModel.Object, _tagLibFactory.Object);
+            Mock<AlbumsViewModel> vmMock = new Mock<AlbumsViewModel>(_properties.Object, _newCategoryInputViewModel.Object);
             ObservableCollection<SongItem> mockSongs = new ObservableCollection<SongItem>()
             {
                 new SongItem(){Album = "Album1"},
@@ -58,7 +56,7 @@ namespace MusicPlayer.ViewModels.Tests
         [Fact()]
         public void ShowSongsInCategoryTest()
         {
-            Mock<AlbumsViewModel> vmMock = new Mock<AlbumsViewModel>(_properties.Object, _newCategoryInputViewModel.Object, _tagLibFactory.Object);
+            Mock<AlbumsViewModel> vmMock = new Mock<AlbumsViewModel>(_properties.Object, _newCategoryInputViewModel.Object);
             ObservableCollection<SongItem> mockSongs = new ObservableCollection<SongItem>()
             {
                 new SongItem(){Album = "Album1"},
@@ -111,54 +109,50 @@ namespace MusicPlayer.ViewModels.Tests
         public void AddSelectedSongsTest()
         {
             //Most of this will be moved into ModifySelectedSongs in the parent class
-            Mock<AlbumsViewModel> vmMock = new Mock<AlbumsViewModel>(_properties.Object, _newCategoryInputViewModel.Object, _tagLibFactory.Object);
-            //SongItem item1 = new SongItem() { Album = "Album2", IsSelected = true };
-            //SongItem item2 = new SongItem() { Album = "", IsSelected = true };
-            //SongItem item3 = new SongItem() { Album = null, IsSelected = true };
+            Mock<AlbumsViewModel> vmMock = new Mock<AlbumsViewModel>(_properties.Object, _newCategoryInputViewModel.Object);
+            SongItem item1 = new SongItem() { Album = "Album2", IsSelected = false };
+            SongItem item2 = new SongItem() { Album = "", IsSelected = true };
 
-            //ObservableCollection<SongItem> mockSongs = new ObservableCollection<SongItem>()
-            //{
-            //    item1,
-            //    item2,
-            //    item3,
-            //};
-            //vmMock.Object.Properties.MusicFiles = mockSongs;
+            ObservableCollection<SongItem> mockSongs = new ObservableCollection<SongItem>()
+            {
+                item1,
+                item2,
+            };
+            vmMock.Object.Properties.MusicFiles = mockSongs;
 
 
             vmMock.CallBase = true;
-
-
+            vmMock.Object.SelectedCategory = "Test";
             //vmMock.Object.SelectedCategory = null;
             vmMock.Object.AddSelectedSongs();
-
-            //Assert.Equal("Album2", item1.Album);
-            //Assert.Equal("", item2.Album);
-            //Assert.Null(item3.Album);
-
             vmMock.Verify(p => p.ModifySelectedSongs(false), Times.Once());
-            //Assert.All(mockSongs, song => Assert.True(song.IsSelected));
+            vmMock.Verify(p => p.RefreshContent(), Times.Once());
+            vmMock.Verify(p => p.ShowSongsInCategory("Test"), Times.Once());
 
 
-            //vmMock.Object.SelectedCategory = "Album1";
-            //vmMock.Object.AddSelectedSongs();
 
-            //Assert.Equal("Album1", item1.Album);
-            //Assert.Equal("Album1", item2.Album);
-            //Assert.Equal("Album1", item3.Album);
+            Assert.Equal("Album2", item1.Album);
+            Assert.Equal("Test", item2.Album);
 
+            Assert.All(mockSongs, song => Assert.False(song.IsSelected));
 
-            //Assert.All(mockSongs, song => Assert.False(song.IsSelected));
 
         }
 
         [Fact()]
-        public void RemoveSongTest()
+        public void RemoveSingleSongTest()
         {
-            Mock<AlbumsViewModel> vmMock = new Mock<AlbumsViewModel>(_properties.Object, _newCategoryInputViewModel.Object, _tagLibFactory.Object);
+            Mock<AlbumsViewModel> vmMock = new Mock<AlbumsViewModel>(_properties.Object, _newCategoryInputViewModel.Object);
 
             SongItem item1 = new SongItem() { Album = "Album2", IsSelected = true };
             SongItem item2 = new SongItem() { Album = "", IsSelected = true };
-            SongItem item3 = new SongItem() { Album = null, IsSelected = true };
+
+            ObservableCollection<SongItem> mockSongs = new ObservableCollection<SongItem>()
+            {
+                item1,
+                item2,
+            };
+            vmMock.Object.Properties.MusicFiles = mockSongs;
 
             vmMock.CallBase = true;
 
@@ -175,9 +169,11 @@ namespace MusicPlayer.ViewModels.Tests
             vmMock.Object.RemoveSingleSong(item1);
 
             vmMock.Object.SelectedCategory = "NonExistentAlbum";
-            vmMock.Object.RemoveSingleSong(item3);
+            vmMock.Object.RemoveSingleSong(item1);
 
-            vmMock.Verify(p => p.ModifySelectedSongs(false), Times.Once());
+            vmMock.Verify(p => p.ShowSongsInCategory("Album2"), Times.Once());
+            vmMock.Verify(p => p.ShowSongsInCategory(string.Empty), Times.Never());
+            vmMock.Verify(p => p.ShowSongsInCategory(null), Times.Never());
 
         }
     }

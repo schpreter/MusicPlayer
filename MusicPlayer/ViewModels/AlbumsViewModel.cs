@@ -1,5 +1,4 @@
-﻿using MusicPlayer.Interfaces;
-using MusicPlayer.Models;
+﻿using MusicPlayer.Models;
 using MusicPlayer.Shared;
 using System;
 using System.Collections.Generic;
@@ -10,11 +9,10 @@ namespace MusicPlayer.ViewModels
 {
     public partial class AlbumsViewModel : UnifiedCategoryViewModel
     {
-        public AlbumsViewModel(SharedProperties props, NewCategoryInputViewModel newCategoryInput, ITaglLibFactory taglLibFactory)
+        public AlbumsViewModel(SharedProperties props, NewCategoryInputViewModel newCategoryInput)
         {
             Properties = props;
             NewCategoryInputViewModel = newCategoryInput;
-            this.taglLibFactory = taglLibFactory;
         }
 
         public override void RefreshContent()

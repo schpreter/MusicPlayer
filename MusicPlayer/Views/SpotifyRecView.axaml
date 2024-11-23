@@ -38,7 +38,6 @@
 												BorderBrush="Gray" BorderThickness="1"
 												Padding="5">
 												<StackPanel Orientation="Horizontal">
-													<!--TODO: bind this checkbox-->
 													<CheckBox IsChecked="{Binding IsSelected}"/>
 													<TextBlock Text="{Binding}" VerticalAlignment="Center"/>
 												</StackPanel>

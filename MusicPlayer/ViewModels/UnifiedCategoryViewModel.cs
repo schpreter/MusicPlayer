@@ -1,7 +1,6 @@
 ﻿using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using DialogHostAvalonia;
-using MusicPlayer.Interfaces;
 using MusicPlayer.Models;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,7 +15,6 @@ namespace MusicPlayer.ViewModels
 {
     public abstract partial class UnifiedCategoryViewModel : ViewModelBase
     {
-        protected ITaglLibFactory taglLibFactory;
 
         public NewCategoryInputViewModel NewCategoryInputViewModel { get; set; }
         public ObservableCollection<SongItem> SongsByCategory { get; set; } = new ObservableCollection<SongItem>();
@@ -92,7 +90,6 @@ namespace MusicPlayer.ViewModels
             {
                 foreach (var song in selectedSongs)
                 {
-
                     AddSong(song);
 
                 }
@@ -259,45 +256,45 @@ namespace MusicPlayer.ViewModels
             }
         }
 
-        private void AddPlaylistTag(List<string> playlists, TagLib.File tagLibFile)
-        {
-            switch (tagLibFile.MimeType)
-            {
-                case "taglib/mp3":
-                    {
-                        TagLib.Id3v2.Tag tag = (TagLib.Id3v2.Tag)tagLibFile.GetTag(TagLib.TagTypes.Id3v2, true);
-                        PrivateFrame pFrame = PrivateFrame.Get(tag, "Playlists", true);
+        //private void AddPlaylistTag(List<string> playlists, TagLib.File tagLibFile)
+        //{
+        //    switch (tagLibFile.MimeType)
+        //    {
+        //        case "taglib/mp3":
+        //            {
+        //                TagLib.Id3v2.Tag tag = (TagLib.Id3v2.Tag)tagLibFile.GetTag(TagLib.TagTypes.Id3v2, true);
+        //                PrivateFrame pFrame = PrivateFrame.Get(tag, "Playlists", true);
 
-                        List<string> list = new List<string>();
+        //                List<string> list = new List<string>();
 
-                        //If there is actual data in the private frame, parse it
-                        if (pFrame.PrivateData != null)
-                        {
-                            string data = Encoding.Unicode.GetString(pFrame.PrivateData.Data);
-                            if (data != null)
-                            {
-                                list = Regex.Split(data, @"(?<!\\);").ToList();
-                            }
-                        }
+        //                //If there is actual data in the private frame, parse it
+        //                if (pFrame.PrivateData != null)
+        //                {
+        //                    string data = Encoding.Unicode.GetString(pFrame.PrivateData.Data);
+        //                    if (data != null)
+        //                    {
+        //                        list = Regex.Split(data, @"(?<!\\);").ToList();
+        //                    }
+        //                }
 
-                        //Clean user input
-                        var cleaned = playlists;
-                        cleaned.ForEach(x => x.Replace(";", @"\;"));
+        //                //Clean user input
+        //                var cleaned = playlists;
+        //                cleaned.ForEach(x => x.Replace(";", @"\;"));
 
-                        pFrame.PrivateData = Encoding.Unicode.GetBytes(string.Join(';', list.Union(cleaned)));
-                        break;
-                    }
-                default:
-                    {
-                        var tag = (TagLib.Ogg.XiphComment)tagLibFile.GetTag(TagLib.TagTypes.Xiph, true);
-                        //Using union get an IEnumerable to distinct playlist names -> playlist names hsould be unique therefore
-                        var filtered = tag.GetField("Playlists").Union(playlists);
+        //                pFrame.PrivateData = Encoding.Unicode.GetBytes(string.Join(';', list.Union(cleaned)));
+        //                break;
+        //            }
+        //        default:
+        //            {
+        //                var tag = (TagLib.Ogg.XiphComment)tagLibFile.GetTag(TagLib.TagTypes.Xiph, true);
+        //                //Using union get an IEnumerable to distinct playlist names -> playlist names hsould be unique therefore
+        //                var filtered = tag.GetField("Playlists").Union(playlists);
 
-                        tag.SetField("Playlists", filtered.ToArray());
-                        break;
-                    }
-            }
-        }
+        //                tag.SetField("Playlists", filtered.ToArray());
+        //                break;
+        //            }
+        //    }
+        //}
 
         private void UnselectListItems()
         {

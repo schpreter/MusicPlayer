@@ -31,12 +31,5 @@ namespace MusicPlayer.ViewModels
             DialogHost.GetDialogSession("CategoryView")?.Close(null);
         }
 
-        private void ClearSongSelection()
-        {
-            foreach (var item in Properties.MusicFiles)
-            {
-                item.IsSelected = false;
-            }
-        }
     }
 }

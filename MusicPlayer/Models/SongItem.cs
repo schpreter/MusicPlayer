@@ -10,7 +10,7 @@ namespace MusicPlayer.Models
     public class SongItem : SelectableItem
     {
 
-        public string Album { get; set; }
+        public string Album { get; set; } = string.Empty;
         public string Title { get; set; }
         public List<string> Artists { get; set; } = new List<string>();
 

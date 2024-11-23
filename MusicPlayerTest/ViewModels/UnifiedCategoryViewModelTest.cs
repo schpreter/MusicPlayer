@@ -11,6 +11,7 @@ using Moq;
 using MusicPlayer.Models;
 using System.Collections.ObjectModel;
 using System.ComponentModel.Design;
+using Moq.Protected;
 
 namespace MusicPlayer.ViewModels.Tests
 {
@@ -97,6 +98,50 @@ namespace MusicPlayer.ViewModels.Tests
             Mock<UnifiedCategoryViewModel> vmMock = new Mock<UnifiedCategoryViewModel>();
             vmMock.Object.AddNewCategory();
             Assert.Null(vmMock.Object.SelectedCategory);
+        
+        
+        }
+
+        [Fact()]
+        public void RemoveSelectedSongsTest() {
+
+            Mock<UnifiedCategoryViewModel> vmMock = new Mock<UnifiedCategoryViewModel>();
+            vmMock.Object.RemoveSelectedSongs();
+            vmMock.Verify(p => p.ModifySelectedSongs(true), Times.Once());
+
+        }
+
+        [Fact()]
+        public void ModifySelectedSongsTest() {
+            Mock<UnifiedCategoryViewModel> vmMock = new Mock<UnifiedCategoryViewModel>();
+
+            SongItem item1 = new SongItem() { IsSelected = true };
+            SongItem item2 = new SongItem() { IsSelected = true };
+
+            ObservableCollection< SongItem> mockSongs = new ObservableCollection<SongItem>()
+            {
+                item1,
+                item2,
+                new SongItem(){IsSelected = false},
+                new SongItem(){IsSelected = false},
+                new SongItem(){IsSelected = false},
+            };
+            vmMock.Object.Properties = new Shared.SharedProperties();
+            vmMock.Object.Properties.MusicFiles = mockSongs;
+
+            vmMock.CallBase = true;
+
+            vmMock.Object.SelectedCategory = "Test";
+
+            vmMock.Object.ModifySelectedSongs(false);
+            vmMock.Protected().Verify("AddSong", Times.Once(), item1);
+            vmMock.Protected().Verify("AddSong", Times.Once(), item2);
+
+            vmMock.Object.ModifySelectedSongs(true);
+            vmMock.Protected().Verify("RemoveSong", Times.Once(), item1 );
+            vmMock.Protected().Verify("RemoveSong", Times.Once(), item2 );
+
+
         }
     }
 }

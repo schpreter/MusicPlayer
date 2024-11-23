@@ -1,5 +1,4 @@
-﻿using MusicPlayer.Interfaces;
-using MusicPlayer.Models;
+﻿using MusicPlayer.Models;
 using MusicPlayer.Shared;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,11 +13,10 @@ namespace MusicPlayer.ViewModels
         {
 
         }
-        public ArtistsViewModel(SharedProperties props, NewCategoryInputViewModel newCategoryInput, ITaglLibFactory taglLibFactory)
+        public ArtistsViewModel(SharedProperties props, NewCategoryInputViewModel newCategoryInput)
         {
             Properties = props;
             NewCategoryInputViewModel = newCategoryInput;
-            this.taglLibFactory = taglLibFactory;
         }
         public override void RefreshContent()
         {

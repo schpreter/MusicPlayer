@@ -74,7 +74,7 @@ namespace MusicPlayer.ViewModels
             //Validations
             if (selectedGenres.Count() == 0 || selectedGenres.Count() > LIMIT)
             {
-                await DialogHost.Show(new GenericNotificationModal() { Title = "Error", Message = "Please select minimum 1 but maximum 5 genres!" });
+                await DialogHost.Show(new GenericNotificationModal("Error", "Please select minimum 1 but maximum 5 genres!"));
             }
             else
             {
