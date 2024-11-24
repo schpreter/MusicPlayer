@@ -22,24 +22,37 @@ namespace MusicPlayer.Data
 
             foreach (string item in listOfFilesInFolder)
             {
-                TagLib.File tagLibFile = TagLib.File.Create(item);
-                var pics = tagLibFile.Tag.Pictures;
-
-                SongItem songItem = new SongItem
+                TagLib.File tagLibFile;
+                try
                 {
-                    Album = tagLibFile.Tag.Album ?? string.Empty,
-                    Title = tagLibFile.Tag.Title == null ? Path.GetFileName(item).Split('.').First() : tagLibFile.Tag.Title,
-                    Artists = tagLibFile.Tag.Performers.ToList(),
-                    Genres = tagLibFile.Tag.Genres.ToList(),
-                    Year = (int)tagLibFile.Tag.Year,
-                    Duration = TimeSpan.FromSeconds(tagLibFile.Properties.Duration.TotalSeconds),
-                    FilePath = tagLibFile.Name,
-                    PlayLists = ParseData(tagLibFile),
-                    IsSelected = false,
-                    Images = tagLibFile.Tag.Pictures.Select(img => img.Data).ToList(),
+                    tagLibFile = TagLib.File.Create(item);
 
-                };
-                returnList.Add(songItem);
+                }
+                catch 
+                {
+                    tagLibFile = null;
+                }
+                if(tagLibFile != null)
+                {
+                    var pics = tagLibFile.Tag.Pictures;
+
+                    SongItem songItem = new SongItem
+                    {
+                        Album = tagLibFile.Tag.Album ?? string.Empty,
+                        Title = tagLibFile.Tag.Title == null ? Path.GetFileName(item).Split('.').First() : tagLibFile.Tag.Title,
+                        Artists = tagLibFile.Tag.Performers.ToList(),
+                        Genres = tagLibFile.Tag.Genres.ToList(),
+                        Year = (int)tagLibFile.Tag.Year,
+                        Duration = TimeSpan.FromSeconds(tagLibFile.Properties.Duration.TotalSeconds),
+                        FilePath = tagLibFile.Name,
+                        PlayLists = ParseData(tagLibFile),
+                        IsSelected = false,
+                        Images = tagLibFile.Tag.Pictures.Select(img => img.Data).ToList(),
+
+                    };
+                    returnList.Add(songItem);
+                }
+
 
             }
             return new ObservableCollection<SongItem>(returnList.OrderBy(x => x.Title));

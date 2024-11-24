@@ -5,6 +5,7 @@ using MusicPlayer.Models;
 using MusicPlayer.Shared;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Windows.Input;
@@ -171,7 +172,7 @@ namespace MusicPlayer.ViewModels
         private void SkipSong(SkipDirection direction)
         {
             //TODO: Skipping should be working on either all songs or the songs in a given category
-            IEnumerable<SongItem> SongsToPlay;
+            ObservableCollection<SongItem> SongsToPlay;
             CurrentTimeMs = 0;
             CurrentTimeStamp = TimeSpan.FromMilliseconds(CurrentTimeMs).ToString(@"mm\:ss");
 
@@ -184,24 +185,31 @@ namespace MusicPlayer.ViewModels
                 SongsToPlay = Properties.SongsByCategory;
             }
 
+            var index = SongsToPlay.IndexOf(Properties.SelectedSong);
+
             int length = SongsToPlay.Count();
             switch (direction)
             {
                 case SkipDirection.Forward:
                     {
-                        if (Properties.SelectedSongIndex != length - 1) ++Properties.SelectedSongIndex;
-                        else Properties.SelectedSongIndex = 0;
+                        if (index != length - 1)
+                        {
+                            Properties.SelectedSong = SongsToPlay[++index];
+                        }
+                        else Properties.SelectedSong = SongsToPlay[0];
                         break;
                     }
                 case SkipDirection.Backward:
                     {
-                        if (Properties.SelectedSongIndex != 0) --Properties.SelectedSongIndex;
-                        else Properties.SelectedSongIndex = length - 1;
+                        if (index != 0)
+                        {
+                            Properties.SelectedSong = SongsToPlay[--index];
+                        }
+                        else Properties.SelectedSong = SongsToPlay[length - 1];
                         break;
                     }
             }
 
-            Properties.SelectedSong = SongsToPlay.ElementAtOrDefault(Properties.SelectedSongIndex);
             PlaySong();
         }
 

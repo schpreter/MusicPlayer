@@ -106,6 +106,7 @@ namespace MusicPlayer.ViewModels
         {
             //Observable Collection only refreshes UI upon add/remove full reinit operations
             //There is also no built in method for HashSet to ObsevableCollection, could implement in the future tho
+            var selectedSong = Properties.SelectedSong;
             SongsByCategory.Clear();
             foreach (var item in filtered)
             {
@@ -113,6 +114,7 @@ namespace MusicPlayer.ViewModels
             }
             //Setting the filtered list in the properties, whivh the navigation can use
             Properties.SongsByCategory = GetItemsForCategory(SelectedCategory);
+            Properties.SelectedSong = selectedSong;
 
             ShowSongs = true;
             ShowCategoryHome = false;
@@ -122,7 +124,7 @@ namespace MusicPlayer.ViewModels
             HashSet<KeyValuePair<string, Bitmap>> groupedCollection = new HashSet<KeyValuePair<string, Bitmap>>();
             foreach (var key in keys)
             {
-                List<SongItem> items = GetItemsForCategory(key);
+                ObservableCollection<SongItem> items = GetItemsForCategory(key);
 
                 if (items.Any())
                 {
@@ -137,33 +139,28 @@ namespace MusicPlayer.ViewModels
             }
             ShowHome();
         }
-        private List<SongItem> GetItemsForCategory(string key)
+        private ObservableCollection<SongItem> GetItemsForCategory(string key)
         {
-            List<SongItem> res = new List<SongItem>();
             switch (GetCategory())
             {
                 case nameof(ArtistsViewModel):
                     {
-                        res = Properties.MusicFiles.Where(x => x.Artists.Contains(key)).ToList();
-                        break;
+                        return new ObservableCollection<SongItem>(Properties.MusicFiles.Where(x => x.Artists.Contains(key)));
                     }
                 case nameof(AlbumsViewModel):
                     {
-                        res = Properties.MusicFiles.Where(x => x.Album == key).ToList();
-                        break;
+                        return new ObservableCollection<SongItem>(Properties.MusicFiles.Where(x => x.Album == key));
                     }
                 case nameof(GenresViewModel):
                     {
-                        res = Properties.MusicFiles.Where(x => x.Genres.Contains(key)).ToList();
-                        break;
+                        return new ObservableCollection<SongItem>(Properties.MusicFiles.Where(x => x.Genres.Contains(key)));
                     }
                 case nameof(PlaylistsViewModel):
                     {
-                        res = Properties.MusicFiles.Where(x => x.PlayLists.Contains(key)).ToList();
-                        break;
+                        return new ObservableCollection<SongItem>(Properties.MusicFiles.Where(x => x.PlayLists.Contains(key)));
                     }
+                default: return new ObservableCollection<SongItem>();
             }
-            return res;
         }
 
         protected async Task ToggleCategoryInputModal(string category)

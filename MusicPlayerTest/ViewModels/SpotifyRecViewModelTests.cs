@@ -11,6 +11,10 @@ using MusicPlayer.Shared;
 using Moq.Protected;
 using System.Net;
 using TagLib.Ape;
+using MusicPlayer.Models.Recommendations;
+using Newtonsoft.Json;
+using System.Collections.ObjectModel;
+using MusicPlayer.Models;
 
 namespace MusicPlayer.ViewModels.Tests
 {
@@ -45,16 +49,16 @@ namespace MusicPlayer.ViewModels.Tests
                     StatusCode = HttpStatusCode.OK,
                     Content = new StringContent("{  \"genres\": [\"alternative\", \"samba\"]}")
                 });
-            SpotifyRecViewModel vm = new SpotifyRecViewModel(_properties.Object,new HttpClient(handlerMock.Object));
+            SpotifyRecViewModel vm = new SpotifyRecViewModel(_properties.Object, new HttpClient(handlerMock.Object));
 
             await vm.GetAvaliableGenreSeeds();
 
-            Assert.Collection(vm.Genres, item => Assert.Equal("alternative",item.Display)
-                                       , item => Assert.Equal("samba",item.Display));
+            Assert.Collection(vm.Genres, item => Assert.Equal("alternative", item.Display)
+                                       , item => Assert.Equal("samba", item.Display));
         }
 
         [Fact()]
-        public async void GetAvaliableGenreSeedsTest_Error() 
+        public async void GetAvaliableGenreSeedsTest_Error()
         {
             Mock<SpotifyRecViewModel> vmMock = new Mock<SpotifyRecViewModel>(_properties.Object, _client.Object);
             Mock<HttpMessageHandler> handlerMock = new Mock<HttpMessageHandler>();
@@ -76,9 +80,51 @@ namespace MusicPlayer.ViewModels.Tests
         }
 
         [Fact()]
-        public void GetRecommendationsTest_Success()
+        public async void GetRecommendationsTest_Success()
         {
-            Xunit.Assert.Fail("This test needs an implementation");
+            Mock<SpotifyRecViewModel> vmMock = new Mock<SpotifyRecViewModel>(_properties.Object, _client.Object);
+            Mock<HttpMessageHandler> handlerMock = new Mock<HttpMessageHandler>();
+
+            RecommendationObject result = new RecommendationObject();
+
+            result.Tracks = new List<Track>();
+
+            //Add 20 random songs as to simulate the Spotify default response, then serialize as json
+            for (int i = 0; i < 20; i++) 
+            {
+                result.Tracks.Add(new Track()
+                {
+                    Name = $"Name_{i}",
+                    Album = new Album()
+                    {
+                        Name = $"Album_{i}"
+                    },
+                    Artists = new List<Artist>()
+                    {
+                        new Artist() {
+                            Name = $"Aritst_{i}"}
+                    },
+                    DurationMs = 2000
+                });
+            }
+            string jsonResponse = JsonConvert.SerializeObject(result, Formatting.Indented);
+
+            handlerMock.Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent(jsonResponse)
+                });
+            SpotifyRecViewModel vm = new SpotifyRecViewModel(_properties.Object, new HttpClient(handlerMock.Object));
+
+            vm.Genres = new ObservableCollection<SelectableItem>() {  new SelectableItem() { Display = "rock", IsSelected= true}, new SelectableItem() { Display = "metal", IsSelected = false}, };
+
+            // Act
+            await vm.GetRecommendations();
+
+            // Assert
+            Assert.Equivalent(vm.Recommendations, JsonConvert.DeserializeObject<RecommendationObject>(jsonResponse));
         }
 
     }

@@ -48,7 +48,15 @@ namespace MusicPlayer.Models.Recommendations
         {
             get
             {
-                return Images.First();
+                try
+                {
+                    return Images.First();
+
+                }
+                catch
+                { 
+                    return null; 
+                }
             }
         }
     }

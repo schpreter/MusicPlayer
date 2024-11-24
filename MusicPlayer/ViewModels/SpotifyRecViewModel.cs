@@ -68,7 +68,7 @@ namespace MusicPlayer.ViewModels
 
         }
 
-        public virtual async void GetRecommendations()
+        public virtual async Task GetRecommendations()
         {
             var selectedGenres = Genres.Where(x => x.IsSelected);
             //Validations

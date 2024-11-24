@@ -61,7 +61,6 @@
 			Grid.Row="2"
 	  ItemsSource="{Binding SongsByCategory}"
 	  SelectedItem="{Binding Properties.SelectedSong}"
-	  SelectedIndex="{Binding Properties.SelectedSongIndex}"
 	  Background="Transparent"
 	  ItemTemplate="{StaticResource SongListCategoryDisplayTemplate}"
 		  >
