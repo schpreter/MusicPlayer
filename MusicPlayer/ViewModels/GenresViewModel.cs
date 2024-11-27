@@ -8,7 +8,10 @@ namespace MusicPlayer.ViewModels
 {
     public partial class GenresViewModel : UnifiedCategoryViewModel
     {
-
+        public GenresViewModel()
+        {
+            
+        }
 
         public GenresViewModel(SharedProperties props, NewCategoryInputViewModel newCategoryInput)
         {

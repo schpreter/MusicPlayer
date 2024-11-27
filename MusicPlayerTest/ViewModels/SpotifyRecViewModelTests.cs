@@ -127,5 +127,29 @@ namespace MusicPlayer.ViewModels.Tests
             Assert.Equivalent(vm.Recommendations, JsonConvert.DeserializeObject<RecommendationObject>(jsonResponse));
         }
 
+        [Fact()]
+        public async void GetRecommendationsTest_Error()
+        {
+            Mock<SpotifyRecViewModel> vmMock = new Mock<SpotifyRecViewModel>(_properties.Object, _client.Object);
+            Mock<HttpMessageHandler> handlerMock = new Mock<HttpMessageHandler>();
+
+            handlerMock.Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.Unauthorized,
+                    Content = new StringContent("N/A") //TDue to ensure succes code we dont care about the data anyway
+                });
+            SpotifyRecViewModel vm = new SpotifyRecViewModel(_properties.Object, new HttpClient(handlerMock.Object));
+
+            vm.Genres = new ObservableCollection<SelectableItem>() { new SelectableItem() { Display = "rock", IsSelected = true }, new SelectableItem() { Display = "metal", IsSelected = false }, };
+
+            // Act
+            await vm.GetRecommendations();
+
+            // Assert
+            Assert.Equivalent(vm.Recommendations, new RecommendationObject());
+        }
+
     }
 }

@@ -39,7 +39,7 @@ public partial class MainViewModel : ViewModelBase
     private readonly AlbumsViewModel AlbumsViewModel;
     private readonly GenresViewModel GenresViewModel;
     private readonly SpotifyRecViewModel RecViewModel;
-    private readonly ControlWidget Control;
+    public readonly ControlWidget Control;
 
     [ObservableProperty]
     public bool userAuthenticated = false;

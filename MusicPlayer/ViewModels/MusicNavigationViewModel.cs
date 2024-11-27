@@ -49,8 +49,12 @@ namespace MusicPlayer.ViewModels
 
         private LibVLC LibVlc = new LibVLC();
 
-        private MediaPlayer MediaPlayer { get; }
+        public MediaPlayer MediaPlayer { get; }
 
+        public MusicNavigationViewModel()
+        {
+            
+        }
         public MusicNavigationViewModel(SharedProperties props)
         {
             MediaPlayer = new MediaPlayer(LibVlc);
@@ -72,10 +76,6 @@ namespace MusicPlayer.ViewModels
             ThreadPool.QueueUserWorkItem(_ => SkipForwardClicked());
         }
 
-        public void ShuffleClicked()
-        {
-            //TODO
-        }
         public void SkipBackClicked()
         {
             SkipSong(SkipDirection.Backward);
@@ -103,6 +103,7 @@ namespace MusicPlayer.ViewModels
                 {
 
                     using Media media = new Media(LibVlc, Properties.SelectedSong.FilePath);
+                    
                     if (MediaPlayer.Play(media))
                     {
                         MediaPlayer.Time = CurrentTimeMs;

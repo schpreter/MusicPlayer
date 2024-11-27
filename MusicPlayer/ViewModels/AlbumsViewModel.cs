@@ -9,6 +9,10 @@ namespace MusicPlayer.ViewModels
 {
     public partial class AlbumsViewModel : UnifiedCategoryViewModel
     {
+        public AlbumsViewModel()
+        {
+            
+        }
         public AlbumsViewModel(SharedProperties props, NewCategoryInputViewModel newCategoryInput)
         {
             Properties = props;
