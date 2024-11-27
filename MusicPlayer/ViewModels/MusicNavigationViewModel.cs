@@ -1,13 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using LibVLCSharp.Shared;
 using MusicPlayer.Models;
 using MusicPlayer.Shared;
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
-using System.Windows.Input;
 
 namespace MusicPlayer.ViewModels
 {
@@ -48,8 +46,12 @@ namespace MusicPlayer.ViewModels
 
         private LibVLC LibVlc = new LibVLC();
 
-        private MediaPlayer MediaPlayer { get; }
+        public MediaPlayer MediaPlayer { get; }
 
+        public MusicNavigationViewModel()
+        {
+
+        }
         public MusicNavigationViewModel(SharedProperties props)
         {
             MediaPlayer = new MediaPlayer(LibVlc);
@@ -71,10 +73,6 @@ namespace MusicPlayer.ViewModels
             ThreadPool.QueueUserWorkItem(_ => SkipForwardClicked());
         }
 
-        public void ShuffleClicked()
-        {
-            //TODO
-        }
         public void SkipBackClicked()
         {
             SkipSong(SkipDirection.Backward);
@@ -102,6 +100,7 @@ namespace MusicPlayer.ViewModels
                 {
 
                     using Media media = new Media(LibVlc, Properties.SelectedSong.FilePath);
+
                     if (MediaPlayer.Play(media))
                     {
                         MediaPlayer.Time = CurrentTimeMs;
@@ -115,6 +114,7 @@ namespace MusicPlayer.ViewModels
                 //Otherwise we just toggle the pause state
                 else
                 {
+                    MediaPlayer.Time = CurrentTimeMs;
                     MediaPlayer.Pause();
                 }
             }
@@ -143,7 +143,10 @@ namespace MusicPlayer.ViewModels
         private void SkipSong(SkipDirection direction)
         {
             //TODO: Skipping should be working on either all songs or the songs in a given category
-            IEnumerable<SongItem> SongsToPlay;
+            ObservableCollection<SongItem> SongsToPlay;
+            CurrentTimeMs = 0;
+            CurrentTimeStamp = TimeSpan.FromMilliseconds(CurrentTimeMs).ToString(@"mm\:ss");
+
             if (Properties.SongsByCategory.Count == 0)
             {
                 SongsToPlay = Properties.MusicFiles;
@@ -153,24 +156,31 @@ namespace MusicPlayer.ViewModels
                 SongsToPlay = Properties.SongsByCategory;
             }
 
+            var index = SongsToPlay.IndexOf(Properties.SelectedSong);
+
             int length = SongsToPlay.Count();
             switch (direction)
             {
                 case SkipDirection.Forward:
                     {
-                        if (Properties.SelectedSongIndex != length - 1) ++Properties.SelectedSongIndex;
-                        else Properties.SelectedSongIndex = 0;
+                        if (index != length - 1)
+                        {
+                            Properties.SelectedSong = SongsToPlay[++index];
+                        }
+                        else Properties.SelectedSong = SongsToPlay[0];
                         break;
                     }
                 case SkipDirection.Backward:
                     {
-                        if (Properties.SelectedSongIndex != 0) --Properties.SelectedSongIndex;
-                        else Properties.SelectedSongIndex = length - 1;
+                        if (index != 0)
+                        {
+                            Properties.SelectedSong = SongsToPlay[--index];
+                        }
+                        else Properties.SelectedSong = SongsToPlay[length - 1];
                         break;
                     }
             }
 
-            Properties.SelectedSong = SongsToPlay.ElementAtOrDefault(Properties.SelectedSongIndex);
             PlaySong();
         }
 

@@ -12,18 +12,24 @@
 			 >
 	<Grid RowDefinitions="5*,15*,80*">
 		<TextBlock HorizontalAlignment="Center" Text="{Binding SelectedCategory}" Grid.Row="0"/>
-		<StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal">
-			<Button  Theme="{StaticResource BackToCategoryHomeButton}" Padding="20" Margin="10" HorizontalAlignment="Left" Command="{Binding ShowHome}"/>
-			<Button Command="{Binding AddSelectedSongs}" IsVisible="{Binding SelectionIsAdd}">
-				<StackPanel Orientation="Horizontal" Margin="10">
+		<Grid RowDefinitions="*" Grid.Row="1">
+			<Button Cursor="Hand" Grid.Row="0" HorizontalAlignment="Left" Command="{Binding ShowHome}">
+				<StackPanel Orientation="Horizontal" Spacing="20">
+					<mi:MaterialIcon Kind="Backburger" FontSize="10" HorizontalAlignment="Stretch"/>
+					<TextBlock Text="Back to home page" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+				</StackPanel>
+			</Button>
+			
+			<Button Command="{Binding AddSelectedSongs}"  Grid.Row="0" HorizontalAlignment="Right" IsVisible="{Binding SelectionIsAdd}">
+				<StackPanel Orientation="Horizontal">
 					<mi:MaterialIcon Kind="PlusCircle"/>
 					<TextBlock >
 						Add Selected
 					</TextBlock>
 				</StackPanel>
 			</Button>
-			<Button Command="{Binding RemoveSelectedSongs}" IsVisible="{Binding !SelectionIsAdd}">
-				<StackPanel Orientation="Horizontal" Margin="10">
+			<Button Command="{Binding RemoveSelectedSongs}" Grid.Row="0" HorizontalAlignment="Right" IsVisible="{Binding !SelectionIsAdd}">
+				<StackPanel Orientation="Horizontal">
 					<mi:MaterialIcon Kind="MinusCircle"/>
 					<TextBlock >
 						Remove Selected
@@ -31,7 +37,7 @@
 				</StackPanel>
 			</Button>
 
-		</StackPanel>
+		</Grid>
 		<ScrollViewer Grid.Row="2">
 			<StackPanel>
 				<ItemsControl ItemsSource="{Binding Properties.MusicFiles}"

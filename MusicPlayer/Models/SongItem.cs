@@ -10,11 +10,11 @@ namespace MusicPlayer.Models
     public class SongItem : SelectableItem
     {
 
-        public string Album { get; set; }
+        public string Album { get; set; } = string.Empty;
         public string Title { get; set; }
-        public List<string> Artists { get; set; }
+        public List<string> Artists { get; set; } = new List<string>();
 
-        public List<string> Genres { get; set; }
+        public List<string> Genres { get; set; } = new List<string>();
         public int Year { get; set; }
         public TimeSpan Duration { get; set; }
         public string FilePath { get; set; }
@@ -38,11 +38,12 @@ namespace MusicPlayer.Models
                 return Duration.ToString(@"mm\:ss");
             }
         }
-        public string Artists_conc { 
+        public string Artists_conc
+        {
             get
             {
                 return string.Join("; ", Artists);
-            } 
+            }
         }
 
 
@@ -63,13 +64,18 @@ namespace MusicPlayer.Models
         {
             get
             {
-                var pic = Images.FirstOrDefault();
-                if (pic != null)
+                if (Images != null)
                 {
-                    using MemoryStream ms = new MemoryStream(pic.ToArray());
-                    return new Bitmap(ms);
+                    var pic = Images.FirstOrDefault();
+                    if (pic != null)
+                    {
+                        using MemoryStream ms = new MemoryStream(pic.ToArray());
+                        return new Bitmap(ms);
+                    }
                 }
                 return null;
+
+
             }
         }
     }

@@ -26,7 +26,7 @@
 				</Button>
 
 				<ScrollViewer Grid.Row="1">
-					<ItemsControl ItemsSource="{Binding ItemCollection}" ItemTemplate="{StaticResource TileDisplayTemplate}">
+					<ItemsControl VerticalAlignment="Center" HorizontalAlignment="Center" ItemsSource="{Binding ItemCollection}" ItemTemplate="{StaticResource TileDisplayTemplate}">
 						<ItemsControl.ItemsPanel>
 							<ItemsPanelTemplate>
 								<WrapPanel Orientation="Horizontal" />
@@ -38,27 +38,6 @@
 
 
 			<!--Songs in the given category-->
-			<!--<Grid RowDefinitions="10*,10*,80*" IsVisible="{Binding ShowSongs}">
-
-				<Button Theme="{StaticResource BackToCategoryHomeButton}" Grid.Row="0" Padding="20" Margin="10" HorizontalAlignment="Left" Command="{Binding ShowHome}"/>
-				<Button Theme="{StaticResource AddNewButton}" Grid.Row="0" Padding="20" Margin="10" HorizontalAlignment="Right" Command="{Binding ShowSelection}"/>
-				<TextBlock Text="{Binding SelectedCategory}" Grid.Row="1" Padding="20" HorizontalAlignment="Center" FontSize="20"/>
-
-				<ListBox
-					Grid.Row="2"
-			  ItemsSource="{Binding SongsByCategory}"
-			  SelectedItem="{Binding Properties.SelectedSong}"
-			  SelectedIndex="{Binding Properties.SelectedSongIndex}"
-			  Background="Transparent"
-			  ItemTemplate="{StaticResource SongListDisplayTemplate}"
-		  >
-					<ListBox.Styles>
-						<Style Selector="ListBoxItem">
-							<Setter Property="Background" Value="Transparent"/>
-						</Style>
-					</ListBox.Styles>
-				</ListBox>
-			</Grid>-->
 			<views:SongsInCategoryView IsVisible="{Binding ShowSongs}"/>
 			<!--Song selection view-->
 			<views:SongSelectionView IsVisible="{Binding ShowSongSelectionList}"/>

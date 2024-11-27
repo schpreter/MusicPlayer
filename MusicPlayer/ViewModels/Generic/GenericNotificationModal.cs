@@ -7,6 +7,11 @@ namespace MusicPlayer.ViewModels.Generic
         public string Title { get; set; }
         public string Message { get; set; }
 
+        public GenericNotificationModal(string title, string message)
+        {
+            Title = title;
+            Message = message;
+        }
 
         public void CloseModal()
         {

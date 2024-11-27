@@ -22,7 +22,6 @@
 					<TextBlock> Add New Playlist</TextBlock>
 				</StackPanel>
 			</Button>
-			<TextBlock Grid.Row="1" IsVisible="{Binding !ItemCollection.Count}" VerticalAlignment="Center" HorizontalAlignment="Center">No Playlists Found :(</TextBlock>
 			<StackPanel Grid.Row="1" IsVisible="{Binding ShowCategoryHome}" Margin="20">
 				<ItemsControl ItemsSource="{Binding ItemCollection}" >
 					<ItemsControl.ItemTemplate>

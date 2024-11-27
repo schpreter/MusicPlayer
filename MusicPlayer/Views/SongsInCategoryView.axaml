@@ -25,6 +25,7 @@
 				<mi:MaterialIcon Kind="Backburger" FontSize="10" HorizontalAlignment="Stretch"/>
 				<TextBlock Text="Back to home page" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
 			</StackPanel>
+			
 		</Button>
 
 
@@ -60,7 +61,6 @@
 			Grid.Row="2"
 	  ItemsSource="{Binding SongsByCategory}"
 	  SelectedItem="{Binding Properties.SelectedSong}"
-	  SelectedIndex="{Binding Properties.SelectedSongIndex}"
 	  Background="Transparent"
 	  ItemTemplate="{StaticResource SongListCategoryDisplayTemplate}"
 		  >

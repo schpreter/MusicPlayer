@@ -10,6 +10,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace MusicPlayer.ViewModels
 {
@@ -30,10 +31,13 @@ namespace MusicPlayer.ViewModels
         //public ObservableCollection<string> ArtistsDrpOptions { get; set; }
         //public ObservableCollection<string> AlbumsDrpOptions { get; set; }
 
-        private readonly HttpClient Client;
+        public HttpClient Client { get; set; }
 
 
+        public SpotifyRecViewModel()
+        {
 
+        }
         public SpotifyRecViewModel(SharedProperties props, HttpClient client)
         {
             Genres = new ObservableCollection<SelectableItem>();
@@ -42,7 +46,7 @@ namespace MusicPlayer.ViewModels
             Client = client;
         }
 
-        public async void GetAvaliableGenreSeeds()
+        public virtual async Task GetAvaliableGenreSeeds()
         {
             try
             {
@@ -60,19 +64,20 @@ namespace MusicPlayer.ViewModels
             }
             catch (Exception ex)
             {
+                //TODO: deal with failure, possibly with the button showing up
                 Console.WriteLine(ex.Message);
             }
 
 
         }
 
-        public async void GetRecommendations()
+        public virtual async Task GetRecommendations()
         {
             var selectedGenres = Genres.Where(x => x.IsSelected);
             //Validations
             if (selectedGenres.Count() == 0 || selectedGenres.Count() > LIMIT)
             {
-                await DialogHost.Show(new GenericNotificationModal() { Title = "Error", Message = "Please select minimum 1 but maximum 5 genres!" });
+                await DialogHost.Show(new GenericNotificationModal("Error", "Please select minimum 1 but maximum 5 genres!"));
             }
             else
             {
