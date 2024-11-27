@@ -253,46 +253,6 @@ namespace MusicPlayer.ViewModels
             }
         }
 
-        //private void AddPlaylistTag(List<string> playlists, TagLib.File tagLibFile)
-        //{
-        //    switch (tagLibFile.MimeType)
-        //    {
-        //        case "taglib/mp3":
-        //            {
-        //                TagLib.Id3v2.Tag tag = (TagLib.Id3v2.Tag)tagLibFile.GetTag(TagLib.TagTypes.Id3v2, true);
-        //                PrivateFrame pFrame = PrivateFrame.Get(tag, "Playlists", true);
-
-        //                List<string> list = new List<string>();
-
-        //                //If there is actual data in the private frame, parse it
-        //                if (pFrame.PrivateData != null)
-        //                {
-        //                    string data = Encoding.Unicode.GetString(pFrame.PrivateData.Data);
-        //                    if (data != null)
-        //                    {
-        //                        list = Regex.Split(data, @"(?<!\\);").ToList();
-        //                    }
-        //                }
-
-        //                //Clean user input
-        //                var cleaned = playlists;
-        //                cleaned.ForEach(x => x.Replace(";", @"\;"));
-
-        //                pFrame.PrivateData = Encoding.Unicode.GetBytes(string.Join(';', list.Union(cleaned)));
-        //                break;
-        //            }
-        //        default:
-        //            {
-        //                var tag = (TagLib.Ogg.XiphComment)tagLibFile.GetTag(TagLib.TagTypes.Xiph, true);
-        //                //Using union get an IEnumerable to distinct playlist names -> playlist names hsould be unique therefore
-        //                var filtered = tag.GetField("Playlists").Union(playlists);
-
-        //                tag.SetField("Playlists", filtered.ToArray());
-        //                break;
-        //            }
-        //    }
-        //}
-
         private void UnselectListItems()
         {
             foreach (SongItem item in Properties.MusicFiles)

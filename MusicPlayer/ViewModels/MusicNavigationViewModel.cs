@@ -86,10 +86,6 @@ namespace MusicPlayer.ViewModels
             PlaySong();
 
         }
-        public void RepeatClicked()
-        {
-            //TODO
-        }
         private void PlaySong()
         {
             if (Properties.SelectedSong != null)

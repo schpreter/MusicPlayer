@@ -143,7 +143,7 @@ public partial class MainViewModel : ViewModelBase
     #region Menu Methods
     public async void SetInputFolderAsync()
     {
-        IReadOnlyList<IStorageFolder> selectedFolder = await TopLevel.GetTopLevel(mainWindow).StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions { AllowMultiple = false, Title = "Select Input Folder" });
+        IReadOnlyList<IStorageFolder> selectedFolder = await TopLevel.GetTopLevel(mainWindow).StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions { AllowMultiple = false, Title = "Select Source Folder" });
         Properties.SourceFolderPath = selectedFolder.First().Path.AbsolutePath;
 
         StoreSourceFolderInConfig(Properties.SourceFolderPath);

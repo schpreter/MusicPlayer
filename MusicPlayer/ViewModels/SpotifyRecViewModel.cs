@@ -16,7 +16,6 @@ namespace MusicPlayer.ViewModels
 {
     public partial class SpotifyRecViewModel : ViewModelBase
     {
-        //TODO: Later on this limit is max 5 seed in total, not each
         private const int LIMIT = 5;
 
         [ObservableProperty]
