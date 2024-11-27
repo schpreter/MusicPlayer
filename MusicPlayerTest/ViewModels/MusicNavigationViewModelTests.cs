@@ -129,6 +129,7 @@ namespace MusicPlayer.ViewModels.Tests
             string msTimesSpanTest = TimeSpan.FromMilliseconds(msTest1).ToString(@"mm\:ss");
 
             vmMock.Object.CurrentTimeMs = msTest1;
+            vmMock.Object.CurrentTimeStamp = msTimesSpanTest;
 
             vmMock.CallBase = true;
 

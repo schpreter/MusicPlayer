@@ -7,14 +7,20 @@ using MusicPlayer.API;
 using MusicPlayer.Authorization;
 using MusicPlayer.Data;
 using MusicPlayer.Models;
+using MusicPlayer.Models.Config;
 using MusicPlayer.Shared;
 using MusicPlayer.Views;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 
@@ -138,6 +144,10 @@ public partial class MainViewModel : ViewModelBase
     public async void SetInputFolderAsync()
     {
         IReadOnlyList<IStorageFolder> selectedFolder = await TopLevel.GetTopLevel(mainWindow).StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions { AllowMultiple = false, Title = "Select Input Folder" });
+        Properties.SourceFolderPath = selectedFolder.First().Path.AbsolutePath;
+
+        ModifyConfigFile(Properties.SourceFolderPath);
+
         if (selectedFolder.Count > 0)
         {
             var files = MusicFileCollector.CollectFilesFromFolder(selectedFolder.First().TryGetLocalPath());
@@ -148,6 +158,31 @@ public partial class MainViewModel : ViewModelBase
             }
         }
         SelectedViewModel.RefreshContent();
+    }
+
+    private bool ModifyConfigFile(string path)
+    {
+        try
+        {
+            string json = File.ReadAllText("appsettings.json");
+            Config config = JsonConvert.DeserializeObject<Config>(json);
+            if (OperatingSystem.IsWindows())
+            {
+                config.SOURCE_FOLDERS.WIN = path;
+            }
+            else
+            {
+                config.SOURCE_FOLDERS.LINUX = path;
+            }
+            json = JsonConvert.SerializeObject(config);
+            File.WriteAllText("appsettings.json", json);
+            return true;
+        }
+        catch (Exception ex) 
+        {
+            return false;
+        }
+
     }
 
     public async void AuthorizeUserAsync()
