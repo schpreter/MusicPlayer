@@ -146,7 +146,7 @@ public partial class MainViewModel : ViewModelBase
         IReadOnlyList<IStorageFolder> selectedFolder = await TopLevel.GetTopLevel(mainWindow).StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions { AllowMultiple = false, Title = "Select Input Folder" });
         Properties.SourceFolderPath = selectedFolder.First().Path.AbsolutePath;
 
-        ModifyConfigFile(Properties.SourceFolderPath);
+        StoreSourceFolderInConfig(Properties.SourceFolderPath);
 
         if (selectedFolder.Count > 0)
         {
@@ -160,7 +160,7 @@ public partial class MainViewModel : ViewModelBase
         SelectedViewModel.RefreshContent();
     }
 
-    private bool ModifyConfigFile(string path)
+    private bool StoreSourceFolderInConfig(string path)
     {
         try
         {
