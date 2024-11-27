@@ -1,7 +1,9 @@
 ﻿using Newtonsoft.Json;
 
 namespace MusicPlayer.Models
-{
+{    /// <summary>
+     /// Class structure storing the authorization response token.
+     /// </summary>
     public class AuthorizationTokenData
     {
         [JsonProperty("access_token")]

@@ -1,7 +1,9 @@
 ﻿using Avalonia.Media.Imaging;
 
 namespace MusicPlayer.Models
-{
+{    /// <summary>
+     /// Class providing binding to the different sub-categories.
+     /// </summary>
     public class UnifiedDisplayItem
     {
         public string Name { get; set; }

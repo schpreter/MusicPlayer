@@ -18,12 +18,16 @@ namespace MusicPlayer.ViewModels
             NewCategoryInputViewModel = newCategoryInput;
 
         }
+        /// <inheritdoc/>
+
         public override void RefreshContent()
         {
             var GenresSet = Properties.MusicFiles.SelectMany(x => x.Genres).Order().ToHashSet();
             RefreshCategory(GenresSet);
 
         }
+        /// <inheritdoc/>
+
         public override void ShowSongsInCategory(object genre)
         {
             SelectedCategory = (string)genre;
@@ -32,6 +36,7 @@ namespace MusicPlayer.ViewModels
             HashSet<SongItem> filtered = Properties.MusicFiles.Where(x => x.Genres.Contains(SelectedCategory)).OrderBy(x => x.Title).ToHashSet();
             UpdateSongCategory(filtered);
         }
+        /// <inheritdoc/>
 
         public override async void AddSelectedSongs()
         {
@@ -39,11 +44,13 @@ namespace MusicPlayer.ViewModels
             await ToggleCategoryInputModal("genre");
             ModifySelectedSongs();
         }
+        /// <inheritdoc/>
 
         public override string ToString()
         {
             return "Genres";
         }
+        /// <inheritdoc/>
 
         public override void RemoveSingleSong(object song)
         {
@@ -54,11 +61,13 @@ namespace MusicPlayer.ViewModels
                 ShowSongsInCategory(SelectedCategory);
             }
         }
+        /// <inheritdoc/>
 
         protected override void RemoveSong(SongItem song)
         {
             song.Genres.Remove(SelectedCategory);
         }
+        /// <inheritdoc/>
 
         protected override void AddSong(SongItem song)
         {
@@ -67,6 +76,7 @@ namespace MusicPlayer.ViewModels
                 song.Genres.Add(SelectedCategory);
             }
         }
+        /// <inheritdoc/>
 
         protected override string GetCategory()
         {

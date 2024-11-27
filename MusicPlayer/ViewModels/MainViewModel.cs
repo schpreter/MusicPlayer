@@ -26,6 +26,9 @@ using System.Threading.Tasks;
 
 namespace MusicPlayer.ViewModels;
 
+/// <summary>
+/// This ViewModel contains all sub ViewModels, controls navigation between them and handles bindings from the menubar.
+/// </summary>
 public partial class MainViewModel : ViewModelBase
 {
     [ObservableProperty]
@@ -55,6 +58,22 @@ public partial class MainViewModel : ViewModelBase
     public CurrentSongViewModel currentSongViewModel;
 
     public MainViewModel() { }
+    /// <summary>
+    /// The constructor has all the required dependencies injected into it, the class stores these objects in the respective fields.
+    /// It also runs the <c>Init()</c> method, and sets the location and visibility of the <c>ControlWidget</c>
+    /// </summary>
+    /// <param name="homeContent">HomeContentViewModel injected using DI</param>
+    /// <param name="client">HttpClient injected using DI</param>
+    /// <param name="playlistsView">PlaylistsViewModel injected using DI</param>
+    /// <param name="artistsView">ArtistsViewModel injected using DI</param>
+    /// <param name="albumsView">AlbumsViewModel injected using DI</param>
+    /// <param name="genresView">GenresViewModel injected using DI</param>
+    /// <param name="spotifyRecViewModel">SpotifyRecViewModel injected using DI</param>
+    /// <param name="musicNavigationView">MusicNavigationViewModel injected using DI</param>
+    /// <param name="currentSongViewModel">CurrentSongViewModel injected using DI</param>
+    /// <param name="mainWindow">MainWindow injected using DI</param>
+    /// <param name="controlWidget">ControlWidget injected using DI</param>
+    /// <param name="sharedProperties">SharedProperties injected using DI</param>
     public MainViewModel(HomeContentViewModel homeContent,
                          HttpClient client,
                          PlaylistsViewModel playlistsView,
@@ -88,6 +107,9 @@ public partial class MainViewModel : ViewModelBase
         Control.Position = new PixelPoint((int)(screen.BottomRight.X + Control.Width), (int)(screen.BottomRight.Y + Control.Height));
         Control.Show();
     }
+    /// <summary>
+    /// Method that sets the <c>SelectedViewModel</c> to the <c>HomeContentViewModel</c>, and collects the music files from <c>Properties.SourceFolderPath</c>
+    /// </summary>
     private void Init()
     {
         SelectedViewModel = HomeContentViewModel;
@@ -96,6 +118,9 @@ public partial class MainViewModel : ViewModelBase
 
     }
 
+    /// <summary>
+    /// Handles hiding and showing the <c>ControlWidget</c>
+    /// </summary>
     public void ToggleWidget()
     {
         if (Control.IsVisible)
@@ -110,6 +135,11 @@ public partial class MainViewModel : ViewModelBase
         mainWindow.Focus();
     }
     #region ViewModel Switching
+    /// <summary>
+    /// Changes the <c>SelectedViewModel</c> based on the supplied parameter.
+    /// In case the parameter is incorrect, nothing happens.
+    /// </summary>
+    /// <param name="view">The name of the view, which the user requests</param>
     public void ShowContent(string view)
     {
         switch (view)
@@ -141,6 +171,10 @@ public partial class MainViewModel : ViewModelBase
     #endregion
 
     #region Menu Methods
+    /// <summary>
+    /// Modifies the source folder, both in <c>Properties.SourceFolderPath</c> and the config file.
+    /// In case the new folder contains valid files, it also fills the app with song data.
+    /// </summary>
     public async void SetInputFolderAsync()
     {
         IReadOnlyList<IStorageFolder> selectedFolder = await TopLevel.GetTopLevel(mainWindow).StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions { AllowMultiple = false, Title = "Select Source Folder" });
@@ -159,8 +193,12 @@ public partial class MainViewModel : ViewModelBase
         }
         SelectedViewModel.RefreshContent();
     }
-
-    private bool StoreSourceFolderInConfig(string path)
+    /// <summary>
+    /// Modifies the <c>appsettings.json</c> based on the supplied parameter. 
+    /// </summary>
+    /// <param name="path">The absolute path of the selected folder</param>
+    /// <returns></returns>
+    private static bool StoreSourceFolderInConfig(string path)
     {
         try
         {
@@ -178,13 +216,18 @@ public partial class MainViewModel : ViewModelBase
             File.WriteAllText("appsettings.json", json);
             return true;
         }
-        catch (Exception ex) 
+        catch (Exception ex)
         {
             return false;
         }
 
     }
 
+    /// <summary>
+    /// Generates code verifier and code challenge.
+    /// Opens the default browser with the authentication page, starts a callback listener,
+    /// After getting authorization, stores the received data inside the application.
+    /// </summary>
     public async void AuthorizeUserAsync()
     {
         string authUrl = "https://accounts.spotify.com/authorize";
@@ -218,12 +261,12 @@ public partial class MainViewModel : ViewModelBase
         if (codeToRetrieve != null)
         {
             Properties.AuthData = await APICallHandler.GetAccessTokenAsync(Client, authorization, codeToRetrieve, codeVerifier);
-            //This will not be reached if the previous line throws an exception
             if (Properties.AuthData != null)
             {
                 Client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Properties.AuthData.AccessToken);
-                //Recommendations nav binds it's state to this variable
+                //Automatically get the seeds, which the user can choose later
                 await RecViewModel.GetAvaliableGenreSeeds();
+                //Recommendations nav binds it's state to this variable
                 UserAuthenticated = true;
             }
             else
@@ -237,8 +280,12 @@ public partial class MainViewModel : ViewModelBase
     }
     #endregion
     #region Authorization
-
-    private async Task<HttpListenerContext> StartCallbackListener(string redirectUri)
+    /// <summary>
+    /// Starts a callback listener based on the parameter, it stops once the callback happens.
+    /// </summary>
+    /// <param name="redirectUri">The pre-definde redirect URL</param>
+    /// <returns>The received <c>HttpListenerContext</c></returns>
+    private static async Task<HttpListenerContext> StartCallbackListener(string redirectUri)
     {
         HttpListener listener = new HttpListener();
         listener.Prefixes.Add(redirectUri + "/");

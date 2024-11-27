@@ -14,6 +14,9 @@ using System.Threading.Tasks;
 
 namespace MusicPlayer.ViewModels
 {
+    /// <summary>
+    /// Classs for which the <c>SpotifyRecView</c> view binds to.
+    /// </summary>
     public partial class SpotifyRecViewModel : ViewModelBase
     {
         private const int LIMIT = 5;
@@ -24,11 +27,6 @@ namespace MusicPlayer.ViewModels
 
         [ObservableProperty]
         public RecommendationObject recommendations;
-
-        //[ObservableProperty]
-        //public string genreInput;
-        //public ObservableCollection<string> ArtistsDrpOptions { get; set; }
-        //public ObservableCollection<string> AlbumsDrpOptions { get; set; }
 
         public HttpClient Client { get; set; }
 
@@ -45,6 +43,10 @@ namespace MusicPlayer.ViewModels
             Client = client;
         }
 
+        /// <summary>
+        /// Calls the appropriate method for getting the genre seeds.
+        /// </summary>
+        /// <returns>An awaitable <c>Task</c>.</returns>
         public virtual async Task GetAvaliableGenreSeeds()
         {
             try
@@ -69,7 +71,10 @@ namespace MusicPlayer.ViewModels
 
 
         }
-
+        /// <summary>
+        /// Calls the appropriate method for getting recommendations.
+        /// </summary>
+        /// <returns>An awaitable <c>Task</c>.</returns>
         public virtual async Task GetRecommendations()
         {
             var selectedGenres = Genres.Where(x => x.IsSelected);

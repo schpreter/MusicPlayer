@@ -13,6 +13,9 @@ using TagLib.Id3v2;
 
 namespace MusicPlayer.ViewModels
 {
+    /// <summary>
+    /// Parent class for all the different category ViewModels.
+    /// </summary>
     public abstract partial class UnifiedCategoryViewModel : ViewModelBase
     {
 
@@ -37,18 +40,45 @@ namespace MusicPlayer.ViewModels
 
         [ObservableProperty]
         public bool selectionIsAdd;
-
+        /// <summary>
+        /// Based on the implementation, removes a song from a given category
+        /// </summary>
+        /// <param name="song">The song to remove from the category</param>
         protected abstract void RemoveSong(SongItem song);
+        /// <summary>
+        /// Based on the implementation, adds a song tz a given category
+        /// </summary>
+        /// <param name="song">The song to add to the category</param>
         protected abstract void AddSong(SongItem song);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>The name of the class that made the call.</returns>
         protected abstract string GetCategory();
+        /// <summary>
+        /// Lists the songs in the requested category
+        /// </summary>
+        /// <param name="category">The category, in which the songs should be shown</param>
         public abstract void ShowSongsInCategory(object category);
 
         //Single song removal from the given category
+        /// <summary>
+        /// Used for singular song removal, removes the song based on the parameter.
+        /// </summary>
+        /// <param name="song">The song that needs to be removed</param>
         public abstract void RemoveSingleSong(object song);
+        /// <summary>
+        /// Adds the selected songs to the currently active category.
+        /// </summary>
         public abstract void AddSelectedSongs();
+        /// <summary>
+        /// Removes the selected songs from the currently active category.
+        /// </summary>
         public void RemoveSelectedSongs() { ModifySelectedSongs(true); }
 
-
+        /// <summary>
+        /// Shows the home page of the selected category, listing all sub-categories.
+        /// </summary>
         public void ShowHome()
         {
             ShowSongSelectionList = false;
@@ -57,6 +87,10 @@ namespace MusicPlayer.ViewModels
             UnselectListItems();
             Properties.SongsByCategory.Clear();
         }
+        /// <summary>
+        /// Shows the view for selecting songs, based on the provided parameter.
+        /// </summary>
+        /// <param name="selectionType">The type of modification we want to make. In case it equals "Add" it will be addition. Otherwise removal.</param>
         public void ShowSelection(object selectionType)
         {
             SelectionIsAdd = (string)selectionType == "Add";
@@ -65,11 +99,18 @@ namespace MusicPlayer.ViewModels
             ShowCategoryHome = false;
 
         }
+        /// <summary>
+        /// Handles adding a new sub-category to the current category.
+        /// </summary>
         public void AddNewCategory()
         {
             SelectedCategory = null;
             ShowSelection("Add");
         }
+        /// <summary>
+        /// Modifies the selected songs based on the provided parameter.
+        /// </summary>
+        /// <param name="isRemove">If <c>true</c> songs will be removed, if <c>false</c> or not provided they will be added.</param>
         public virtual void ModifySelectedSongs(bool isRemove = false)
         {
             if (string.IsNullOrEmpty(SelectedCategory))
@@ -100,7 +141,10 @@ namespace MusicPlayer.ViewModels
 
         }
 
-
+        /// <summary>
+        /// When modifications happen, updates the bound collection accordingly.
+        /// </summary>
+        /// <param name="filtered">The songs that should be shown.</param>
         protected void UpdateSongCategory(HashSet<SongItem> filtered)
         {
             //Observable Collection only refreshes UI upon add/remove full reinit operations
@@ -118,6 +162,11 @@ namespace MusicPlayer.ViewModels
             ShowSongs = true;
             ShowCategoryHome = false;
         }
+
+        /// <summary>
+        /// When modifications happen, updates the category itself.
+        /// </summary>
+        /// <param name="keys">The names of all the sub-categories.</param>
         protected void RefreshCategory(HashSet<string> keys)
         {
             HashSet<KeyValuePair<string, Bitmap>> groupedCollection = new HashSet<KeyValuePair<string, Bitmap>>();
@@ -138,6 +187,11 @@ namespace MusicPlayer.ViewModels
             }
             ShowHome();
         }
+        /// <summary>
+        /// Lists all the songs in the sub-category based on the parameter.
+        /// </summary>
+        /// <param name="key">The requested sub-category</param>
+        /// <returns>An <c>ObservableCollection</c> containing the filtered songs.</returns>
         private ObservableCollection<SongItem> GetItemsForCategory(string key)
         {
             switch (GetCategory())
@@ -161,11 +215,13 @@ namespace MusicPlayer.ViewModels
                 default: return new ObservableCollection<SongItem>();
             }
         }
-
+        /// <summary>
+        /// Handles toggling the new input modal.
+        /// </summary>
+        /// <param name="category">The name of the category, which we want to add a new sub-category into.</param>
+        /// <returns>An awaitable <c>Task</c></returns>
         protected async Task ToggleCategoryInputModal(string category)
         {
-            //First, if the selected category is null, we must prompt the user to select a category
-            //In case of new category this is always the case
             if (SelectedCategory == null)
             {
                 NewCategoryInputViewModel.Title = $"New {category}:";
@@ -174,6 +230,10 @@ namespace MusicPlayer.ViewModels
             }
 
         }
+        /// <summary>
+        /// Stores the modifications made to the <c>SongItem</c> object into it's respective file.
+        /// </summary>
+        /// <param name="song">The song that needs to be modified</param>
         protected void ModifyFile(SongItem song)
         {
             TagLib.File tagLibFile;
@@ -192,13 +252,11 @@ namespace MusicPlayer.ViewModels
                 case nameof(GenresViewModel):
                     {
                         tagLibFile.Tag.Genres = song.Genres.ToArray();
-                        //song.Genres = tagLibFile.Tag.Genres.ToList();
                         break;
                     }
                 case nameof(ArtistsViewModel):
                     {
                         tagLibFile.Tag.Performers = song.Artists.ToArray();
-                        //song.Artists_conc = tagLibFile.Tag.JoinedPerformers;
                         break;
                     }
                 case nameof(AlbumsViewModel):
@@ -218,7 +276,10 @@ namespace MusicPlayer.ViewModels
             tagLibFile.Save();
 
         }
-
+        /// <summary>
+        /// Modifes several files, based on the provided parameter.
+        /// </summary>
+        /// <param name="songs">The songs that need to be modified.</param>
         protected virtual void ModifyFiles(IEnumerable songs)
         {
             foreach (SongItem song in songs)
@@ -228,7 +289,11 @@ namespace MusicPlayer.ViewModels
             RefreshContent();
             ShowSongsInCategory(SelectedCategory);
         }
-
+        /// <summary>
+        /// Handles storing the playlist tag based on mime type.
+        /// </summary>
+        /// <param name="song">The song as stored inside the application.</param>
+        /// <param name="tagLibFile">The Taglib.File created from the song.</param>
         private void ModifyPlaylistTag(SongItem song, TagLib.File tagLibFile)
         {
             switch (tagLibFile.MimeType)
@@ -252,7 +317,9 @@ namespace MusicPlayer.ViewModels
                     }
             }
         }
-
+        /// <summary>
+        /// Unselects all selectable list items.
+        /// </summary>
         private void UnselectListItems()
         {
             foreach (SongItem item in Properties.MusicFiles)

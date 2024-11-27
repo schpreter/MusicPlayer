@@ -7,6 +7,10 @@ using System.Collections.ObjectModel;
 
 namespace MusicPlayer.Shared
 {
+    /// <summary>
+    /// Data sharing class, it's purpose is to avoid unnecessary overcomplication.
+    /// Fields that are used by several ViewModels are stored here.
+    /// </summary>
     public partial class SharedProperties : ObservableObject
     {
         public ObservableCollection<SongItem> MusicFiles { get; set; } = new ObservableCollection<SongItem>();

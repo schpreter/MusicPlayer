@@ -3,6 +3,9 @@ using DialogHostAvalonia;
 
 namespace MusicPlayer.ViewModels
 {
+    /// <summary>
+    /// Class which the <c>NewCategoryInput</c> view binds to.
+    /// </summary>
     public partial class NewCategoryInputViewModel : ViewModelBase
     {
 

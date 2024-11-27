@@ -9,6 +9,9 @@ using System.Threading;
 
 namespace MusicPlayer.ViewModels
 {
+    /// <summary>
+    /// Class for which the <c>MusicNavigationView</c> view binds to.
+    /// </summary>
     public partial class MusicNavigationViewModel : ViewModelBase
     {
         private enum SkipDirection
@@ -23,8 +26,6 @@ namespace MusicPlayer.ViewModels
         public string currentTimeStamp = string.Empty;
 
         private bool IsSliderDragging { get; set; } = false;
-        //[ObservableProperty]
-        //public long currentTimeMs = 0;
 
         private long currentTimeMs = 0;
         public long CurrentTimeMs
@@ -66,32 +67,38 @@ namespace MusicPlayer.ViewModels
 
         }
 
-        private void MediaPlayer_EndReached(object sender, System.EventArgs e)
-        {
-            //Calling back to LibVLC sharp from an event may freeze the app
-            //As described by https://github.com/videolan/libvlcsharp/blob/3.x/docs/best_practices.md
-            ThreadPool.QueueUserWorkItem(_ => SkipForwardClicked());
-        }
-
+        /// <summary>
+        /// Binding command for backward skipping, used by the UI
+        /// </summary>
         public void SkipBackClicked()
         {
             SkipSong(SkipDirection.Backward);
         }
+        /// <summary>
+        /// Binding command for forward skipping, used by the UI
+        /// </summary>
         public void SkipForwardClicked()
         {
             SkipSong(SkipDirection.Forward);
         }
+        /// <summary>
+        /// Binding command for playing and pausing, used by the UI
+        /// </summary>
         public void PausePlayClicked()
         {
             PlaySong();
 
         }
+
+        /// <summary>
+        /// Based on the current state of the <c>MediaPlayer</c> starts or pauses playback
+        /// </summary>
         private void PlaySong()
         {
             if (Properties.SelectedSong != null)
             {
 
-                //If new is selected we switch the playback to that one
+                //If new is selected switch the playback to that one
                 if (IsNewSongSelected())
                 {
 
@@ -103,7 +110,7 @@ namespace MusicPlayer.ViewModels
 
                     }
 
-                    //Stroe the SelectedSongPath for song switches
+                    //Store the SelectedSongPath for song switches
                     Properties.PreviousSongPath = Properties.SelectedSong.FilePath;
 
                 }
@@ -116,26 +123,21 @@ namespace MusicPlayer.ViewModels
             }
         }
 
-        private void MediaPlayer_TimeChanged(object sender, MediaPlayerTimeChangedEventArgs e)
-        {
-            IsUserSliderChange = false;
-            if (!IsSliderDragging)
-            {
-                CurrentTimeMs = e.Time;
-            }
-            CurrentTimeStamp = TimeSpan.FromMilliseconds(CurrentTimeMs).ToString(@"mm\:ss");
-
-
-        }
-        /*
-         * If the PreviousSong (loaded into the media player that is)
-         * Doesn't equal the one we selected, it means a song switching happened
-         */
+        /// <summary>
+        /// If the PreviousSong (loaded into the media player that is)
+        /// Doesn't equal the one selected, it means a song switching happened
+        /// </summary>
+        /// <returns></returns>
         private bool IsNewSongSelected()
         {
             return Properties.PreviousSongPath != Properties.SelectedSong.FilePath;
 
         }
+
+        /// <summary>
+        /// Skips to the next/previous songs based on the given parameter.
+        /// </summary>
+        /// <param name="direction"><c>Foward</c> or <c>Backward</c> enum type.</param>
         private void SkipSong(SkipDirection direction)
         {
             //TODO: Skipping should be working on either all songs or the songs in a given category
@@ -179,13 +181,19 @@ namespace MusicPlayer.ViewModels
 
             PlaySong();
         }
-
+        /// <summary>
+        /// Sets the associated <c>bool</c> to <c>true</c>.
+        /// </summary>
+        /// <param name="valueInMs"></param>
         public void SliderDragging(long valueInMs)
         {
             IsSliderDragging = true;
             //CurrentTimeStamp = TimeSpan.FromMilliseconds(valueInMs).ToString(@"mm\:ss");
         }
-
+        /// <summary>
+        /// In case the user is the one changing the slider, sets the associated parameters.
+        /// </summary>
+        /// <param name="valueInMs">The value of the slider, coming from the view.</param>
         public void SliderUserChanged(long valueInMs)
         {
             IsUserSliderChange = true;
@@ -194,19 +202,54 @@ namespace MusicPlayer.ViewModels
             CurrentTimeMs = valueInMs;
             CurrentTimeStamp = TimeSpan.FromMilliseconds(CurrentTimeMs).ToString(@"mm\:ss");
         }
+        #region Event Handlers
+        /// <summary>
+        /// If the current playback reaches it's end, skips to the next song
+        /// </summary>
+        /// <param name="sender">The <c>MediaPlayer</c> object.</param>
+        /// <param name="e">Event arguments.</param>
+        private void MediaPlayer_EndReached(object sender, System.EventArgs e)
+        {
+            //Calling back to LibVLC sharp from an event may freeze the app
+            //As described by https://github.com/videolan/libvlcsharp/blob/3.x/docs/best_practices.md
+            ThreadPool.QueueUserWorkItem(_ => SkipForwardClicked());
+        }
+        /// <summary>
+        /// Provides synchronization between UI and data for the slider.
+        /// </summary>
+        /// <param name="sender">The <c>Slider</c> object.</param>
+        /// <param name="e">Event arguments.</param>
+        private void MediaPlayer_TimeChanged(object sender, MediaPlayerTimeChangedEventArgs e)
+        {
+            IsUserSliderChange = false;
+            if (!IsSliderDragging)
+            {
+                CurrentTimeMs = e.Time;
+            }
+            CurrentTimeStamp = TimeSpan.FromMilliseconds(CurrentTimeMs).ToString(@"mm\:ss");
 
+
+        }
+        /// <summary>
+        /// Sets the associated <c>IsPaused</c> boolean to <c>false</c>;
+        /// </summary>
+        /// <param name="sender">The <c>MediaPlayer</c> object.</param>
+        /// <param name="e">Event arguments.</param>
         private void MediaPlayer_Playing(object sender, EventArgs e)
         {
             IsPaused = false;
         }
 
-        /*
-         * Event Listener, in case the paused event fires it sets the paused property to true
-         */
+        /// <summary>
+        /// Sets the associated <c>IsPaused</c> boolean to <c>true</c>;
+        /// </summary>
+        /// <param name="sender">The <c>MediaPlayer</c> object.</param>
+        /// <param name="e">Event arguments.</param>
         private void MediaPlayer_Paused(object sender, System.EventArgs e)
         {
             IsPaused = true;
         }
+        #endregion
 
     }
 }

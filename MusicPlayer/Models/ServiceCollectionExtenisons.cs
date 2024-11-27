@@ -5,7 +5,9 @@ using MusicPlayer.Views;
 using System.Net.Http;
 
 namespace MusicPlayer.Models
-{
+{    /// <summary>
+     /// Responsible for registering all the required services for Dependency Injection.
+     /// </summary>
     public static class ServiceCollectionExtensions
     {
         public static void AddCommonServices(this IServiceCollection collection)

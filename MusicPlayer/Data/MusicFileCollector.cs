@@ -11,9 +11,16 @@ using TagLib.Id3v2;
 
 namespace MusicPlayer.Data
 {
+    /// <summary>
+    /// Static class responsible for parsing files into the application.
+    /// </summary>
     public static class MusicFileCollector
     {
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="folderPath">The source folder where files should be looked for</param>
+        /// <returns>A collection of <c>SongItems</c></returns>
         public static ObservableCollection<SongItem> CollectFilesFromFolder(string folderPath)
         {
             List<SongItem> returnList = new List<SongItem>();
@@ -36,6 +43,7 @@ namespace MusicPlayer.Data
                 {
                     var pics = tagLibFile.Tag.Pictures;
 
+                    //Parsing data into model
                     SongItem songItem = new SongItem
                     {
                         Album = tagLibFile.Tag.Album ?? string.Empty,
@@ -58,6 +66,11 @@ namespace MusicPlayer.Data
             return new ObservableCollection<SongItem>(returnList.OrderBy(x => x.Title));
         }
 
+        /// <summary>
+        /// Based on the mime type of the file, gathers the previously stored playlist information from it.
+        /// </summary>
+        /// <param name="tagLibfile">The file instance to be parsed</param>
+        /// <returns></returns>
         private static List<string> ParseData(TagLib.File tagLibfile)
         {
 

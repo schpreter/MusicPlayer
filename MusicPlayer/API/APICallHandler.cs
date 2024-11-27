@@ -10,10 +10,20 @@ using System.Threading.Tasks;
 
 namespace MusicPlayer.API
 {
+    /// <summary>
+    /// Static class, with a collection of methods relating to making API calls. 
+    /// </summary>
     public static class APICallHandler
     {
         private static string UrlBase = "https://api.spotify.com/v1";
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="client">Client, which will handle the communication with the API</param>
+        /// <param name="authorization">Object containing the user's authorization data</param>
+        /// <param name="code">The code received after providing access to the user profile</param>
+        /// <param name="verifier">The code verifier for the PKCE flow (<see href="https://oauth.net/2/pkce/"/>)</param>
+        /// <returns></returns>
         public static async Task<AuthorizationTokenData> GetAccessTokenAsync(HttpClient client, AuthorizationObject authorization, string code, string verifier)
         {
             string url = "https://accounts.spotify.com/api/token";
@@ -53,13 +63,22 @@ namespace MusicPlayer.API
             return null;
 
         }
-
+        /// <summary>
+        /// Fetches the genre seeds from the /recommendations/available-genre-seeds endpoint
+        /// </summary>
+        /// <param name="client">Client, which will handle the communication with the API</param>
+        /// <returns></returns>
         public static async Task<HttpResponseMessage> GetAvaliableGenreSeeds(HttpClient client)
         {
             return await client.GetAsync(new Uri(UrlBase + "/recommendations/available-genre-seeds"));
 
         }
-
+        /// <summary>
+        /// Fetches recommendations from the /recommendations, using the supplied genreSeeds as query parameters
+        /// </summary>
+        /// <param name="client">Client, which will handle the communication with the API</param>
+        /// <param name="genreSeeds">The selected genre seeds, required for getting recommendations</param>
+        /// <returns></returns>
         public static async Task<HttpResponseMessage> GetRecommendations(HttpClient client, List<SelectableItem> genreSeeds)
         {
             string recommendationsUrl = UrlBase + "/recommendations";

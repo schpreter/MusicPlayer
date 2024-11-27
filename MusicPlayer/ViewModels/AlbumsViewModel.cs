@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace MusicPlayer.ViewModels
 {
+    /// <summary>
+    /// Class inheriting from <c>UnifiedCategoryViewModel</c>, for Albums.
+    /// </summary>
     public partial class AlbumsViewModel : UnifiedCategoryViewModel
     {
         public AlbumsViewModel()
@@ -16,7 +19,7 @@ namespace MusicPlayer.ViewModels
             Properties = props;
             NewCategoryInputViewModel = newCategoryInput;
         }
-
+        /// <inheritdoc/>
         public override void RefreshContent()
         {
             //Songs that are not in albums should not even appear as an "album"
@@ -24,19 +27,20 @@ namespace MusicPlayer.ViewModels
             RefreshCategory(AlbumSet);
 
         }
+        /// <inheritdoc/>
         public override void ShowSongsInCategory(object album)
         {
             SelectedCategory = (string)album;
             HashSet<SongItem> filtered = Properties.MusicFiles.Where(x => x.Album == SelectedCategory && !string.IsNullOrEmpty(x.Album)).OrderBy(x => x.Title).ToHashSet();
             UpdateSongCategory(filtered);
         }
-
+        /// <inheritdoc/>
         public override async void AddSelectedSongs()
         {
             await ToggleCategoryInputModal("album");
             ModifySelectedSongs();
         }
-
+        /// <inheritdoc/>
         protected override void AddSong(SongItem song)
         {
             if (!song.Album.Contains(SelectedCategory))
@@ -44,7 +48,7 @@ namespace MusicPlayer.ViewModels
                 song.Album = SelectedCategory;
             }
         }
-
+        /// <inheritdoc/>
         protected override void RemoveSong(SongItem song)
         {
             if (song.Album == SelectedCategory)
@@ -52,7 +56,7 @@ namespace MusicPlayer.ViewModels
                 song.Album = string.Empty;
             }
         }
-
+        /// <inheritdoc/>
         public override void RemoveSingleSong(object song)
         {
             {
@@ -66,11 +70,12 @@ namespace MusicPlayer.ViewModels
                 }
             }
         }
+        /// <inheritdoc/>
         public override string ToString()
         {
             return "Albums";
         }
-
+        /// <inheritdoc/>
         protected override string GetCategory()
         {
             return nameof(AlbumsViewModel);

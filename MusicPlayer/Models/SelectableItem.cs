@@ -2,6 +2,9 @@
 
 namespace MusicPlayer.Models
 {
+    /// <summary>
+    /// General class used for items which the user can select with a checkbox.
+    /// </summary>
     public partial class SelectableItem : ObservableObject
     {
         [ObservableProperty]

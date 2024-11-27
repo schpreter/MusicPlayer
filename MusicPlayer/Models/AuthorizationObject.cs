@@ -1,5 +1,8 @@
 ﻿namespace MusicPlayer.Models
 {
+    /// <summary>
+    /// Class structure storing the authorization data sent to the authorize endpoint.
+    /// </summary>
     public class AuthorizationObject
     {
         public string ClientID { get; set; }

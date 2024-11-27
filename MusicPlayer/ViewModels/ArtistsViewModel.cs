@@ -17,6 +17,7 @@ namespace MusicPlayer.ViewModels
             Properties = props;
             NewCategoryInputViewModel = newCategoryInput;
         }
+        /// <inheritdoc/>
         public override void RefreshContent()
         {
             var ArtistsSet = Properties.MusicFiles.SelectMany(x => x.Artists).Order().ToHashSet();
@@ -24,6 +25,7 @@ namespace MusicPlayer.ViewModels
 
 
         }
+        /// <inheritdoc/>
         public override void ShowSongsInCategory(object genre)
         {
             SelectedCategory = (string)genre;
@@ -31,7 +33,7 @@ namespace MusicPlayer.ViewModels
             UpdateSongCategory(filtered);
         }
 
-
+        /// <inheritdoc/>
         public override async void AddSelectedSongs()
         {
             await ToggleCategoryInputModal("artist");
@@ -42,6 +44,7 @@ namespace MusicPlayer.ViewModels
         {
             return "Artists";
         }
+        /// <inheritdoc/>
 
         public override void RemoveSingleSong(object song)
         {
@@ -54,11 +57,13 @@ namespace MusicPlayer.ViewModels
             }
 
         }
+        /// <inheritdoc/>
 
         protected override void RemoveSong(SongItem song)
         {
             song.Artists.Remove(SelectedCategory);
         }
+        /// <inheritdoc/>
 
         protected override void AddSong(SongItem song)
         {
@@ -67,6 +72,7 @@ namespace MusicPlayer.ViewModels
                 song.Artists.Add(SelectedCategory);
             }
         }
+        /// <inheritdoc/>
 
         protected override string GetCategory()
         {

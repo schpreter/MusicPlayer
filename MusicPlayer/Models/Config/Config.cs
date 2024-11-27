@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace MusicPlayer.Models.Config
 {
+    /// <summary>
+    /// Class structure which Newtonsoft can deserialize the <c>appsettings.json</c> into.
+    /// </summary>
     public class Config
     {
 

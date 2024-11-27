@@ -2,6 +2,9 @@
 
 namespace MusicPlayer.ViewModels
 {
+    /// <summary>
+    /// Class which the <c>HomeContentView</c> binds to.
+    /// </summary>
     public partial class HomeContentViewModel : ViewModelBase
     {
 

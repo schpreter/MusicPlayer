@@ -7,6 +7,9 @@ using TagLib;
 
 namespace MusicPlayer.Models
 {
+    /// <summary>
+    /// Class structure which the given song data is stored inside. Inherits from the <c>SelectableItem</c> class.
+    /// </summary>
     public class SongItem : SelectableItem
     {
 
