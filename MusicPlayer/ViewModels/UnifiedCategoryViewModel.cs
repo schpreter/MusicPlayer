@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TagLib.Id3v2;
 
@@ -182,7 +181,7 @@ namespace MusicPlayer.ViewModels
             {
                 tagLibFile = TagLib.File.Create(song.FilePath);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 //Maybe also notify the user of funky behavior
                 return;

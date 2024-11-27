@@ -1,7 +1,6 @@
 ﻿using MusicPlayer.Models;
 using MusicPlayer.Shared;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace MusicPlayer.ViewModels
@@ -10,7 +9,7 @@ namespace MusicPlayer.ViewModels
     {
         public GenresViewModel()
         {
-            
+
         }
 
         public GenresViewModel(SharedProperties props, NewCategoryInputViewModel newCategoryInput)

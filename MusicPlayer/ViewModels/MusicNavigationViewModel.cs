@@ -1,14 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using LibVLCSharp.Shared;
 using MusicPlayer.Models;
 using MusicPlayer.Shared;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
-using System.Windows.Input;
 
 namespace MusicPlayer.ViewModels
 {
@@ -53,7 +50,7 @@ namespace MusicPlayer.ViewModels
 
         public MusicNavigationViewModel()
         {
-            
+
         }
         public MusicNavigationViewModel(SharedProperties props)
         {
@@ -103,7 +100,7 @@ namespace MusicPlayer.ViewModels
                 {
 
                     using Media media = new Media(LibVlc, Properties.SelectedSong.FilePath);
-                    
+
                     if (MediaPlayer.Play(media))
                     {
                         MediaPlayer.Time = CurrentTimeMs;

@@ -28,11 +28,11 @@ namespace MusicPlayer.Data
                     tagLibFile = TagLib.File.Create(item);
 
                 }
-                catch 
+                catch
                 {
                     tagLibFile = null;
                 }
-                if(tagLibFile != null)
+                if (tagLibFile != null)
                 {
                     var pics = tagLibFile.Tag.Pictures;
 

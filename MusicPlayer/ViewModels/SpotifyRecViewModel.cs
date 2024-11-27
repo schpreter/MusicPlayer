@@ -36,7 +36,7 @@ namespace MusicPlayer.ViewModels
 
         public SpotifyRecViewModel()
         {
-            
+
         }
         public SpotifyRecViewModel(SharedProperties props, HttpClient client)
         {

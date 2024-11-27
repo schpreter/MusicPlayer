@@ -40,8 +40,8 @@ namespace MusicPlayer.API
                 response.EnsureSuccessStatusCode();
                 return JsonConvert.DeserializeObject<AuthorizationTokenData>(response.Content.ReadAsStringAsync().Result);
             }
-            catch 
-            { 
+            catch
+            {
                 return null;
             }
 

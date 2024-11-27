@@ -2,9 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using MusicPlayer.Models;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 
 
 namespace MusicPlayer.Shared

@@ -38,11 +38,12 @@ namespace MusicPlayer.Models
                 return Duration.ToString(@"mm\:ss");
             }
         }
-        public string Artists_conc { 
+        public string Artists_conc
+        {
             get
             {
                 return string.Join("; ", Artists);
-            } 
+            }
         }
 
 
@@ -63,7 +64,7 @@ namespace MusicPlayer.Models
         {
             get
             {
-                if(Images != null)
+                if (Images != null)
                 {
                     var pic = Images.FirstOrDefault();
                     if (pic != null)

@@ -54,8 +54,8 @@ namespace MusicPlayer.Models.Recommendations
 
                 }
                 catch
-                { 
-                    return null; 
+                {
+                    return null;
                 }
             }
         }

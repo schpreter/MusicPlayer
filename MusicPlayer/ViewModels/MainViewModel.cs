@@ -3,21 +3,17 @@ using Avalonia.Controls;
 using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Configuration;
 using MusicPlayer.API;
 using MusicPlayer.Authorization;
 using MusicPlayer.Data;
 using MusicPlayer.Models;
 using MusicPlayer.Shared;
 using MusicPlayer.Views;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -97,12 +93,12 @@ public partial class MainViewModel : ViewModelBase
     public void ToggleWidget()
     {
         if (Control.IsVisible)
-        { 
-            Control.Hide(); 
-        }
-        else 
         {
-            Control.Show(); 
+            Control.Hide();
+        }
+        else
+        {
+            Control.Show();
         }
 
         mainWindow.Focus();
@@ -186,9 +182,9 @@ public partial class MainViewModel : ViewModelBase
         var codeToRetrieve = context.Request.QueryString["code"];
         if (codeToRetrieve != null)
         {
-            Properties.AuthData = await APICallHandler.GetAccessTokenAsync(Client,authorization, codeToRetrieve, codeVerifier);
+            Properties.AuthData = await APICallHandler.GetAccessTokenAsync(Client, authorization, codeToRetrieve, codeVerifier);
             //This will not be reached if the previous line throws an exception
-            if(Properties.AuthData != null)
+            if (Properties.AuthData != null)
             {
                 Client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Properties.AuthData.AccessToken);
                 //Recommendations nav binds it's state to this variable
