@@ -177,7 +177,11 @@ public partial class MainViewModel : ViewModelBase
     /// </summary>
     public async void SetInputFolderAsync()
     {
-        IReadOnlyList<IStorageFolder> selectedFolder = await TopLevel.GetTopLevel(mainWindow).StorageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions { AllowMultiple = false, Title = "Select Source Folder" });
+        IReadOnlyList<IStorageFolder> selectedFolder =
+            await TopLevel
+            .GetTopLevel(mainWindow)
+            .StorageProvider
+            .OpenFolderPickerAsync(new FolderPickerOpenOptions { AllowMultiple = false, Title = "Select Source Folder" });
         Properties.SourceFolderPath = selectedFolder.First().Path.AbsolutePath;
 
         StoreSourceFolderInConfig(Properties.SourceFolderPath);
@@ -222,7 +226,8 @@ public partial class MainViewModel : ViewModelBase
         }
 
     }
-
+    #endregion
+    #region Authorization
     /// <summary>
     /// Generates code verifier and code challenge.
     /// Opens the default browser with the authentication page, starts a callback listener,
@@ -269,17 +274,10 @@ public partial class MainViewModel : ViewModelBase
                 //Recommendations nav binds it's state to this variable
                 UserAuthenticated = true;
             }
-            else
-            {
-                //Maybe show a popup in the app that the auth failed or something
-            }
-
         }
 
 
     }
-    #endregion
-    #region Authorization
     /// <summary>
     /// Starts a callback listener based on the parameter, it stops once the callback happens.
     /// </summary>

@@ -117,9 +117,8 @@ namespace MusicPlayer.ViewModels
             {
                 return;
             }
-
             var selectedSongs = Properties.MusicFiles.Where(x => x.IsSelected);
-            //First we change the category that is stored inside the application
+            //First, change the category that is stored inside the application
             if (isRemove)
             {
                 foreach (var song in selectedSongs)
@@ -135,10 +134,8 @@ namespace MusicPlayer.ViewModels
 
                 }
             }
-
-            //Then based on the changed values we save the modifications to the file
+            //Then based on the changed values, save the modifications to the file
             ModifyFiles(selectedSongs);
-
         }
 
         /// <summary>
@@ -246,7 +243,6 @@ namespace MusicPlayer.ViewModels
                 //Maybe also notify the user of funky behavior
                 return;
             }
-
             switch (GetCategory())
             {
                 case nameof(GenresViewModel):

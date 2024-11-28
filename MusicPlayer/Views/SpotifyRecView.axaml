@@ -20,14 +20,7 @@
 				<TabItem Header="Search">
 					<StackPanel Orientation="Horizontal" Spacing="50">
 						<Grid RowDefinitions="10*,90*">
-							<!--<Button Command="{Binding GetAvaliableGenreSeeds}" Grid.Row="1" IsVisible="False" Name="Seedbutton">
-								<StackPanel Orientation="Horizontal">
-									<mi:MaterialIcon Kind="Download"/>
-									<TextBlock Text="Get Avaliable Genres"/>
-								</StackPanel>
-							</Button>-->
 							<TextBlock Text="Select max 5" Grid.Row="0"/>
-
 
 							<ScrollViewer Grid.Row="1" AllowAutoHide="False">
 								<ItemsControl ItemsSource="{Binding Genres}">
@@ -88,23 +81,6 @@
 					</ScrollViewer>
 				</TabItem>
 			</TabControl>
-
-
-			<!--<Expander Grid.Column="1" Grid.Row="0" Header="Artists (max 5)" IsEnabled="False">
-			<TextBox Watermark="Please enter the artists to search Spotify for (max 5)">
-				<TextBox.InnerRightContent>
-					<mi:MaterialIcon Kind="Magnify" />
-				</TextBox.InnerRightContent>
-			</TextBox>
-		</Expander>
-
-		<Expander Grid.Column="2" Grid.Row="0" Header="Tracks (max 5)" IsEnabled="False">
-			<TextBox Watermark="Please enter the tracks to search Spotify for (max 5)">
-				<TextBox.InnerRightContent>
-					<mi:MaterialIcon Kind="Magnify" />
-				</TextBox.InnerRightContent>
-			</TextBox>
-		</Expander>-->
 		</Grid>
 	</dialogHost:DialogHost>
 

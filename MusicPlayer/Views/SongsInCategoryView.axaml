@@ -10,16 +10,6 @@
 			 x:DataType="vm:UnifiedCategoryViewModel">
 
 	<Grid RowDefinitions="10*,10*,80*">
-
-		<!--<Button Theme="{StaticResource BackToCategoryHomeButton}" Grid.Row="0" Padding="20" Margin="10" HorizontalAlignment="Left" Command="{Binding ShowHome}"/>-->
-		<!--<StackPanel Grid.Row="0" HorizontalAlignment="Right" Orientation="Horizontal">
-			-->
-		<!--<Button Theme="{StaticResource AddNewButton}"  Padding="20" Margin="10" Command="{Binding ShowSelection}"/>-->
-		<!--
-
-
-		</StackPanel>-->
-
 		<Button Cursor="Hand" Grid.Row="0" HorizontalAlignment="Left" Command="{Binding ShowHome}">
 			<StackPanel Orientation="Horizontal" Spacing="10">
 				<mi:MaterialIcon Kind="Backburger" FontSize="10" HorizontalAlignment="Stretch"/>

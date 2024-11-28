@@ -20,8 +20,6 @@ namespace MusicPlayer.Shared
         [ObservableProperty]
         public SongItem selectedSong;
 
-
-        //Const for now, later user will beable to choose their own folder path
         [ObservableProperty]
         public string sourceFolderPath = GetRootFolder();
         public string PreviousSongPath { get; set; }

@@ -10,7 +10,7 @@ namespace MusicPlayer.Models
         [ObservableProperty]
         public bool isSelected;
 
-        public string Display { get; set; }
+        public string Display { get; set; } = string.Empty;
         public SelectableItem()
         {
 

@@ -6,7 +6,7 @@ namespace MusicPlayer.Models
      /// </summary>
     public class UnifiedDisplayItem
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         public Bitmap ImageMap { get; set; }
         public UnifiedDisplayItem(string name, Bitmap image = null)
         {

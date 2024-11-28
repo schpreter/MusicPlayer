@@ -60,8 +60,6 @@ namespace MusicPlayer.Data
                     };
                     returnList.Add(songItem);
                 }
-
-
             }
             return new ObservableCollection<SongItem>(returnList.OrderBy(x => x.Title));
         }

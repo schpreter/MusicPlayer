@@ -101,7 +101,6 @@ namespace MusicPlayer.ViewModels
                 //If new is selected switch the playback to that one
                 if (IsNewSongSelected())
                 {
-
                     using Media media = new Media(LibVlc, Properties.SelectedSong.FilePath);
 
                     if (MediaPlayer.Play(media))
@@ -109,7 +108,6 @@ namespace MusicPlayer.ViewModels
                         MediaPlayer.Time = CurrentTimeMs;
 
                     }
-
                     //Store the SelectedSongPath for song switches
                     Properties.PreviousSongPath = Properties.SelectedSong.FilePath;
 
@@ -140,7 +138,6 @@ namespace MusicPlayer.ViewModels
         /// <param name="direction"><c>Foward</c> or <c>Backward</c> enum type.</param>
         private void SkipSong(SkipDirection direction)
         {
-            //TODO: Skipping should be working on either all songs or the songs in a given category
             ObservableCollection<SongItem> SongsToPlay;
             CurrentTimeMs = 0;
             CurrentTimeStamp = TimeSpan.FromMilliseconds(CurrentTimeMs).ToString(@"mm\:ss");
@@ -178,7 +175,6 @@ namespace MusicPlayer.ViewModels
                         break;
                     }
             }
-
             PlaySong();
         }
         /// <summary>
@@ -188,7 +184,7 @@ namespace MusicPlayer.ViewModels
         public void SliderDragging(long valueInMs)
         {
             IsSliderDragging = true;
-            //CurrentTimeStamp = TimeSpan.FromMilliseconds(valueInMs).ToString(@"mm\:ss");
+            CurrentTimeStamp = TimeSpan.FromMilliseconds(valueInMs).ToString(@"mm\:ss");
         }
         /// <summary>
         /// In case the user is the one changing the slider, sets the associated parameters.

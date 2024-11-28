@@ -9,7 +9,6 @@
 			 RequestedThemeVariant="Default"
 			 x:DataType="vm:MainViewModel">
 
-	<!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 	<Application.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
@@ -19,12 +18,6 @@
 	</Application.Resources>
 	
 	<Application.Styles>
-		<!--<FluentTheme>
-			<FluentTheme.Palettes>
-				<ColorPaletteResources x:Key="Light" Accent="#ff132a13" AltHigh="White" AltLow="White" AltMedium="White" AltMediumHigh="White" AltMediumLow="White" BaseHigh="Black" BaseLow="#ff659839" BaseMedium="#ff306217" BaseMediumHigh="#ff0d3e00" BaseMediumLow="#ff1f500b" ChromeAltLow="#ff0d3e00" ChromeBlackHigh="Black" ChromeBlackLow="#ff659839" ChromeBlackMedium="#ff0d3e00" ChromeBlackMediumLow="#ff306217" ChromeDisabledHigh="#ff659839" ChromeDisabledLow="#ff306217" ChromeGray="#ff1f500b" ChromeHigh="#ff659839" ChromeLow="#ffc1dbad" ChromeMedium="#ffafce96" ChromeMediumLow="#ffc1dbad" ChromeWhite="White" ListLow="#ffafce96" ListMedium="#ff659839" RegionColor="#ffaecc66" />
-				<ColorPaletteResources x:Key="Dark" Accent="#ff132a13" AltHigh="Black" AltLow="Black" AltMedium="Black" AltMediumHigh="Black" AltMediumLow="Black" BaseHigh="White" BaseLow="#ff606c38" BaseMedium="#ffaeb794" BaseMediumHigh="#ffc2caab" BaseMediumLow="#ff879266" ChromeAltLow="#ffc2caab" ChromeBlackHigh="Black" ChromeBlackLow="#ffc2caab" ChromeBlackMedium="Black" ChromeBlackMediumLow="Black" ChromeDisabledHigh="#ff606c38" ChromeDisabledLow="#ffaeb794" ChromeGray="#ff9ba47d" ChromeHigh="#ff9ba47d" ChromeLow="#ff27320b" ChromeMedium="#ff354116" ChromeMediumLow="#ff525e2d" ChromeWhite="White" ListLow="#ff354116" ListMedium="#ff606c38" RegionColor="#ff283618" />
-			</FluentTheme.Palettes>
-		</FluentTheme>-->
 		<dialogHostAvalonia:DialogHostStyles/>
 
 		<FluentTheme>

@@ -5,13 +5,13 @@
     /// </summary>
     public class AuthorizationObject
     {
-        public string ClientID { get; set; }
-        public string ResponseType { get; set; }
-        public string RedirectUri { get; set; }
-        public string State { get; set; }
-        public string Scope { get; set; }
-        public string CodeChallengeMethod { get; set; }
-        public string CodeChallenge { get; set; }
+        public string ClientID { get; set; } = string.Empty;
+        public string ResponseType { get; set; } = string.Empty;
+        public string RedirectUri { get; set; } = string.Empty;
+        public string State { get; set; } = string.Empty;
+        public string Scope { get; set; } = string.Empty;
+        public string CodeChallengeMethod { get; set; } = string.Empty;
+        public string CodeChallenge { get; set; } = string.Empty;   
 
 
         public AuthorizationObject()

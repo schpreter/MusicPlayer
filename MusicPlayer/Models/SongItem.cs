@@ -14,17 +14,17 @@ namespace MusicPlayer.Models
     {
 
         public string Album { get; set; } = string.Empty;
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
         public List<string> Artists { get; set; } = new List<string>();
 
         public List<string> Genres { get; set; } = new List<string>();
-        public int Year { get; set; }
-        public TimeSpan Duration { get; set; }
-        public string FilePath { get; set; }
-        public List<string> PlayLists { get; set; }
+        public int Year { get; set; } = 0;
+        public TimeSpan Duration { get; set; } = TimeSpan.FromSeconds(0);
+        public string FilePath { get; set; } = string.Empty;
+        public List<string> PlayLists { get; set; } = new List<string>();
         //TODO: Figure out what to do with these pics
         //For now I will only use the first pics data, read it into a stream and feed that stream to a Bitmap
-        public List<ByteVector> Images { get; set; }
+        public List<ByteVector> Images { get; set; } = new List<ByteVector>();
 
         public double Duration_s
         {

@@ -139,27 +139,15 @@
 
 	<DataTemplate x:Key="SongListHomeDisplayTemplate">
 		<TextBlock HorizontalAlignment="Left" Text="{ReflectionBinding}" VerticalAlignment="Center"/>
-
-		<!--<TextBlock Text="{ReflectionBinding Artists_conc}"/>
-				<TextBlock Margin="5 0" FontWeight="Bold"
-							Text="{ReflectionBinding Title}"/>
-				<TextBlock Margin="5 0" FontWeight="Bold"
-							Text="{ReflectionBinding Duration_display}"/>-->
 	</DataTemplate>
 
 	<DataTemplate x:Key="SongListCategoryDisplayTemplate">
 		<Grid>
 			<TextBlock HorizontalAlignment="Left" Text="{ReflectionBinding}" VerticalAlignment="Center"/>
-
-			<!--<TextBlock Text="{ReflectionBinding Artists_conc}"/>
-				<TextBlock Margin="5 0" FontWeight="Bold"
-							Text="{ReflectionBinding Title}"/>
-				<TextBlock Margin="5 0" FontWeight="Bold"
-							Text="{ReflectionBinding Duration_display}"/>-->
+		
 			<Button Background="Transparent" Cursor="Hand" VerticalAlignment="Center" HorizontalAlignment="Right">
 				<Button.Flyout>
 					<MenuFlyout>
-						<!--Document this bs with visual and logical tree thingy-->
 						<MenuItem Header="Remove"
 									Command="{ReflectionBinding $parent[ListBox].((vm:UnifiedCategoryViewModel)DataContext).RemoveSingleSong}"
 								  CommandParameter="{ReflectionBinding}"/>
@@ -175,11 +163,7 @@
 		<CheckBox Margin="10" IsChecked="{ReflectionBinding IsSelected}" VerticalAlignment="Center" Cursor="Hand">
 			<TextBlock Text="{ReflectionBinding}" VerticalAlignment="Center"/>
 		</CheckBox>
-		<!--<TextBlock Text="{ReflectionBinding Artists_conc}"/>
-				<TextBlock Margin="5 0" FontWeight="Bold"
-							Text="{ReflectionBinding Title}"/>
-				<TextBlock Margin="5 0" FontWeight="Bold"
-							Text="{ReflectionBinding Duration_display}"/>-->
+		
 
 
 	</DataTemplate>

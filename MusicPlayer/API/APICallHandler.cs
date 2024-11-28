@@ -57,12 +57,6 @@ namespace MusicPlayer.API
 
         }
 
-        public static async Task<string> FetchProfile(string token)
-        {
-            //TODO
-            return null;
-
-        }
         /// <summary>
         /// Fetches the genre seeds from the /recommendations/available-genre-seeds endpoint
         /// </summary>
