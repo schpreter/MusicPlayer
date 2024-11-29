@@ -10,13 +10,13 @@
 			 x:Class="MusicPlayer.Views.CurrentSongView">
 
 	<Grid RowDefinitions="*,*" ColumnDefinitions="*">
-		<Image MaxHeight="200" MaxWidth="200" VerticalAlignment="Top" HorizontalAlignment="Center" Source="{Binding Properties.SelectedSong.FirstImage}"/>
+		<Image MaxHeight="200" MaxWidth="200" VerticalAlignment="Top" HorizontalAlignment="Center" Source="{Binding Properties.PlayingSong.FirstImage}"/>
 		<StackPanel Spacing="2" Grid.Row="1">
-			<TextBlock HorizontalAlignment="Center"  Text="{Binding Properties.SelectedSong.Title}"/>
-			<TextBlock HorizontalAlignment="Center" Text="{Binding Properties.SelectedSong.Artists_conc}"/>
-			<TextBlock HorizontalAlignment="Center" Text="{Binding Properties.SelectedSong.Album}"/>
-			<TextBlock HorizontalAlignment="Center" Text="{Binding Properties.SelectedSong.Genres_conc}"/>
-			<TextBlock HorizontalAlignment="Center" Text="{Binding Properties.SelectedSong.Duration_display}"/>
+			<TextBlock HorizontalAlignment="Center"  Text="{Binding Properties.PlayingSong.Title}"/>
+			<TextBlock HorizontalAlignment="Center" Text="{Binding Properties.PlayingSong.Artists_conc}"/>
+			<TextBlock HorizontalAlignment="Center" Text="{Binding Properties.PlayingSong.Album}"/>
+			<TextBlock HorizontalAlignment="Center" Text="{Binding Properties.PlayingSong.Genres_conc}"/>
+			<TextBlock HorizontalAlignment="Center" Text="{Binding Properties.PlayingSong.Duration_display}"/>
 		</StackPanel>
 
 	</Grid>

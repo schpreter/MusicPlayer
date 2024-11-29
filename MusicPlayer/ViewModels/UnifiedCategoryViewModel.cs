@@ -46,7 +46,7 @@ namespace MusicPlayer.ViewModels
         /// <param name="song">The song to remove from the category</param>
         protected abstract void RemoveSong(SongItem song);
         /// <summary>
-        /// Based on the implementation, adds a song tz a given category
+        /// Based on the implementation, adds a song to a given category
         /// </summary>
         /// <param name="song">The song to add to the category</param>
         protected abstract void AddSong(SongItem song);

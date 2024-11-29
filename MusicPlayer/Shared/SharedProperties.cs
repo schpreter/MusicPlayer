@@ -22,7 +22,9 @@ namespace MusicPlayer.Shared
 
         [ObservableProperty]
         public string sourceFolderPath = GetRootFolder();
-        public string PreviousSongPath { get; set; }
+
+        [ObservableProperty]
+        public SongItem playingSong;
         public AuthorizationTokenData AuthData;
 
         private static string GetRootFolder()

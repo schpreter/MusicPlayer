@@ -32,9 +32,9 @@ namespace MusicPlayer.ViewModels.Tests
         {
             Mock<MusicNavigationViewModel> vmMock = new Mock<MusicNavigationViewModel>(_properties.Object);
 
-            SongItem song1 = new SongItem() { Title = "Title1" };
+            SongItem song1 = new SongItem() { Title = "Title1", FilePath = "test.mp3" };
             SongItem song2 = new SongItem() { Title = "Title2" };
-            SongItem song3 = new SongItem() { Title = "Title3" };
+            SongItem song3 = new SongItem() { Title = "Title3", FilePath= "test2.mp3" };
 
 
             vmMock.Object.Properties.SelectedSong = song2;
@@ -43,7 +43,7 @@ namespace MusicPlayer.ViewModels.Tests
                 song1, song2, song3
             };
 
-            vmMock.CallBase = true;
+            //vmMock.CallBase = true;
 
             vmMock.Object.SkipBackClicked();
             Assert.Equal(song1, vmMock.Object.Properties.SelectedSong);
@@ -60,10 +60,9 @@ namespace MusicPlayer.ViewModels.Tests
         {
             Mock<MusicNavigationViewModel> vmMock = new Mock<MusicNavigationViewModel>(_properties.Object);
 
-            SongItem song1 = new SongItem() { Title = "Title1" };
+            SongItem song1 = new SongItem() { Title = "Title1", FilePath = "test.mp3" };
             SongItem song2 = new SongItem() { Title = "Title2" };
-            SongItem song3 = new SongItem() { Title = "Title3" };
-
+            SongItem song3 = new SongItem() { Title = "Title3", FilePath = "test2.mp3" };
 
             vmMock.Object.Properties.SelectedSong = song2;
             vmMock.Object.Properties.SongsByCategory = new ObservableCollection<SongItem>()
@@ -95,14 +94,14 @@ namespace MusicPlayer.ViewModels.Tests
             vmMock.Object.PausePlayClicked();
 
             Assert.Null(vmMock.Object.Properties.SelectedSong);
-            Assert.Null(vmMock.Object.Properties.PreviousSongPath);
+            Assert.Null(vmMock.Object.Properties.PlayingSong);
 
 
             vmMock.Object.Properties.SelectedSong = item1;
             vmMock.Object.PausePlayClicked();
 
             Assert.Equal(item1,vmMock.Object.Properties.SelectedSong);
-            Assert.Equal(item1.FilePath,vmMock.Object.Properties.PreviousSongPath);
+            Assert.Equal(item1.FilePath,vmMock.Object.Properties.PlayingSong.FilePath);
 
         }
 

@@ -101,15 +101,18 @@ namespace MusicPlayer.ViewModels
                 //If new is selected switch the playback to that one
                 if (IsNewSongSelected())
                 {
-                    using Media media = new Media(LibVlc, Properties.SelectedSong.FilePath);
+                    CurrentTimeMs = 0;
+                    //Store the SelectedSongPath for song switches
+                    Properties.PlayingSong = Properties.SelectedSong;
+
+                    using Media media = new Media(LibVlc, Properties.PlayingSong.FilePath);
 
                     if (MediaPlayer.Play(media))
                     {
                         MediaPlayer.Time = CurrentTimeMs;
 
                     }
-                    //Store the SelectedSongPath for song switches
-                    Properties.PreviousSongPath = Properties.SelectedSong.FilePath;
+
 
                 }
                 //Otherwise we just toggle the pause state
@@ -128,7 +131,7 @@ namespace MusicPlayer.ViewModels
         /// <returns></returns>
         private bool IsNewSongSelected()
         {
-            return Properties.PreviousSongPath != Properties.SelectedSong.FilePath;
+            return Properties.PlayingSong != Properties.SelectedSong;
 
         }
 
