@@ -42,6 +42,8 @@ public partial class MainViewModel : ViewModelBase
     private ViewModelBase selectedViewModel;
 
     private readonly HttpClient Client;
+    private static HttpListener listener = new HttpListener();
+
 
     [ObservableProperty]
     private HomeContentViewModel homeContentViewModel;
@@ -269,25 +271,28 @@ public partial class MainViewModel : ViewModelBase
         HttpListenerContext context = await StartCallbackListener(authorization.RedirectUri);
 
         // This is the code from Spotify API
-        var codeToRetrieve = context.Request.QueryString["code"];
-        if (codeToRetrieve != null)
+        if (context != null)
         {
-            Properties.AuthData = await APICallHandler.GetAccessTokenAsync(Client, authorization, codeToRetrieve, codeVerifier);
-            if (Properties.AuthData != null)
+            var codeToRetrieve = context.Request.QueryString["code"];
+            if (codeToRetrieve != null)
             {
-                if (IsTokenOverride)
+                Properties.AuthData = await APICallHandler.GetAccessTokenAsync(Client, authorization, codeToRetrieve, codeVerifier);
+                if (Properties.AuthData != null)
                 {
-                    Client.DefaultRequestHeaders.Add("Authorization", "Bearer " + TOKEN_OVERRIDE);
+                    if (IsTokenOverride)
+                    {
+                        Client.DefaultRequestHeaders.Add("Authorization", "Bearer " + TOKEN_OVERRIDE);
+                    }
+                    else
+                    {
+                        Client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Properties.AuthData.AccessToken);
+                    }
+                    //Client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Properties.AuthData.AccessToken);
+                    //Automatically get the seeds, which the user can choose later
+                    await RecViewModel.GetAvaliableGenreSeeds();
+                    //Recommendations nav binds it's state to this variable
+                    UserAuthenticated = true;
                 }
-                else
-                {
-                    Client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Properties.AuthData.AccessToken);
-                }
-                //Client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Properties.AuthData.AccessToken);
-                //Automatically get the seeds, which the user can choose later
-                await RecViewModel.GetAvaliableGenreSeeds();
-                //Recommendations nav binds it's state to this variable
-                UserAuthenticated = true;
             }
         }
 
@@ -300,12 +305,25 @@ public partial class MainViewModel : ViewModelBase
     /// <returns>The received <c>HttpListenerContext</c></returns>
     private static async Task<HttpListenerContext> StartCallbackListener(string redirectUri)
     {
-        HttpListener listener = new HttpListener();
-        listener.Prefixes.Add(redirectUri + "/");
-        listener.Start();
-        HttpListenerContext context = await listener.GetContextAsync();
-        listener.Stop();
-        return context;
+        try
+        {
+            if (listener.IsListening)
+            {
+                listener.Stop();
+                listener.Prefixes.Remove(redirectUri + "/");
+            }
+
+            listener.Prefixes.Add(redirectUri + "/");
+            listener.Start();
+            HttpListenerContext context = await listener.GetContextAsync();
+            listener.Stop();
+            return context;
+        }
+        catch (Exception ex) 
+        {
+            return null;
+        }
+
 
     }
 
