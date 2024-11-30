@@ -6,6 +6,7 @@
 			 xmlns:views="clr-namespace:MusicPlayer.Views"
 			 xmlns:mi="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
 			 xmlns:vv="clr-namespace:LibVLCSharp.Avalonia;assembly=LibVLCSharp.Avalonia"
+			 xmlns:dialogHost="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
 			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 			 x:Class="MusicPlayer.Views.MainView"
              x:DataType="vm:MainViewModel">
@@ -13,96 +14,99 @@
 		<vm:MainViewModel />
 	</Design.DataContext>
 
-	<Grid RowDefinitions="10*,75*,15*">
-		<DockPanel Grid.Row="0">
-			<Menu>
-				<MenuItem DockPanel.Dock="Top" Header="_Settings">
-					<MenuItem  Header="Set Source Folder" Command="{Binding SetInputFolderAsync}">
+	<dialogHost:DialogHost CloseOnClickAway="True" Identifier="GenericModal">
+
+		<Grid RowDefinitions="10*,75*,15*">
+			<DockPanel Grid.Row="0">
+				<Menu>
+					<MenuItem DockPanel.Dock="Top" Header="_Settings">
+						<MenuItem  Header="Set Source Folder" Command="{Binding SetInputFolderAsync}">
+							<MenuItem.Icon>
+								<mi:MaterialIcon Kind="Folder"/>
+							</MenuItem.Icon>
+						</MenuItem>
+						<MenuItem  Header="Link Spotify Account" Command="{Binding AuthorizeUserAsync}">
+							<MenuItem.Icon>
+								<mi:MaterialIcon Kind="Spotify"/>
+							</MenuItem.Icon>
+						</MenuItem>
+					</MenuItem>
+					<MenuItem DockPanel.Dock="Top" Header="_Toggle Widget" Command="{Binding ToggleWidget}" HotKey="Ctrl+H">
 						<MenuItem.Icon>
-							<mi:MaterialIcon Kind="Folder"/>
+							<mi:MaterialIcon Kind="DockWindow"/>
 						</MenuItem.Icon>
 					</MenuItem>
-					<MenuItem  Header="Link Spotify Account" Command="{Binding AuthorizeUserAsync}">
-						<MenuItem.Icon>
-							<mi:MaterialIcon Kind="Spotify"/>
-						</MenuItem.Icon>
-					</MenuItem>
-				</MenuItem>
-				<MenuItem DockPanel.Dock="Top" Header="_Toggle Widget" Command="{Binding ToggleWidget}" HotKey="Ctrl+H">
-					<MenuItem.Icon>
-						<mi:MaterialIcon Kind="DockWindow"/>
-					</MenuItem.Icon>
-				</MenuItem>
-			</Menu>
-		</DockPanel>
+				</Menu>
+			</DockPanel>
 
-		<Grid ColumnDefinitions="15*, *, 50*,*,15*" Grid.Row="1">
-			<StackPanel Grid.Column="0">
-				<TextBlock Height="50" TextAlignment="Center" VerticalAlignment="Center" Padding="20" Text="Hello There!"></TextBlock>
-				<StackPanel Spacing="0" Margin="15,0,0,0">
+			<Grid ColumnDefinitions="15*, *, 50*,*,15*" Grid.Row="1">
+				<StackPanel Grid.Column="0">
+					<TextBlock Height="50" TextAlignment="Center" VerticalAlignment="Center" Padding="20" Text="Hello There!"></TextBlock>
+					<StackPanel Spacing="0" Margin="15,0,0,0">
 
-					<Button Theme="{StaticResource SidePanelNavButtons}" Command="{Binding ShowContent}" CommandParameter="HOME">
-						<StackPanel Orientation="Horizontal" Spacing="2" Margin="10">
-							<mi:MaterialIcon Kind="MusicNote"/>
-							<TextBlock Text="Songs"/>
-						</StackPanel>
-					</Button>
-					<Separator VerticalAlignment="Bottom"/>
-					<Button Theme="{StaticResource SidePanelNavButtons}" Command="{Binding ShowContent}" CommandParameter="PLAYLISTS">
-						<StackPanel Orientation="Horizontal" Spacing="2" Margin="10">
-							<mi:MaterialIcon Kind="PlaylistMusic"/>
-							<TextBlock Text="Playlists"/>
-						</StackPanel>
-					</Button>
-					<Separator VerticalAlignment="Bottom"/>
-					<Button Theme="{StaticResource SidePanelNavButtons}" Command="{Binding ShowContent}" CommandParameter="ARTISTS">
-						<StackPanel Orientation="Horizontal" Spacing="2" Margin="10">
-							<mi:MaterialIcon Kind="Artist"/>
-							<TextBlock Text="Artists"/>
-						</StackPanel>
-					</Button>
-					<Separator VerticalAlignment="Bottom"/>
-					<Button Theme="{StaticResource SidePanelNavButtons}" Command="{Binding ShowContent}" CommandParameter="ALBUMS">
-						<StackPanel Orientation="Horizontal" Spacing="2" Margin="10">
-							<mi:MaterialIcon Kind="Album"/>
-							<TextBlock Text="Albums"/>
-						</StackPanel>
-					</Button>
-					<Separator VerticalAlignment="Bottom"/>
-					<Button Theme="{StaticResource SidePanelNavButtons}" Command="{Binding ShowContent}" CommandParameter="GENRES">
-						<StackPanel Orientation="Horizontal" Spacing="2" Margin="10">
-							<mi:MaterialIcon Kind="MusicBox"/>
-							<TextBlock Text="Genres"/>
-						</StackPanel>
-					</Button>
-					<Separator VerticalAlignment="Bottom"/>
-					<Button Theme="{StaticResource SidePanelNavButtons}"
-							IsEnabled="{Binding UserAuthenticated}"
-							ToolTip.ShowOnDisabled="True"
-							Command="{Binding ShowContent}"
-							CommandParameter="RECOMMENDATIONS">
-						<StackPanel Orientation="Horizontal" Spacing="2" Margin="10">
-							<mi:MaterialIcon Kind="Spotify"/>
-							<TextBlock Text="Recommendations"/>
-						</StackPanel>
-						<ToolTip.Tip>
-							<TextBlock>Please link your Spotify account to use this function</TextBlock>
-						</ToolTip.Tip>
+						<Button Theme="{StaticResource SidePanelNavButtons}" Command="{Binding ShowContent}" CommandParameter="HOME">
+							<StackPanel Orientation="Horizontal" Spacing="2" Margin="10">
+								<mi:MaterialIcon Kind="MusicNote"/>
+								<TextBlock Text="Songs"/>
+							</StackPanel>
+						</Button>
+						<Separator VerticalAlignment="Bottom"/>
+						<Button Theme="{StaticResource SidePanelNavButtons}" Command="{Binding ShowContent}" CommandParameter="PLAYLISTS">
+							<StackPanel Orientation="Horizontal" Spacing="2" Margin="10">
+								<mi:MaterialIcon Kind="PlaylistMusic"/>
+								<TextBlock Text="Playlists"/>
+							</StackPanel>
+						</Button>
+						<Separator VerticalAlignment="Bottom"/>
+						<Button Theme="{StaticResource SidePanelNavButtons}" Command="{Binding ShowContent}" CommandParameter="ARTISTS">
+							<StackPanel Orientation="Horizontal" Spacing="2" Margin="10">
+								<mi:MaterialIcon Kind="Artist"/>
+								<TextBlock Text="Artists"/>
+							</StackPanel>
+						</Button>
+						<Separator VerticalAlignment="Bottom"/>
+						<Button Theme="{StaticResource SidePanelNavButtons}" Command="{Binding ShowContent}" CommandParameter="ALBUMS">
+							<StackPanel Orientation="Horizontal" Spacing="2" Margin="10">
+								<mi:MaterialIcon Kind="Album"/>
+								<TextBlock Text="Albums"/>
+							</StackPanel>
+						</Button>
+						<Separator VerticalAlignment="Bottom"/>
+						<Button Theme="{StaticResource SidePanelNavButtons}" Command="{Binding ShowContent}" CommandParameter="GENRES">
+							<StackPanel Orientation="Horizontal" Spacing="2" Margin="10">
+								<mi:MaterialIcon Kind="MusicBox"/>
+								<TextBlock Text="Genres"/>
+							</StackPanel>
+						</Button>
+						<Separator VerticalAlignment="Bottom"/>
+						<Button Theme="{StaticResource SidePanelNavButtons}"
+								IsEnabled="{Binding UserAuthenticated}"
+								ToolTip.ShowOnDisabled="True"
+								Command="{Binding ShowContent}"
+								CommandParameter="RECOMMENDATIONS">
+							<StackPanel Orientation="Horizontal" Spacing="2" Margin="10">
+								<mi:MaterialIcon Kind="Spotify"/>
+								<TextBlock Text="Recommendations"/>
+							</StackPanel>
+							<ToolTip.Tip>
+								<TextBlock>Please link your Spotify account to use this function</TextBlock>
+							</ToolTip.Tip>
 
-					</Button>
+						</Button>
+					</StackPanel>
 				</StackPanel>
-			</StackPanel>
 
-			<GridSplitter Theme="{StaticResource CustomSplitter}" Grid.Column="1" ResizeDirection="Columns" Width="10"/>
-			<Grid Grid.Column="2" RowDefinitions="10* , 90*">
-				<TextBlock Text="{Binding SelectedViewModel}" Grid.Row="0" HorizontalAlignment="Center" FontSize="20"/>
-				<Separator VerticalAlignment="Bottom"/>
-				<UserControl Content="{Binding SelectedViewModel}" Grid.Row="1"/>
+				<GridSplitter Theme="{StaticResource CustomSplitter}" Grid.Column="1" ResizeDirection="Columns" Width="10"/>
+				<Grid Grid.Column="2" RowDefinitions="10* , 90*">
+					<TextBlock Text="{Binding SelectedViewModel}" Grid.Row="0" HorizontalAlignment="Center" FontSize="20"/>
+					<Separator VerticalAlignment="Bottom"/>
+					<UserControl Content="{Binding SelectedViewModel}" Grid.Row="1"/>
+				</Grid>
+				<GridSplitter Theme="{StaticResource CustomSplitter}" Grid.Column="3" ResizeDirection="Columns" Width="10"/>
+				<UserControl Content="{Binding CurrentSongViewModel}" Grid.Column="4"/>
+
 			</Grid>
-			<GridSplitter Theme="{StaticResource CustomSplitter}" Grid.Column="3" ResizeDirection="Columns" Width="10"/>
-			<UserControl Content="{Binding CurrentSongViewModel}" Grid.Column="4"/>
-
+			<UserControl Content="{Binding MusicNavigation}" Grid.Row="2"/>
 		</Grid>
-		<UserControl Content="{Binding MusicNavigation}" Grid.Row="2"/>
-	</Grid>
+	</dialogHost:DialogHost>
 </UserControl>

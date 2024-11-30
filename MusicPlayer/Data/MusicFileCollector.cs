@@ -51,7 +51,7 @@ namespace MusicPlayer.Data
                         Artists = tagLibFile.Tag.Performers.ToList(),
                         Genres = tagLibFile.Tag.Genres.ToList(),
                         Year = (int)tagLibFile.Tag.Year,
-                        Duration = TimeSpan.FromSeconds(tagLibFile.Properties.Duration.TotalSeconds),
+                        Duration = TimeSpan.FromMilliseconds(tagLibFile.Properties.Duration.TotalMilliseconds),
                         FilePath = tagLibFile.Name,
                         PlayLists = ParseData(tagLibFile),
                         IsSelected = false,

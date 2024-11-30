@@ -19,9 +19,8 @@
 			<TabControl Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"  VerticalAlignment="Top" Margin="10,20,0,0">
 				<TabItem Header="Search">
 					<StackPanel Orientation="Horizontal" Spacing="50">
-						<Grid RowDefinitions="10*,90*">
+						<Grid RowDefinitions="10*,10*,80*">
 							<TextBlock Text="Select max 5" Grid.Row="0"/>
-
 							<ScrollViewer Grid.Row="1" AllowAutoHide="False">
 								<ItemsControl ItemsSource="{Binding Genres}">
 									<ItemsControl.ItemTemplate>

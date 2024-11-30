@@ -19,7 +19,7 @@ namespace MusicPlayer.Models
 
         public List<string> Genres { get; set; } = new List<string>();
         public int Year { get; set; } = 0;
-        public TimeSpan Duration { get; set; } = TimeSpan.FromSeconds(0);
+        public TimeSpan Duration { get; set; } = TimeSpan.FromMilliseconds(0);
         public string FilePath { get; set; } = string.Empty;
         public List<string> PlayLists { get; set; } = new List<string>();
         public List<ByteVector> Images { get; set; } = new List<ByteVector>();

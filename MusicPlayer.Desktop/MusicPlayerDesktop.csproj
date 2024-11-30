@@ -7,17 +7,22 @@
     <Nullable>enable</Nullable>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+	<SelfContained>true</SelfContained>
+
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Avalonia.Desktop" Version="11.2.0" />
     <PackageReference Include="Avalonia.Headless.XUnit" Version="11.2.0" />
-    <PackageReference Include="LibVLCSharp" Version="3.9.0" />
-    <PackageReference Include="LibVLCSharp.Avalonia" Version="3.9.0" />
+    <PackageReference Include="LibVLCSharp" Version="3.9.1" />
+    <PackageReference Include="LibVLCSharp.Avalonia" Version="3.9.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
+    <PackageReference Include="Packaging.Targets" Version="0.1.226">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.21" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\MusicPlayer\MusicPlayer.csproj" />
   </ItemGroup>
