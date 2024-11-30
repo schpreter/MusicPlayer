@@ -240,7 +240,6 @@ namespace MusicPlayer.ViewModels
             }
             catch (Exception ex)
             {
-                //Maybe also notify the user of funky behavior
                 return;
             }
             switch (GetCategory())

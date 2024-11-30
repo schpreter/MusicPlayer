@@ -31,6 +31,13 @@ namespace MusicPlayer.ViewModels;
 /// </summary>
 public partial class MainViewModel : ViewModelBase
 {
+    /* Spotify deprecated the recommendations end point 4 days before the deadline.
+     * Using the https://open.spotify.com/get_access_token to get an access token the deprecated end point can be reached.
+     * Authentication still works, but the deprecated end point will use the spotify app token.
+     */
+    private bool IsTokenOverride = true;
+    private string TOKEN_OVERRIDE = "BQCJpo4aipdsOY-RLJLXPv8rES5Khk71iIZC1Eh2TP38cgVYBOuz990otfJ09d1dKxG1auuUp2xmexMxk7O-4cL3xH2eqKO7OGtFKImNY66SScFYPy1gFnl86nySVzoYIn7QTKHJobDh3x_-XfkGPkyaE6gKWb4rSMhvKkM-oLhmulmTGNiMTpq7cqNGwsaTN3Rl8iqIt6wbW3EOZsWXr2rO4ynBkdRDTFLHbZbzP_Pr9xihxEgN3RkEIwjcpE7HCblJniNk6ib0X4TkvD4rc1e7GiO2VM0iJbK78cl_Q35AqmejyXL3HqoknBY74wN09aLkGtMKjSqka-ehwGcphPGCB_8XMZ3eBjLE";
+
     [ObservableProperty]
     private ViewModelBase selectedViewModel;
 
@@ -268,7 +275,15 @@ public partial class MainViewModel : ViewModelBase
             Properties.AuthData = await APICallHandler.GetAccessTokenAsync(Client, authorization, codeToRetrieve, codeVerifier);
             if (Properties.AuthData != null)
             {
-                Client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Properties.AuthData.AccessToken);
+                if (IsTokenOverride)
+                {
+                    Client.DefaultRequestHeaders.Add("Authorization", "Bearer " + TOKEN_OVERRIDE);
+                }
+                else
+                {
+                    Client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Properties.AuthData.AccessToken);
+                }
+                //Client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Properties.AuthData.AccessToken);
                 //Automatically get the seeds, which the user can choose later
                 await RecViewModel.GetAvaliableGenreSeeds();
                 //Recommendations nav binds it's state to this variable
