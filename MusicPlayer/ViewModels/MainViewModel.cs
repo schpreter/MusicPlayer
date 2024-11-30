@@ -36,7 +36,7 @@ public partial class MainViewModel : ViewModelBase
      * Authentication still works, but the deprecated end point will use the spotify app token.
      */
     private bool IsTokenOverride = true;
-    private string TOKEN_OVERRIDE = "BQCJpo4aipdsOY-RLJLXPv8rES5Khk71iIZC1Eh2TP38cgVYBOuz990otfJ09d1dKxG1auuUp2xmexMxk7O-4cL3xH2eqKO7OGtFKImNY66SScFYPy1gFnl86nySVzoYIn7QTKHJobDh3x_-XfkGPkyaE6gKWb4rSMhvKkM-oLhmulmTGNiMTpq7cqNGwsaTN3Rl8iqIt6wbW3EOZsWXr2rO4ynBkdRDTFLHbZbzP_Pr9xihxEgN3RkEIwjcpE7HCblJniNk6ib0X4TkvD4rc1e7GiO2VM0iJbK78cl_Q35AqmejyXL3HqoknBY74wN09aLkGtMKjSqka-ehwGcphPGCB_8XMZ3eBjLE";
+    private string TOKEN_OVERRIDE = "BQDl3Z5ye0pb2Yp_V84gFyBwhEiNSIfzGOw_o32yLzP-ZOaB2ZJBnkYfBxVRCsBvDbIdkldUrC4cQQEylzPJmD8b7sYylJAdGlVqtP9OS-iCoJRKTzce7Iz9t9G_EIjuI3_KAbl49e4Y2AUJlfvFR8pUnRLDB1-lZi8rcYYcnJgAwcRuvAJ2aTvNbkvMBcMDOV9jPGxHGglFbFTYBolq6jKX7c9pKB-zB2QrK10nQi0R-KpW8WJDkli0xFCQm2k5KuZ_diuKvh4nien6BO8NVruqu_U-ISau89toJg69aRUIC_YfICKkvExYjibPeWcGXj1ty5P0FfnpOdF0XFHA4prXnN-yl2poNEe6";
 
     [ObservableProperty]
     private ViewModelBase selectedViewModel;

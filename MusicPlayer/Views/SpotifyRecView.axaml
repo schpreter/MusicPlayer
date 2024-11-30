@@ -11,7 +11,6 @@
 			 xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
 			 x:Class="MusicPlayer.Views.SpotifyRecView">
 
-	<dialogHost:DialogHost CloseOnClickAway="True" Identifier="GenericModal">
 		<Grid RowDefinitions="10*,90*" ColumnDefinitions="5*,95*">
 
 			<Image Grid.Column="0" Grid.Row="0" Margin="20" Height="50" Width="200" VerticalAlignment="Top" HorizontalAlignment="Left"
@@ -81,6 +80,5 @@
 				</TabItem>
 			</TabControl>
 		</Grid>
-	</dialogHost:DialogHost>
 
 </UserControl>

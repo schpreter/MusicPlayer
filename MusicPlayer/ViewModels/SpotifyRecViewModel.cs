@@ -67,7 +67,7 @@ namespace MusicPlayer.ViewModels
             {
                 try
                 {
-                    await DialogHost.Show(new GenericNotificationModal("Error gettting Genre Seeds", $"Something went wrong, please try again: {ex.Message}"));
+                    await DialogHost.Show(new GenericNotificationModal("Error gettting Genre Seeds", $"Something went wrong, please try again: {ex.Message}"),"GenericModal");
 
                 }
                 catch
@@ -106,7 +106,7 @@ namespace MusicPlayer.ViewModels
                 {
                     try
                     {
-                        await DialogHost.Show(new GenericNotificationModal("Error gettting recommendations", $"Something went wrong, please try again: {ex.Message}"));
+                        await DialogHost.Show(new GenericNotificationModal("Error gettting recommendations", $"Something went wrong, please try again: {ex.Message}"),"GenericModal");
 
                     }
                     catch
