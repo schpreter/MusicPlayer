@@ -6,6 +6,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
+using TagLib;
 
 namespace MusicPlayer.ViewModels
 {
@@ -181,7 +182,7 @@ namespace MusicPlayer.ViewModels
             PlaySong();
         }
         /// <summary>
-        /// Sets the associated <c>bool</c> to <c>true</c>.
+        /// Sets the associated <c>bool</c> to <c>true</c>, along with the timestamp.
         /// </summary>
         /// <param name="valueInMs"></param>
         public void SliderDragging(long valueInMs)
@@ -209,6 +210,7 @@ namespace MusicPlayer.ViewModels
         /// <param name="e">Event arguments.</param>
         private void MediaPlayer_EndReached(object sender, System.EventArgs e)
         {
+            Properties.PlayingSong = null;
             //Calling back to LibVLC sharp from an event may freeze the app
             //As described by https://github.com/videolan/libvlcsharp/blob/3.x/docs/best_practices.md
             ThreadPool.QueueUserWorkItem(_ => SkipForwardClicked());

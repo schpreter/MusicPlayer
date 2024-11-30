@@ -223,7 +223,7 @@ namespace MusicPlayer.ViewModels
             {
                 NewCategoryInputViewModel.Title = $"New {category}:";
                 NewCategoryInputViewModel.Description = $"Enter your new {category}.";
-                SelectedCategory = (string)await DialogHost.Show(NewCategoryInputViewModel);
+                SelectedCategory = (string)await DialogHost.Show(NewCategoryInputViewModel, "CategoryView");
             }
 
         }
