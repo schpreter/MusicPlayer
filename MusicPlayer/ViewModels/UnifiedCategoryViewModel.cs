@@ -2,10 +2,12 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using DialogHostAvalonia;
 using MusicPlayer.Models;
+using MusicPlayer.ViewModels.Generic;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -231,7 +233,7 @@ namespace MusicPlayer.ViewModels
         /// Stores the modifications made to the <c>SongItem</c> object into it's respective file.
         /// </summary>
         /// <param name="song">The song that needs to be modified</param>
-        protected void ModifyFile(SongItem song)
+        protected async void ModifyFile(SongItem song)
         {
             TagLib.File tagLibFile;
             try
@@ -268,7 +270,20 @@ namespace MusicPlayer.ViewModels
                 default:
                     break;
             }
-            tagLibFile.Save();
+            try
+            {
+                tagLibFile.Save();
+
+            }
+            catch(IOException ex)
+            {
+                try
+                {
+                    await DialogHost.Show(new GenericNotificationModal("Error modifying file", $"The file currently playing can not be modified, changes will not be persisted!"), "GenericModal");
+                }
+                catch { }
+
+            }
 
         }
         /// <summary>
